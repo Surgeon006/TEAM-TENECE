@@ -1,0 +1,280 @@
+/* Page background and base layout styles */
+body {
+  font-family: "Plus Jakarta Sans", Arial, sans-serif;
+  margin: 0;
+  padding: 24px;
+  background-color: #f0eff5;
+  color: #222;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Decorative bottom-left background shape */
+body::before {
+  content: "";
+  position: fixed;
+  bottom: -90px;
+  left: -110px;
+  width: 370px;
+  height: 370px;
+  background-color: #5656d4;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* Decorative top-right background shape */
+body::after {
+  content: "";
+  position: fixed;
+  top: -150px;
+  right: -150px;
+  width: 400px;
+  height: 400px;
+  background-color: #5656d4;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* Page wrapper: keeps the signup card centered horizontally and aligned to the top */
+.page-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 24px 40px;
+}
+
+/* Signup card container: holds the form and makes sure the background logo stays inside */
+.signup-card {
+  position: relative;
+  margin-top: 0;
+  overflow: hidden;
+}
+
+/* Faded logo overlay: subtle centered onboarding logo inside the signup card */
+.signup-card::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("logo.png");
+  background-repeat: no-repeat;
+  background-position: center 50%;
+  background-size: 320px;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Keep card content above the background overlay */
+.signup-card {
+  position: relative;
+  z-index: 1;
+}
+
+/* Signup header: page title and subtitle plus the floating profile badge */
+.signup-header {
+  text-align: left;
+  margin-bottom: 32px;
+  position: relative;
+  padding-left: 210px;
+}
+
+/* Profile badge: accent circle aligned to the header */
+.header-badge {
+  position: absolute;
+  top: 0;
+  right: 16px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #eef2ff;
+  display: grid;
+  place-items: center;
+}
+
+.header-badge .material-icons {
+  color: black;
+  font-size: 36px;
+}
+
+.signup-header h1 {
+  margin-bottom: 0;
+  font-size: 28px;
+  letter-spacing: 5%;
+}
+
+.signup-header p {
+  margin: 12px auto 0;
+  color: #667085;
+  max-width: 320px;
+  line-height: 1.6;
+  padding-right: 150px;
+  font-weight: 600;
+}
+
+/* Form layout: vertical stacking with generous spacing between fields */
+.signup-form {
+  display: grid;
+  gap: 50px;
+}
+
+/* Field wrapper and label: title text above each input */
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field-label {
+  display: block;
+  margin: 0;
+  font-family: "Plus Jakarta Sans", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: black;
+  text-align: left;
+}
+
+/* Input group: icon inside the input and spacing for input content */
+.input-group {
+  position: relative;
+  display: block;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: black;
+  font-size: 20px;
+}
+
+.input-group input {
+  width: 620px;
+  padding: 20px 16px 18px 52px;
+  border-radius: 16px;
+  border: 1px solid #d9dbe7;
+  background: #fbfbff;
+  color: black;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: left;
+}
+
+.input-group input::placeholder {
+  color: grey;
+  text-align: left;
+  font-family: "Plus Jakarta Sans", Arial, sans-serif;
+}
+
+.toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: black;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.helper-text {
+  margin: 0;
+  font-size: 14px;
+  color: #667085;
+  padding-left: 4px;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: black;
+  font-size: 14px;
+  font-weight: 600;
+  padding-left: 200px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.checkbox-row a {
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.checkbox-row a:hover {
+  text-decoration: underline;
+}
+
+/* Primary action button: wide, centered, and easy to tap */
+.submit-btn {
+  width: min(400px, 100%);
+  margin: 0 auto;
+  display: block;
+  border: none;
+  border-radius: 16px;
+  background: #4f46e5;
+  color: white;
+  padding: 18px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.2s ease;
+  text-decoration: none;
+  transform: translateX(20px);
+}
+
+.submit-btn:hover {
+  background: #3f3fbf;
+}
+
+/* Mobile adjustments: make the form fit smaller screens cleanly */
+@media (max-width: 520px) {
+  body {
+    padding: 16px;
+  }
+
+  .page-shell {
+    padding: 20px 16px 32px;
+  }
+
+  .signup-card {
+    padding: 24px 18px;
+    border-radius: 24px;
+  }
+
+  .title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .header-badge {
+    margin-top: 0;
+  }
+
+  .signup-header h1 {
+    font-size: 26px;
+  }
+
+  .signup-header p {
+    max-width: 100%;
+  }
+
+  .input-group input {
+    font-size: 15px;
+    padding: 14px 14px 14px 52px;
+  }
+
+  .input-group input::placeholder {
+    font-size: 13px;
+  }
+
+  .submit-btn {
+    padding: 16px 20px;
+  }
+}

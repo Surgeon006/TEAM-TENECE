@@ -1,0 +1,240 @@
+/* Page background and base layout styles */
+body {
+  font-family: "Plus Jakarta Sans", Arial, sans-serif;
+  font-weight: 600;
+  margin: 0;
+  min-height: 100vh;
+  background-color: #f0eff5;
+  color: #1f2937;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.page-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 24px 40px;
+  position: relative;
+}
+
+.page-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("logo.png");
+  background-repeat: no-repeat;
+  background-position: center 50%;
+  background-size: 320px;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Soft decorative circles on the page background */
+body::before {
+  content: "";
+  position: fixed;
+  bottom: -90px;
+  left: -110px;
+  width: 370px;
+  height: 370px;
+  background-color: #5656d4;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: -150px;
+  right: -150px;
+  width: 400px;
+  height: 400px;
+  background-color: #5656d4;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* Center the form content on the page */
+.page-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 24px 40px;
+}
+
+/* Login container width only; no card background or shadow */
+.login-card {
+  width: min(540px, 100%);
+}
+
+/* Header area with title and subtitle */
+.signup-header {
+  text-align: left;
+  margin-bottom: 32px;
+}
+
+.title-row {
+  display: grid;
+  gap: 16px;
+}
+
+.signup-header h1 {
+  margin: 0;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 5%;
+  white-space: nowrap;
+  padding-left: 125px;
+}
+
+.signup-header p {
+  margin: 12px 0 0;
+  color: #667085;
+  max-width: 320px;
+  line-height: 1.6;
+  padding-left: 125px;
+}
+
+/* Form layout and spacing between fields */
+.signup-form {
+  display: grid;
+  gap: 40px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+/* Label text shown above the placeholder input fields */
+.field-label {
+  margin: 0;
+  font-size: 16px;
+  color: #1f2937;
+}
+
+/* Input wrapper for icon and text field */
+.input-group {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #55607e;
+  font-size: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 20px 16px 18px 52px;
+  border-radius: 16px;
+  border: 1px solid #d9dbe7;
+  background: #fbfbff;
+  color: #1f2937;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.input-group input::placeholder {
+  font-size: 15px;
+  color: rgba(130, 128, 120, 1);
+}
+
+/* Eye icon button inside password input */
+.toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #55607e;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Checkbox and label row */
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.checkbox-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: #4f46e5;
+}
+
+/* Row containing the checkbox and forgot password link */
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.forgot-password-link {
+  color: #3366ff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgot-password-link:hover {
+  text-decoration: none;
+}
+
+/* Primary submit button */
+.submit-btn {
+  width: min(400px, 100%);
+  margin: 0 auto;
+  display: block;
+  border: none;
+  border-radius: 16px;
+  background: #4f46e5;
+  color: #fff;
+  padding: 18px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: #3f40d7;
+}
+
+/* Mobile adjustments for smaller screens */
+@media (max-width: 520px) {
+  .page-shell {
+    padding: 24px 16px 30px;
+  }
+
+  .signup-header {
+    padding-left: 0;
+  }
+
+  .signup-form {
+    gap: 30px;
+  }
+
+  .input-group input {
+    padding: 16px 16px 16px 52px;
+  }
+
+  .submit-btn {
+    padding: 16px 20px;
+  }
+}
