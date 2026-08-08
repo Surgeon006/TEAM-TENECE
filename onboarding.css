@@ -129,12 +129,3 @@ body::after {
 a {
   text-decoration: none;
 }
-
-@media (max-width: 600px) {
-  .sign-up button,
-  .create-acc button {
-    width: 100%;
-    padding: 12px 24px;
-    font-size: 16px;
-  }
-}
