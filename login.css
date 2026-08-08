@@ -127,7 +127,7 @@ body::after {
   top: 50%;
   left: 16px;
   transform: translateY(-50%);
-  color: #55607e;
+  color: black;
   font-size: 20px;
 }
 
@@ -151,11 +151,11 @@ body::after {
 .toggle-icon {
   position: absolute;
   top: 50%;
-  right: 16px;
+  right: -45px;
   transform: translateY(-50%);
   border: none;
   background: transparent;
-  color: #55607e;
+  color: #040405;
   cursor: pointer;
   padding: 0;
   display: inline-flex;
@@ -214,27 +214,4 @@ body::after {
 
 .submit-btn:hover {
   background: #3f40d7;
-}
-
-/* Mobile adjustments for smaller screens */
-@media (max-width: 520px) {
-  .page-shell {
-    padding: 24px 16px 30px;
-  }
-
-  .signup-header {
-    padding-left: 0;
-  }
-
-  .signup-form {
-    gap: 30px;
-  }
-
-  .input-group input {
-    padding: 16px 16px 16px 52px;
-  }
-
-  .submit-btn {
-    padding: 16px 20px;
-  }
 }

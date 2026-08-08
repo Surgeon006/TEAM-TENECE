@@ -16,6 +16,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
     <link rel="stylesheet" href="signup.css" />
+    <link rel="stylesheet" href="responsive.css" />
   </head>
   <body>
     <div class="page-shell">
@@ -72,6 +73,13 @@
             <div class="input-group">
               <span class="input-icon material-icons">lock</span>
               <input type="password" placeholder="Confirm your password" />
+              <button
+                type="button"
+                class="toggle-icon"
+                aria-label="Show password"
+              >
+                <span class="material-icons">visibility</span>
+              </button>
             </div>
           </div>
 
@@ -83,11 +91,12 @@
             >
           </label>
 
-          <a href="login.html" class="submit-btn" type="submit"
-            >Create Account</a
+          <button class="submit-btn" type="submit">Create Account</button>
+
           >
         </form>
       </div>
     </div>
+    <script src="signup.js"></script>
   </body>
 </html>
