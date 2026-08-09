@@ -51,16 +51,19 @@
     background:var(--page-bg);
     color:var(--text);
     font-size:14px;
+    color: var(--text-dark);
   }
 
   a{text-decoration:none;color:inherit;}
   
   ul{list-style:none;}
 
-  .app{
-    display:grid;
-    grid-template-columns:250px 1fr;
-    min-height:100vh;
+.dashboard-layout{
+  display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow:hidden;
+
   }
 
 /* ================= i pity our group sha ================= */
@@ -73,10 +76,13 @@
   flex-direction:column;
   padding:14px 12px 20px;
   position:sticky;
-  top:0;
-  height:150vh;
-  overflow-y:auto;
+  height:100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+
 }
+
 
 .brand{
   display:flex;
@@ -256,8 +262,17 @@
 
 
 /* main */
+.main-area{
+  flex: 1;
+  min-width: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 .top-nav {
-display: flex;
+/* display: flex;
 flex-direction: row;
 align-items: center;
 justify-content: space-between;
@@ -267,8 +282,17 @@ width: 85vw;
 height: 67px;
 left: 239px;
 top: 0px;
-background:var(--white);
-border: 0.5px solid var(--stroke);
+
+*/
+width: 100%;
+  height: 76px;
+  background:var(--white);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 20px;
+  border-bottom: 0.5px solid var(--stroke); 
 }
 
 .top-nav .txt{
@@ -296,9 +320,9 @@ padding: 8px 10px;
 gap: 12px;
 position: fixed;
 width: 384px;
-height: 40px;
-left: 950px;
-top: 15px;
+height: 29px;
+left: 850px;
+
 border: 1.5px solid #748071;
 border-radius: 8px;
 }
@@ -320,19 +344,20 @@ border-radius: 8px;
 }
 
 .bell{
-   /*  display: flex;
-    flex-direction: row;
-    align-items: center;
+   /*  
+    
     justify-content: space-between; */
     position: fixed;
-width: 26px;
-height: 24px;
-left: 1420px;
-top: 17px; 
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    width: 26px;
+    height: 24px;
+    left: 1290px;
 
 }
 
-.sec-tessa{
+.sec-tessa a{
 
 /* Auto layout */
 display: flex;
@@ -344,7 +369,7 @@ gap: 12px;
 position: fixed;
 width: 202px;
 height: 67px;
-left: 1470px;
+left: 1330px;
 top: 0px;
 }
 .sec-tessa .text p{
@@ -358,10 +383,19 @@ top: 0px;
    padding-left: 30px;
 }
 
+/* dashboard content */
+.dashboard-content{
+    flex: 1;
+    min-width: 0;
+    padding: 2px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
 .date-box{
 display: flex;
 flex-direction: row;
-padding: 13vh 35px 30px 35px;
+padding: 30px 35px 30px 35px;
 justify-content: flex-end;
 gap: 20px;
 }
@@ -400,23 +434,28 @@ gap: 20px;
     color: #1E293B;
 }
 
+/* cards */
+
 .cards{
-    display: flex;
-    flex-direction: column;
-   padding-left: 100px;
-    gap: 36px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 60px;
+  gap: 36px;
     
 }
 
+
+
 .top-cards{
     display: grid;
-    grid-template-columns: 380px 380px 380px;
+    grid-template-columns: 350px 350px 350px;
     gap: 36px;
 }
 
+
 .top-cards .card {
-    width: 380px;
-    height: 180px;
+    width: 350px;
+    height: 190px;
     background: var(--white);
     border: 0.4px solid var(--stroke);
     border-radius: var(--radius-md);
@@ -424,46 +463,94 @@ gap: 20px;
 
 .bottom-cards {
     display: grid;
-    grid-template-columns: 500px 500px;
+    grid-template-columns: 420px 420px;
     gap: 54px;
 }
 
 .bottom-cards .card {
-    width: 500px;
-    height: 194px;
+    width: 420px;
+    height: 200px;
     background: var(--white);
     border: 0.4px solid var(--stroke);
     border-radius: var(--radius-md);
 }
-
-.charts{
+.card, .card-conatiner{
     display: flex;
     flex-direction: row;
-   padding-left: 70px;
-   padding-top: 50px;
-   padding-bottom: 50px;
-    gap: 70px;
-    
+    justify-content: center;
+    align-items: center;
 }
 
-.char-box{
-    display: grid;
-    grid-template-columns: 2,1fr;
-    width: 600px;
-    height: 301px;
-    background: var(--white);
-    border: 0.4px solid var(--stroke);
-    border-radius: var(--radius-md);
+/* .card-conatiner{
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+} */
+
+.txtss{
+    display: flex;
+   flex-direction: column;
+   gap: 10px;
+   text-align: center;
+   padding: 0 10px;
+}
+
+.txtss p{
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.txtss h4{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.info{
+    color: var(--stroke);
+}
+
+.arrow{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+
+.arrow p{
+    color:black;
+}
+
+.bluee i, .blue{
+    color:#249BEF;
+}
+
+.yelloww i, .yellow{
+    color:#B8720A;
+}
+
+.greenn i, .green{
+    color:#008000;
+}
+
+.redd i, .red{
+    color:#DA5757;
+}
+
+.pinkk i, .pink{
+    color:#800080;
 }
 
 /* overdue */
 .main{
-    padding-left: 70px;
-    width: 1300px;
+    padding-left: 40px;
+    width: 1200px;
+    padding-bottom: 20px;
+    
 }
 .overdue-card {
     background:var(--white);
-    padding: 20px 10px;
+    padding: 20px 10px 0 10px;
+    border-radius: 8px;
     
 }
 
@@ -568,12 +655,24 @@ td:nth-child(5) {
     color: var(--overdue-text);
 }
 
+
 /* ============================= */
 /* CHART CARD */
 /* ============================= */
 
+
+.charts{
+    display: flex;
+    flex-direction: row;
+    padding-left: 40px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    gap: 70px;
+    
+}
+
 .chart-card {
-    width: 600px;
+    width: 550px;
     height: 301px;
 
     background: #ffffff;
@@ -583,7 +682,6 @@ td:nth-child(5) {
 
     padding: 24px;
 
-    box-sizing: border-box;
 }
 
 
@@ -625,17 +723,18 @@ td:nth-child(5) {
 /* ============================= */
 
 .donut-wrapper {
-    position: relative;
-
-    width: 180px;
+   width: 180px;
     height: 180px;
-
+    display: grid;
+    place-items: center;
     flex-shrink: 0;
 }
 
 .donut-wrapper canvas {
     width: 180px !important;
     height: 180px !important;
+    grid-column: 1;
+    grid-row: 1;
 }
 
 
@@ -644,17 +743,14 @@ td:nth-child(5) {
 /* ============================= */
 
 .donut-center {
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
+   
+    grid-column: 1;
+    grid-row: 1;
 
     display: flex;
     flex-direction: column;
-
     align-items: center;
+    justify-content: center;
 
     text-align: center;
 
@@ -662,22 +758,15 @@ td:nth-child(5) {
 }
 
 .donut-center strong {
-    font-size: 18px;
+  font-size: 18px;
     font-weight: 600;
-
     color: #172033;
-
-    white-space: nowrap;
 }
 
 .donut-center span {
-    margin-top: 2px;
-
-    font-size: 9px;
-
+  font-size: 9px;
     color: #777;
-
-    white-space: nowrap;
+    margin-top: 2px;
 }
 
 
