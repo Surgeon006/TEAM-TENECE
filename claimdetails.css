@@ -892,6 +892,15 @@ summary.account { display: flex; }
 }
 
 @media (max-width: 1024px) {
+   .overview {
+      grid-template-columns: 1fr;
+    padding: 26px 0;
+  }
+  .overview__col + .overview__col {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 30px;
+  }
   .grid-3,
   .grid-bottom { grid-template-columns: minmax(0, 1fr); }
   .table-wrap { overflow-x: auto; }
