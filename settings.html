@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings – VitaTrack</title>
+    <link rel="stylesheet" href="settings.css" />
+  </head>
+  <body class="dark-mode">
+    <!-- Dark mode active by default -->
+    <div class="settings-container">
+      <h1>Settings</h1>
+
+      <section class="settings-section">
+        <h2>Profile</h2>
+        <label>
+          Full Name
+          <input type="text" placeholder="Enter your full name" />
+        </label>
+        <label>
+          Email
+          <input type="email" placeholder="Enter your email" />
+        </label>
+        <button class="save-btn">Save Changes</button>
+      </section>
+
+      <section class="settings-section">
+        <h2>Preferences</h2>
+        <label>
+          <input type="checkbox" id="darkToggle" checked /> Dark Mode
+        </label>
+        <label> <input type="checkbox" /> Enable Notifications </label>
+      </section>
+
+      <section class="settings-section">
+        <h2>Security</h2>
+        <label>
+          Change Password
+          <input type="password" placeholder="New password" />
+        </label>
+        <button class="save-btn">Update Password</button>
+      </section>
+    </div>
+
+    <script src="settings.js"></script>
+  </body>
+</html>

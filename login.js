@@ -19,5 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       alert("Email and Password cannot be empty.");
     }
+
+    // Redirect after short delay
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 1500);
   });
 });
