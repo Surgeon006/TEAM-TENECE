@@ -1,19 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VitaTrack — Departments</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
- <link rel="stylesheet" href="departments.css">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='64' height='64' rx='14' fill='%230B1727'/%3E%3Cg transform='translate(12,12)'%3E%3Crect width='17.15' height='49.96' rx='8.575' transform='matrix(0.938967 -0.344008 0.503642 0.863912 0 17.95)' fill='%234240E3'/%3E%3Crect width='16.97' height='50.7' rx='8.485' transform='matrix(0.905947 0.423391 -0.596738 0.802436 48.62 13.73)' fill='%230B1727'/%3E%3Cellipse cx='32.53' cy='7.22' rx='5.63' ry='4.82' fill='%23B8720A'/%3E%3C/g%3E%3C/svg%3E">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VitaTrack – Settings</title>
+   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='64' height='64' rx='14' fill='%230B1727'/%3E%3Cg transform='translate(12,12)'%3E%3Crect width='17.15' height='49.96' rx='8.575' transform='matrix(0.938967 -0.344008 0.503642 0.863912 0 17.95)' fill='%234240E3'/%3E%3Crect width='16.97' height='50.7' rx='8.485' transform='matrix(0.905947 0.423391 -0.596738 0.802436 48.62 13.73)' fill='%230B1727'/%3E%3Cellipse cx='32.53' cy='7.22' rx='5.63' ry='4.82' fill='%23B8720A'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-</head>
-<body>
-
-<div class="overlay" id="overlay"></div>
+    <link rel="stylesheet" href="settings.css" />
+  </head>
+  <body class="dark-mode">
+    <div class="overlay" id="overlay"></div>
 
 <div class="app">
   <!-- ================= SIDEBAR ================= -->
@@ -34,7 +30,7 @@
         <span>Dashboard</span>
       </a>
 
-      <a class="nav-item active" href="departments.html" data-nav="departments">
+      <a class="nav-item" href="departments.html" data-nav="departments">
         <svg class="nav-icon" viewBox="19.3 172.75 17.4 20.5" fill="none">
           <path d="M20.2852 173.75H35.7152V192.25H20.2852V173.75Z" stroke="#FBFBFD" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M24.1427 183H20.2852L20.2857 186.854H24.1427M24.1427 183V186.854M24.1427 183H28.0002M24.1427 183V179.146M24.1427 183H20.2857L20.2852 179.146H24.1427M24.1427 186.854H28.0002M28.0002 183V186.854M28.0002 183H31.8577M28.0002 183V179.146M28.0002 186.854H31.8577M31.8577 183V186.854M31.8577 183H35.7147M31.8577 183V179.146M31.8577 186.854H35.7147V183M35.7147 183V179.146M24.1427 179.146H28.0002M24.1427 179.146V175.292M24.1427 179.146H20.2857L20.2852 175.292H24.1427M28.0002 179.146H31.8577M28.0002 179.146V175.292M31.8577 179.146H35.7147M31.8577 179.146V175.292M35.7147 179.146V175.292H31.8577M24.1427 175.292H28.0002M28.0002 175.292H31.8577M21.8287 188.396H24.9142V192.25H21.8287V188.396ZM31.0862 188.396H34.1717V192.25H31.0862V188.396ZM26.4572 188.396H29.5432V192.25H26.4572V188.396Z" stroke="#FBFBFD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -57,7 +53,7 @@
         <span>Notifications</span>
       </a>
 
-      <a class="nav-item" href="settings.html" data-nav="settings.html">
+      <a class="nav-item active" href="settings.html" data-nav="settings.html">
         <svg class="nav-icon" viewBox="19.95 422 22.1 22" fill="none"><path d="M28.2502 443L27.8502 439.8C27.6335 439.717 27.4295 439.617 27.2382 439.5C27.0469 439.383 26.8592 439.258 26.6752 439.125L23.7002 440.375L20.9502 435.625L23.5252 433.675C23.5085 433.558 23.5002 433.446 23.5002 433.338V432.663C23.5002 432.554 23.5085 432.442 23.5252 432.325L20.9502 430.375L23.7002 425.625L26.6752 426.875C26.8585 426.742 27.0502 426.617 27.2502 426.5C27.4502 426.383 27.6502 426.283 27.8502 426.2L28.2502 423H33.7502L34.1502 426.2C34.3669 426.283 34.5712 426.383 34.7632 426.5C34.9552 426.617 35.1425 426.742 35.3252 426.875L38.3002 425.625L41.0502 430.375L38.4752 432.325C38.4919 432.442 38.5002 432.554 38.5002 432.663V433.337C38.5002 433.446 38.4835 433.558 38.4502 433.675L41.0252 435.625L38.2752 440.375L35.3252 439.125C35.1419 439.258 34.9502 439.383 34.7502 439.5C34.5502 439.617 34.3502 439.717 34.1502 439.8L33.7502 443H28.2502ZM30.0002 441H31.9752L32.3252 438.35C32.8419 438.217 33.3212 438.021 33.7632 437.763C34.2052 437.505 34.6092 437.192 34.9752 436.825L37.4502 437.85L38.4252 436.15L36.2752 434.525C36.3585 434.292 36.4169 434.046 36.4502 433.788C36.4835 433.53 36.5002 433.267 36.5002 433C36.5002 432.733 36.4835 432.47 36.4502 432.213C36.4169 431.956 36.3585 431.71 36.2752 431.475L38.4252 429.85L37.4502 428.15L34.9752 429.2C34.6085 428.817 34.2045 428.496 33.7632 428.238C33.3219 427.98 32.8425 427.784 32.3252 427.65L32.0002 425H30.0252L29.6752 427.65C29.1585 427.783 28.6795 427.979 28.2382 428.238C27.7969 428.497 27.3925 428.809 27.0252 429.175L24.5502 428.15L23.5752 429.85L25.7252 431.45C25.6419 431.7 25.5835 431.95 25.5502 432.2C25.5169 432.45 25.5002 432.717 25.5002 433C25.5002 433.267 25.5169 433.525 25.5502 433.775C25.5835 434.025 25.6419 434.275 25.7252 434.525L23.5752 436.15L24.5502 437.85L27.0252 436.8C27.3919 437.183 27.7962 437.504 28.2382 437.763C28.6802 438.022 29.1592 438.217 29.6752 438.35L30.0002 441ZM31.0502 436.5C32.0169 436.5 32.8419 436.158 33.5252 435.475C34.2085 434.792 34.5502 433.967 34.5502 433C34.5502 432.033 34.2085 431.208 33.5252 430.525C32.8419 429.842 32.0169 429.5 31.0502 429.5C30.0669 429.5 29.2375 429.842 28.5622 430.525C27.8869 431.208 27.5495 432.033 27.5502 433C27.5509 433.967 27.8885 434.792 28.5632 435.475C29.2379 436.158 30.0669 436.5 31.0502 436.5Z" fill="#FBFBFD"/></svg>
         <span>Settings</span>
       </a>
@@ -108,189 +104,43 @@
     </button>
      </a>
   </aside>
+   <main class="dark-mode">
+    <!-- Dark mode active by default -->
+    <div class="settings-container">
+      <h1>Settings</h1>
 
-  <!-- ================= MAIN ================= -->
-  <main class="main">
-    <div class="topbar">
-      <div class="topbar-title-row">
-        <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-        </button>
-        <div>
-          <h1>Departments</h1>
-          <p>View billing performers by department</p>
-        </div>
-      </div>
-      <div class="topbar-right">
-        <div class="search-box">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <input type="text" placeholder="Search Departments">
-        </div>
-        <button class="icon-btn" aria-label="Notifications">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
-          <span class="dot"></span>
-        </button>
-        <div class="user-chip">
-          <div class="avatar"></div>
-          <div class="who">
-            <div class="n">Sec Tessa</div>
-            <div class="r">Billing Manager</div>
-          </div>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </div>
-      </div>
+      <section class="settings-section">
+        <h2>Profile</h2>
+        <label>
+          Full Name
+          <input type="text" placeholder="Enter your full name" />
+        </label>
+        <label>
+          Email
+          <input type="email" placeholder="Enter your email" />
+        </label>
+        <button class="save-btn">Save Changes</button>
+      </section>
+
+      <section class="settings-section">
+        <h2>Preferences</h2>
+        <label>
+          <input type="checkbox" id="darkToggle" checked /> Dark Mode
+        </label>
+        <label> <input type="checkbox" /> Enable Notifications </label>
+      </section>
+
+      <section class="settings-section">
+        <h2>Security</h2>
+        <label>
+          Change Password
+          <input type="password" placeholder="New password" />
+        </label>
+        <button class="save-btn">Update Password</button>
+      </section>
     </div>
+   </main>
 
-    <!-- Department cards row 1 -->
-    <div class="dept-grid">
-      <!-- Oncology -->
-      <div class="card dept-card">
-        <div class="dept-card-header-row">
-          <div class="dept-card-left">
-            <div class="dept-icon pink">
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="2"/><circle cx="15" cy="6" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="7" cy="16" r="2"/><path d="M12 21c-3 0-5-2-5-4.5S9 12 12 12s5 2 5 4.5S15 21 12 21z"/></svg>
-            </div>
-            <div>
-              <div class="dept-title">Oncology</div>
-              <div class="dept-sub">Total Billed</div>
-            </div>
-          </div>
-          <button class="more-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="6" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="18" r="1.4"/></svg></button>
-        </div>
-        <div class="dept-amount">$3.57M</div>
-        <div class="stats-line"><span class="resolved">Resolved 47%</span><span class="pending">53% Pending</span></div>
-        <div class="split-bar"><span class="seg-red" style="width:47%"></span><span class="seg-green" style="width:53%"></span></div>
-      </div>
-
-      <!-- Cardiology -->
-      <div class="card dept-card">
-        <div class="dept-card-header-row">
-          <div class="dept-card-left">
-            <div class="dept-icon red">
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/><path d="M7 12h2l1.5-3L13 15l1.5-3H17"/></svg>
-            </div>
-            <div>
-              <div class="dept-title">Cardiology</div>
-              <div class="dept-sub">Total Billed</div>
-            </div>
-          </div>
-          <button class="more-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="6" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="18" r="1.4"/></svg></button>
-        </div>
-        <div class="dept-amount">$800k</div>
-        <div class="stats-line"><span class="resolved">Resolved 80%</span><span class="pending">20% Pending</span></div>
-        <div class="split-bar"><span class="seg-red" style="width:80%"></span><span class="seg-green" style="width:20%"></span></div>
-      </div>
-
-      <!-- Neurology -->
-      <div class="card dept-card">
-        <div class="dept-card-header-row">
-          <div class="dept-card-left">
-            <div class="dept-icon blue">
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3a3 3 0 00-3 3v1a3 3 0 00-2 2.8V12a3 3 0 002 2.8V16a3 3 0 003 3h1"/><path d="M15 3a3 3 0 013 3v1a3 3 0 012 2.8V12a3 3 0 01-2 2.8V16a3 3 0 01-3 3h-1"/><path d="M10 3v17M14 3v17"/></svg>
-            </div>
-            <div>
-              <div class="dept-title">Neurology</div>
-              <div class="dept-sub">Total Billed</div>
-            </div>
-          </div>
-          <button class="more-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="6" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="18" r="1.4"/></svg></button>
-        </div>
-        <div class="dept-amount">$600k</div>
-        <div class="stats-line"><span class="resolved">Resolved 68%</span><span class="pending">32% Pending</span></div>
-        <div class="split-bar"><span class="seg-red" style="width:68%"></span><span class="seg-green" style="width:32%"></span></div>
-      </div>
-       
-      <!-- Orthopedics -->
-      <div class="card dept-card">
-        <div class="dept-card-header-row">
-          <div class="dept-card-left">
-            <div class="dept-icon amber">
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 5a3 3 0 00-4.2 0l-8 8a3 3 0 004.2 4.2l8-8A3 3 0 0017 5z"/><path d="M14.5 7.5l2 2"/></svg>
-            </div>
-            <div>
-              <div class="dept-title">Orthopedics</div>
-              <div class="dept-sub">Total Billed</div>
-            </div>
-          </div>
-          <button class="more-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="6" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="18" r="1.4"/></svg></button>
-        </div>
-        <div class="dept-amount">$450k</div>
-        <div class="stats-line"><span class="resolved">Resolved 75%</span><span class="pending">25% Pending</span></div>
-        <div class="split-bar"><span class="seg-red" style="width:75%"></span><span class="seg-green" style="width:25%"></span></div>
-      </div>
-
-      <!-- General Surgery -->
-      <div class="card dept-card">
-        <div class="dept-card-header-row">
-          <div class="dept-card-left">
-            <div class="dept-icon green">
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-9 9-4-4M4 4l4 4M9 15l-4 4"/></svg>
-            </div>
-            <div>
-              <div class="dept-title">General Surgery</div>
-              <div class="dept-sub">Total Billed</div>
-            </div>
-          </div>
-          <button class="more-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="6" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="18" r="1.4"/></svg></button>
-        </div>
-        <div class="dept-amount">$400k</div>
-        <div class="stats-line"><span class="resolved">Resolved 82%</span><span class="pending">18% Pending</span></div>
-        <div class="split-bar"><span class="seg-red" style="width:82%"></span><span class="seg-green" style="width:18%"></span></div>
-      </div>
-    </div>
-
-    <!-- Table -->
-    <div class="card table-card">
-      <div class="table-head">
-        <h3>Department Performance</h3>
-        <button class="export-btn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
-          Export Report
-        </button>
-      </div>
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>Department</th>
-              <th>Total Billed</th>
-              <th>Resolved</th>
-              <th>Pending/ Unresolved</th>
-              <th>Resolution Rate</th>
-              <th>Average Days To Resolve</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Donut -->
-   <div class="chart-card">
-    <h2>Billing by Department</h2>
-    
-    <div class="chart-container">
-        <!-- Donut Chart Left Side -->
-        <div class="canvas-wrapper">
-            <canvas id="billingChart"></canvas>
-            <div class="chart-center-text">
-                <span class="total-amount" id="totalAmount">$3.57M</span>
-                <span class="total-label">Total Billed</span>
-            </div>
-        </div>
-
-        <!-- Custom Legend Right Side -->
-        <div class="custom-legend" id="htmlLegend"></div>
-    </div>
-
-    <!-- View Report Link -->
-    <a href="#" class="footer-link">
-        View full report <span>&rarr;</span>
-    </a>
-</div>>
-  </main>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="departments.js"></script>
-</body>
+    <script src="settings.js"></script>
+  </body>
 </html>

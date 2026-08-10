@@ -232,3 +232,89 @@ body::after {
   background: #3f3fbf;
   transform: scale(1.1);
 }
+
+/* Tablets and small laptops */
+@media (max-width: 768px) {
+  .page-shell {
+    padding: 20px 20px 32px;
+  }
+
+  .signup-header h1 {
+    font-size: 28px;
+    padding-left: 0;
+    white-space: normal;
+  }
+
+  .signup-header p {
+    padding-left: 0;
+  }
+
+  .page-shell::before {
+    background-size: 240px;
+  }
+
+  body::before,
+  body::after {
+    width: 260px;
+    height: 260px;
+  }
+}
+
+/* Large phones */
+@media (max-width: 600px) {
+  .login-card {
+    width: 100%;
+  }
+
+  .toggle-icon {
+    right: 16px;
+  }
+
+  .input-group input {
+    padding-right: 48px;
+  }
+
+  .form-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .submit-btn {
+    width: 100%;
+  }
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+  .page-shell {
+    padding: 16px 16px 24px;
+  }
+
+  .signup-header h1 {
+    font-size: 24px;
+  }
+
+  .signup-header p {
+    font-size: 14px;
+  }
+
+  .field-label {
+    font-size: 15px;
+  }
+
+  .input-group input {
+    padding: 16px 14px 14px 44px;
+    font-size: 15px;
+  }
+
+  .input-icon {
+    left: 12px;
+    font-size: 18px;
+  }
+
+  body::before,
+  body::after {
+    width: 180px;
+    height: 180px;
+  }
+}
