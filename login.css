@@ -175,7 +175,7 @@ body::after {
 .checkbox-row input {
   width: 18px;
   height: 18px;
-  accent-color: #4f46e5;
+  accent-color: black;
 }
 
 /* Row containing the checkbox and forgot password link */
@@ -209,9 +209,11 @@ body::after {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  text-decoration: none;
+  text-align: center;
 }
 
 .submit-btn:hover {
   background: #3f40d7;
+  transform: scale(1.1);
 }

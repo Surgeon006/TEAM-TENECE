@@ -120,10 +120,12 @@ body::after {
 /* Pseudo-classes for interactions */
 .sign-up button:hover {
   background-color: #4646c4;
+  transform: scale(1.1);
 }
 
 .create-acc button:hover {
   background-color: #f5f5f5;
+  transform: scale(1.1);
 }
 
 a {

@@ -1,123 +1,92 @@
-// ===========================
-// BILLING CHART
-// ===========================
-
-const billingCtx = document.getElementById('billingChart');
+// BILLING CHART //
+const billingCtx = document.getElementById("billingChart");
 
 new Chart(billingCtx, {
+  type: "doughnut",
 
-    type: 'doughnut',
+  data: {
+    labels: [
+      "Oncology",
+      "Cardiology",
+      "Neurology",
+      "Orthopedics",
+      "General Surgery",
+      "Other",
+    ],
 
-    data: {
-        labels: [
-            'Oncology',
-            'Cardiology',
-            'Neurology',
-            'Orthopedics',
-            'General Surgery',
-            'Other'
+    datasets: [
+      {
+        data: [1000000, 800000, 600000, 450000, 400000, 320000],
+
+        backgroundColor: [
+          "#72008f",
+          "#e83d5b",
+          "#2e9cf5",
+          "#bd7200",
+          "#4c9b30",
+          "#e3a7b5",
         ],
 
-        datasets: [{
-            data: [
-                1000000,
-                800000,
-                600000,
-                450000,
-                400000,
-                320000
-            ],
+        borderWidth: 0,
+      },
+    ],
+  },
 
-            backgroundColor: [
-                '#72008f',
-                '#e83d5b',
-                '#2e9cf5',
-                '#bd7200',
-                '#4c9b30',
-                '#e3a7b5'
-            ],
+  options: {
+    responsive: true,
 
-            borderWidth: 0
-        }]
+    maintainAspectRatio: false,
+
+    cutout: "62%",
+
+    plugins: {
+      legend: {
+        display: false,
+      },
+
+      tooltip: {
+        enabled: true,
+      },
     },
-
-    options: {
-
-        responsive: true,
-
-        maintainAspectRatio: false,
-
-        cutout: '62%',
-
-        plugins: {
-
-            legend: {
-                display: false
-            },
-
-            tooltip: {
-                enabled: true
-            }
-        }
-    }
+  },
 });
 
-// ===========================
-// CLAIM STATUS CHART
-// ===========================
+// CLAIM STATUS CHART //
 
-const claimCtx = document.getElementById('claimChart');
+const claimCtx = document.getElementById("claimChart");
 
 new Chart(claimCtx, {
+  type: "doughnut",
 
-    type: 'doughnut',
+  data: {
+    labels: ["Resolved", "Pending", "Insurance Processing", "Overdue"],
 
-    data: {
+    datasets: [
+      {
+        data: [51, 33.5, 13, 2.5],
 
-        labels: [
-            'Resolved',
-            'Pending',
-            'Insurance Processing',
-            'Overdue'
-        ],
+        backgroundColor: ["#008c12", "#c87900", "#8d008f", "#e34b73"],
 
-        datasets: [{
+        borderWidth: 0,
+      },
+    ],
+  },
 
-            data: [
-                51,
-                33.5,
-                13,
-                2.5
-            ],
+  options: {
+    responsive: true,
 
-            backgroundColor: [
-                '#008c12',
-                '#c87900',
-                '#8d008f',
-                '#e34b73'
-            ],
+    maintainAspectRatio: false,
 
-            borderWidth: 0
-        }]
+    cutout: "62%",
+
+    plugins: {
+      legend: {
+        display: false,
+      },
+
+      tooltip: {
+        enabled: true,
+      },
     },
-
-    options: {
-
-        responsive: true,
-
-        maintainAspectRatio: false,
-
-        cutout: '62%',
-
-        plugins: {
-
-            legend: {
-                display: false
-            },
-
-            tooltip: {
-                enabled: true
-            }
-        }
-    }
+  },
 });

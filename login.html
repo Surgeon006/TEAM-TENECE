@@ -16,7 +16,6 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
     <link rel="stylesheet" href="login.css" />
-    <link rel="stylesheet" href="responsive.css" />
   </head>
   <body>
     <div class="page-shell">
@@ -29,13 +28,18 @@
             </div>
           </div>
         </div>
-
         <form class="signup-form">
           <div class="field">
             <label class="field-label" for="email">Email Address</label>
             <div class="input-group">
               <span class="input-icon material-icons">email</span>
-              <input id="email" type="email" placeholder="Enter your email" />
+              <input
+                id="email"
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+              />
             </div>
           </div>
 
@@ -46,7 +50,9 @@
               <input
                 id="password"
                 type="password"
+                name="password"
                 placeholder="Enter your password"
+                required
               />
               <button
                 type="button"
@@ -63,12 +69,13 @@
               <input type="checkbox" />
               <span>Remember me</span>
             </label>
-            <a href="forgot-password.html" class="forgot-password-link"
-              >Forgot password?</a
-            >
+            <a href="forgot-password.html" class="forgot-password-link">
+              Forgot password?
+            </a>
           </div>
 
-          <button class="submit-btn" type="submit">Sign In</button>
+          <!-- Corrected Sign In link -->
+          <a href="dashboard.html" class="submit-btn">Sign In</a>
         </form>
       </div>
     </div>
