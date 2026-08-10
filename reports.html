@@ -1,1265 +1,2259 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VitaTrack — Reports</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='64' height='64' rx='14' fill='%230B1727'/%3E%3Cg transform='translate(12,12)'%3E%3Crect width='17.15' height='49.96' rx='8.575' transform='matrix(0.938967 -0.344008 0.503642 0.863912 0 17.95)' fill='%234240E3'/%3E%3Crect width='16.97' height='50.7' rx='8.485' transform='matrix(0.905947 0.423391 -0.596738 0.802436 48.62 13.73)' fill='%230B1727'/%3E%3Cellipse cx='32.53' cy='7.22' rx='5.63' ry='4.82' fill='%23B8720A'/%3E%3C/g%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --sidebar-bg:#0B1727;
-  --accent:#4240E3;
-  --accent-hover:#3532c4;
-  --white:#FBFBFD;
-  --page-bg:#F1F3F8;
-  --text-dark:#1E293B;
-  --stroke:#748071;
-  --stroke-light:#E3E4E8;
-  --placeholder:#828078;
-  --overdue-bg:#EAC1C1;
-  --overdue-text:#E43E52;
-  --paid-bg:#CDEFDD;
-  --paid-text:#21AF72;
-  --pending-bg:#FBE7C6;
-  --pending-text:#B8720A;
-  --thead-bg:#ECECF5;
-  --green:#21AF72;
-  --radius-sm:4px;
-  --radius-md:8px;
-  --radius-lg:10px;
-  --sidebar-w:239px;
-  --topbar-h:67px;
-}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VitaTrack — Reports</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='64' height='64' rx='14' fill='%230B1727'/%3E%3Cg transform='translate(12,12)'%3E%3Crect width='17.15' height='49.96' rx='8.575' transform='matrix(0.938967 -0.344008 0.503642 0.863912 0 17.95)' fill='%234240E3'/%3E%3Crect width='16.97' height='50.7' rx='8.485' transform='matrix(0.905947 0.423391 -0.596738 0.802436 48.62 13.73)' fill='%230B1727'/%3E%3Cellipse cx='32.53' cy='7.22' rx='5.63' ry='4.82' fill='%23B8720A'/%3E%3C/g%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --sidebar-bg: #0b1727;
+        --accent: #4240e3;
+        --accent-hover: #3532c4;
+        --white: #fbfbfd;
+        --page-bg: #f1f3f8;
+        --text-dark: #1e293b;
+        --stroke: #748071;
+        --stroke-light: #e3e4e8;
+        --placeholder: #828078;
+        --overdue-bg: #eac1c1;
+        --overdue-text: #e43e52;
+        --paid-bg: #cdefdd;
+        --paid-text: #21af72;
+        --pending-bg: #fbe7c6;
+        --pending-text: #b8720a;
+        --thead-bg: #ececf5;
+        --green: #21af72;
+        --radius-sm: 4px;
+        --radius-md: 8px;
+        --radius-lg: 10px;
+        --sidebar-w: 239px;
+        --topbar-h: 67px;
+      }
 
-*{box-sizing:border-box;}
-[hidden]{display:none !important;}
-html,body{margin:0;padding:0;}
-body{
-  font-family:'Plus Jakarta Sans', system-ui, sans-serif;
-  background:var(--page-bg);
-  color:var(--text-dark);
-  -webkit-font-smoothing:antialiased;
-}
-button{font-family:inherit;cursor:pointer;}
-select,input{font-family:inherit;}
-svg{display:block;}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+      * {
+        box-sizing: border-box;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+        background: var(--page-bg);
+        color: var(--text-dark);
+        -webkit-font-smoothing: antialiased;
+      }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+      }
+      select,
+      input {
+        font-family: inherit;
+      }
+      svg {
+        display: block;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+      }
 
-.app{
-  display:flex;
-  min-height:100vh;
-}
+      .app {
+        display: flex;
+        min-height: 100vh;
+      }
 
-/* ================= Sidebar ================= */
-.sidebar{
-  width:var(--sidebar-w);
-  min-width:var(--sidebar-w);
-  background:var(--sidebar-bg);
-  color:var(--white);
-  display:flex;
-  flex-direction:column;
-  padding:14px 12px 20px;
-  position:sticky;
-  top:0;
-  height:100vh;
-  overflow-y:auto;
-}
+      /* ================= Sidebar ================= */
+      .sidebar {
+        width: var(--sidebar-w);
+        min-width: var(--sidebar-w);
+        background: var(--sidebar-bg);
+        color: var(--white);
+        display: flex;
+        flex-direction: column;
+        padding: 14px 12px 20px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+      }
 
-.brand{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  gap:4px;
-  padding:0 3px;
-  margin-bottom:24px;
-}
-.brand-svg{flex:none; width:139px; height:40px;}
-.brand-sub{
-  font-weight:400;
-  font-size:10px;
-  line-height:13px;
-  color:var(--white);
-  opacity:.75;
-  max-width:160px;
-  padding-left:2px;
-}
+      .brand {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding: 0 3px;
+        margin-bottom: 24px;
+      }
+      .brand-svg {
+        flex: none;
+        width: 139px;
+        height: 40px;
+      }
+      .brand-sub {
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 13px;
+        color: var(--white);
+        opacity: 0.75;
+        max-width: 160px;
+        padding-left: 2px;
+      }
 
-.nav{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  margin-bottom:22px;
-}
-.nav-item{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  width:100%;
-  padding:10px 8px;
-  background:transparent;
-  border:1px solid var(--accent);
-  border-radius:10px;
-  color:var(--white);
-  font-size:13px;
-  font-weight:600;
-  text-align:left;
-  text-decoration:none;
-  cursor:pointer;
-  box-sizing:border-box;
-  transition:background .15s ease;
-}
-.nav-item:hover{background:rgba(66,64,227,.18);}
-.nav-item.active{background:var(--accent); border-color:var(--accent);}
-.nav-icon{width:24px;height:24px;flex:none;color:var(--white);}
+      .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 22px;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 10px 8px;
+        background: transparent;
+        border: 1px solid var(--accent);
+        border-radius: 10px;
+        color: var(--white);
+        font-size: 13px;
+        font-weight: 600;
+        text-align: left;
+        text-decoration: none;
+        cursor: pointer;
+        box-sizing: border-box;
+        transition: background 0.15s ease;
+      }
+      .nav-item:hover {
+        background: rgba(66, 64, 227, 0.18);
+      }
+      .nav-item.active {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+      .nav-icon {
+        width: 24px;
+        height: 24px;
+        flex: none;
+        color: var(--white);
+      }
 
-/* SVG-baked nav / quick-action buttons (icon + label rendered inside the SVG itself) */
-.nav-svg-btn{
-  display:block;
-  width:100%;
-  padding:0;
-  margin:0;
-  border:none;
-  background:transparent;
-  border-radius:10px;
-  overflow:hidden;
-  line-height:0;
-  cursor:pointer;
-  transition:filter .15s ease, transform .1s ease;
-}
-.nav-svg-btn svg{display:block; width:100%; height:auto;}
-.nav-svg-btn:hover{filter:brightness(1.18);}
-.nav-svg-btn.active:hover{filter:brightness(1.08);}
-.nav-svg-btn:active{transform:scale(0.99);}
+      /* SVG-baked nav / quick-action buttons (icon + label rendered inside the SVG itself) */
+      .nav-svg-btn {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        border: none;
+        background: transparent;
+        border-radius: 10px;
+        overflow: hidden;
+        line-height: 0;
+        cursor: pointer;
+        transition:
+          filter 0.15s ease,
+          transform 0.1s ease;
+      }
+      .nav-svg-btn svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .nav-svg-btn:hover {
+        filter: brightness(1.18);
+      }
+      .nav-svg-btn.active:hover {
+        filter: brightness(1.08);
+      }
+      .nav-svg-btn:active {
+        transform: scale(0.99);
+      }
 
-.user-card{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 4px;
-  border-top:1px solid var(--stroke);
-  border-bottom:1px solid var(--stroke);
-  margin-bottom:18px;
-  cursor:pointer;
-}
-.user-avatar{
-  position:relative;
-  width:30px;
-  height:30px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--white);
-  flex:none;
-}
-.user-avatar svg{width:24px;height:24px;}
-.status-dot{
-  position:absolute;
-  bottom:-1px;
-  right:-1px;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--green);
-  border:1.5px solid var(--sidebar-bg);
-}
-.user-meta{flex:1; min-width:0;}
-.user-name{font-size:14px;font-weight:600;line-height:18px;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.user-role{font-size:10px;font-weight:400;line-height:13px;color:var(--white);opacity:.75;}
-.user-caret{width:14px;height:14px;color:var(--white);flex:none;transform:rotate(90deg);}
+      .user-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 4px;
+        border-top: 1px solid var(--stroke);
+        border-bottom: 1px solid var(--stroke);
+        margin-bottom: 18px;
+        cursor: pointer;
+      }
+      .user-avatar {
+        position: relative;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        flex: none;
+      }
+      .user-avatar svg {
+        width: 24px;
+        height: 24px;
+      }
+      .status-dot {
+        position: absolute;
+        bottom: -1px;
+        right: -1px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+        border: 1.5px solid var(--sidebar-bg);
+      }
+      .user-meta {
+        flex: 1;
+        min-width: 0;
+      }
+      .user-name {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 18px;
+        color: var(--white);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .user-role {
+        font-size: 10px;
+        font-weight: 400;
+        line-height: 13px;
+        color: var(--white);
+        opacity: 0.75;
+      }
+      .user-caret {
+        width: 14px;
+        height: 14px;
+        color: var(--white);
+        flex: none;
+        transform: rotate(90deg);
+      }
 
-.quick-actions{margin-bottom:auto; flex:none;}
-.quick-actions__label{
-  font-size:10px;
-  color:var(--white);
-  opacity:.6;
-  padding:0 4px;
-  margin-bottom:10px;
-}
-.quick-btn{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  width:100%;
-  padding:10px 4px;
-  background:transparent;
-  border:1px solid var(--accent);
-  border-radius:10px;
-  color:var(--white);
-  font-size:13px;
-  font-weight:600;
-  margin-bottom:10px;
-  transition:background .15s ease;
-}
-.quick-btn:hover{background:rgba(66,64,227,.18);}
-.quick-btn svg{width:24px;height:24px;flex:none;}
+      .quick-actions {
+        margin-bottom: auto;
+        flex: none;
+      }
+      .quick-actions__label {
+        font-size: 10px;
+        color: var(--white);
+        opacity: 0.6;
+        padding: 0 4px;
+        margin-bottom: 10px;
+      }
+      .quick-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 10px 4px;
+        background: transparent;
+        border: 1px solid var(--accent);
+        border-radius: 10px;
+        color: var(--white);
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        transition: background 0.15s ease;
+      }
+      .quick-btn:hover {
+        background: rgba(66, 64, 227, 0.18);
+      }
+      .quick-btn svg {
+        width: 24px;
+        height: 24px;
+        flex: none;
+      }
 
-/* SVG quick-action buttons need the same 10px stacking rhythm as .quick-btn */
-.quick-actions .nav-svg-btn{margin-bottom:10px;}
-.quick-actions .nav-svg-btn:last-of-type{margin-bottom:0;}
+      /* SVG quick-action buttons need the same 10px stacking rhythm as .quick-btn */
+      .quick-actions .nav-svg-btn {
+        margin-bottom: 10px;
+      }
+      .quick-actions .nav-svg-btn:last-of-type {
+        margin-bottom: 0;
+      }
 
-.logout-btn-svg{
-  display:block;
-  width:117px;
-  padding:0;
-  margin:16px 0 0 3px;
-  border:none;
-  background:transparent;
-  border-radius:10px;
-  overflow:hidden;
-  line-height:0;
-  cursor:pointer;
-  flex:none;
-  transition:filter .15s ease;
-}
-.logout-btn-svg svg{display:block; width:100%; height:auto;}
-.logout-btn-svg:hover{filter:brightness(1.3);}
+      .logout-btn-svg {
+        display: block;
+        width: 117px;
+        padding: 0;
+        margin: 16px 0 0 3px;
+        border: none;
+        background: transparent;
+        border-radius: 10px;
+        overflow: hidden;
+        line-height: 0;
+        cursor: pointer;
+        flex: none;
+        transition: filter 0.15s ease;
+      }
+      .logout-btn-svg svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .logout-btn-svg:hover {
+        filter: brightness(1.3);
+      }
 
-.logout-btn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:9px 8px;
-  background:transparent;
-  border:none;
-  border-radius:10px;
-  color:var(--white);
-  font-size:13px;
-  font-weight:600;
-  margin-top:16px;
-  width:130px;
-  flex:none;
-  transition:background .15s ease;
-}
-.logout-btn:hover{background:rgba(255,255,255,.08);}
-.logout-btn svg{width:24px;height:24px;color:var(--white);}
+      .logout-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 9px 8px;
+        background: transparent;
+        border: none;
+        border-radius: 10px;
+        color: var(--white);
+        font-size: 13px;
+        font-weight: 600;
+        margin-top: 16px;
+        width: 130px;
+        flex: none;
+        transition: background 0.15s ease;
+      }
+      .logout-btn:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .logout-btn svg {
+        width: 24px;
+        height: 24px;
+        color: var(--white);
+      }
 
-/* ================= Main ================= */
-.main{
-  flex:1;
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-}
+      /* ================= Main ================= */
+      .main {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+      }
 
-.topbar{
-  display:flex;
-  align-items:center;
-  gap:24px;
-  height:var(--topbar-h);
-  min-height:var(--topbar-h);
-  padding:0 24px;
-  background:var(--white);
-  border-bottom:0.4px solid var(--stroke);
-  position:sticky;
-  top:0;
-  z-index:5;
-}
-.topbar__title h1{
-  font-size:16px;
-  font-weight:700;
-  margin:0;
-  color:var(--text-dark);
-  white-space:nowrap;
-}
-.topbar__title p{
-  font-size:10px;
-  margin:2px 0 0;
-  color:var(--text-dark);
-  opacity:.65;
-  white-space:nowrap;
-}
-.topbar__search{
-  flex:1;
-  max-width:384px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:8px 12px;
-  border:1px solid var(--stroke);
-  border-radius:8px;
-}
-.topbar__search svg{width:18px;height:18px;color:var(--stroke);flex:none;}
-.topbar__search input{
-  border:none;
-  outline:none;
-  width:100%;
-  font-size:10px;
-  line-height:13px;
-  color:var(--text-dark);
-  background:transparent;
-}
-.topbar__search input::placeholder{color:var(--placeholder);}
+      .topbar {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        height: var(--topbar-h);
+        min-height: var(--topbar-h);
+        padding: 0 24px;
+        background: var(--white);
+        border-bottom: 0.4px solid var(--stroke);
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+      .topbar__title h1 {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0;
+        color: var(--text-dark);
+        white-space: nowrap;
+      }
+      .topbar__title p {
+        font-size: 10px;
+        margin: 2px 0 0;
+        color: var(--text-dark);
+        opacity: 0.65;
+        white-space: nowrap;
+      }
+      .topbar__search {
+        flex: 1;
+        max-width: 384px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        border: 1px solid var(--stroke);
+        border-radius: 8px;
+      }
+      .topbar__search svg {
+        width: 18px;
+        height: 18px;
+        color: var(--stroke);
+        flex: none;
+      }
+      .topbar__search input {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 10px;
+        line-height: 13px;
+        color: var(--text-dark);
+        background: transparent;
+      }
+      .topbar__search input::placeholder {
+        color: var(--placeholder);
+      }
 
-.topbar__actions{
-  display:flex;
-  align-items:center;
-  gap:20px;
-  margin-left:auto;
-}
-.icon-btn{
-  position:relative;
-  background:transparent;
-  border:none;
-  width:32px;
-  height:32px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--text-dark);
-}
-.icon-btn svg{width:22px;height:22px;}
-.icon-btn .badge{
-  position:absolute;
-  top:-2px;
-  right:-2px;
-  background:var(--accent);
-  color:var(--white);
-  font-size:9px;
-  font-weight:600;
-  min-width:15px;
-  height:15px;
-  border-radius:8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:0 3px;
-}
+      .topbar__actions {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-left: auto;
+      }
+      .icon-btn {
+        position: relative;
+        background: transparent;
+        border: none;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-dark);
+      }
+      .icon-btn svg {
+        width: 22px;
+        height: 22px;
+      }
+      .icon-btn .badge {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        background: var(--accent);
+        color: var(--white);
+        font-size: 9px;
+        font-weight: 600;
+        min-width: 15px;
+        height: 15px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 3px;
+      }
 
-.user-card--light{
-  border:none;
-  padding:0;
-  margin:0;
-}
-.user-card--light .user-name,
-.user-card--light .user-role{color:var(--text-dark);}
-.user-avatar--dark{background:transparent;color:var(--text-dark);}
-.user-caret--dark{color:var(--text-dark);}
+      .user-card--light {
+        border: none;
+        padding: 0;
+        margin: 0;
+      }
+      .user-card--light .user-name,
+      .user-card--light .user-role {
+        color: var(--text-dark);
+      }
+      .user-avatar--dark {
+        background: transparent;
+        color: var(--text-dark);
+      }
+      .user-caret--dark {
+        color: var(--text-dark);
+      }
 
-/* ================= Filter bar ================= */
-.filterbar{
-  display:flex;
-  align-items:flex-end;
-  gap:16px;
-  padding:20px 24px 0;
-  flex-wrap:wrap;
-}
-.filterbar__search{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:8px 10px;
-  border:1px solid var(--stroke);
-  border-radius:4px;
-  background:var(--white);
-  width:220px;
-  height:29px;
-}
-.filterbar__search svg{width:16px;height:16px;color:var(--stroke);flex:none;}
-.filterbar__search input{
-  border:none;
-  outline:none;
-  background:transparent;
-  font-size:10px;
-  line-height:13px;
-  width:100%;
-  color:var(--text-dark);
-}
-.filterbar__search input::placeholder{color:var(--placeholder);}
+      /* ================= Filter bar ================= */
+      .filterbar {
+        display: flex;
+        align-items: flex-end;
+        gap: 16px;
+        padding: 20px 24px 0;
+        flex-wrap: wrap;
+      }
+      .filterbar__search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px;
+        border: 1px solid var(--stroke);
+        border-radius: 4px;
+        background: var(--white);
+        width: 220px;
+        height: 29px;
+      }
+      .filterbar__search svg {
+        width: 16px;
+        height: 16px;
+        color: var(--stroke);
+        flex: none;
+      }
+      .filterbar__search input {
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 10px;
+        line-height: 13px;
+        width: 100%;
+        color: var(--text-dark);
+      }
+      .filterbar__search input::placeholder {
+        color: var(--placeholder);
+      }
 
-.filterbar__field{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-.filterbar__field label{
-  font-size:10px;
-  line-height:13px;
-  color:var(--text-dark);
-}
-.filterbar__field select{
-  appearance:none;
-  -webkit-appearance:none;
-  background:var(--white) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%230F0E0E' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right 10px center;
-  background-size:10px 6px;
-  border:0.4px solid var(--stroke);
-  border-radius:4px;
-  padding:8px 26px 8px 10px;
-  font-size:10px;
-  line-height:13px;
-  color:var(--text-dark);
-  min-width:130px;
-  height:30px;
-}
+      .filterbar__field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .filterbar__field label {
+        font-size: 10px;
+        line-height: 13px;
+        color: var(--text-dark);
+      }
+      .filterbar__field select {
+        appearance: none;
+        -webkit-appearance: none;
+        background: var(--white)
+          url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%230F0E0E' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>")
+          no-repeat right 10px center;
+        background-size: 10px 6px;
+        border: 0.4px solid var(--stroke);
+        border-radius: 4px;
+        padding: 8px 26px 8px 10px;
+        font-size: 10px;
+        line-height: 13px;
+        color: var(--text-dark);
+        min-width: 130px;
+        height: 30px;
+      }
 
-.filterbar__more{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:8px;
-  background:var(--white);
-  border:0.4px solid var(--stroke);
-  border-radius:4px;
-  font-size:10px;
-  line-height:13px;
-  color:var(--text-dark);
-  height:30px;
-  white-space:nowrap;
-}
-.filterbar__more svg{width:16px;height:16px;}
+      .filterbar__more {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        background: var(--white);
+        border: 0.4px solid var(--stroke);
+        border-radius: 4px;
+        font-size: 10px;
+        line-height: 13px;
+        color: var(--text-dark);
+        height: 30px;
+        white-space: nowrap;
+      }
+      .filterbar__more svg {
+        width: 16px;
+        height: 16px;
+      }
 
-.filterbar__clear{
-  background:transparent;
-  border:none;
-  font-size:10px;
-  line-height:13px;
-  color:var(--text-dark);
-  padding:8px;
-  text-decoration:underline;
-  text-underline-offset:2px;
-}
-.filterbar__clear:hover{color:var(--accent);}
+      .filterbar__clear {
+        background: transparent;
+        border: none;
+        font-size: 10px;
+        line-height: 13px;
+        color: var(--text-dark);
+        padding: 8px;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .filterbar__clear:hover {
+        color: var(--accent);
+      }
 
-/* ================= Table card ================= */
-.table-card{
-  margin:20px 24px 24px;
-  background:var(--white);
-  border-radius:8px;
-  padding:14px 12px 6px;
-}
-.table-card__header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  padding:0 4px 14px;
-  flex-wrap:wrap;
-}
-.results-count{
-  font-size:14px;
-  font-weight:600;
-}
-.table-card__toolbar{
-  display:flex;
-  align-items:center;
-  gap:16px;
-  flex-wrap:wrap;
-}
-.sortby select{
-  appearance:none;
-  -webkit-appearance:none;
-  background:var(--white) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%230F0E0E' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right 12px center;
-  background-size:10px 6px;
-  border:0.4px solid var(--stroke);
-  border-radius:4px;
-  padding:8px 32px 8px 12px;
-  font-size:11px;
-  line-height:15px;
-  font-weight:600;
-  color:var(--text-dark);
-  height:32px;
-}
-.btn-ghost{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:transparent;
-  border:none;
-  font-size:11px;
-  font-weight:600;
-  color:var(--text-dark);
-  padding:6px 4px;
-}
-.btn-ghost svg{width:16px;height:16px;}
-.btn-ghost:hover{color:var(--accent);}
+      /* ================= Table card ================= */
+      .table-card {
+        margin: 20px 24px 24px;
+        background: var(--white);
+        border-radius: 8px;
+        padding: 14px 12px 6px;
+      }
+      .table-card__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 0 4px 14px;
+        flex-wrap: wrap;
+      }
+      .results-count {
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .table-card__toolbar {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .sortby select {
+        appearance: none;
+        -webkit-appearance: none;
+        background: var(--white)
+          url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%230F0E0E' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>")
+          no-repeat right 12px center;
+        background-size: 10px 6px;
+        border: 0.4px solid var(--stroke);
+        border-radius: 4px;
+        padding: 8px 32px 8px 12px;
+        font-size: 11px;
+        line-height: 15px;
+        font-weight: 600;
+        color: var(--text-dark);
+        height: 32px;
+      }
+      .btn-ghost {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent;
+        border: none;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-dark);
+        padding: 6px 4px;
+      }
+      .btn-ghost svg {
+        width: 16px;
+        height: 16px;
+      }
+      .btn-ghost:hover {
+        color: var(--accent);
+      }
 
-.btn-primary{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  background:var(--accent);
-  border:0.4px solid var(--stroke);
-  border-radius:4px;
-  color:var(--white);
-  font-size:11px;
-  font-weight:600;
-  padding:8px 12px;
-  transition:background .15s ease;
-}
-.btn-primary:hover{background:var(--accent-hover);}
-.btn-primary svg{width:16px;height:16px;}
+      .btn-primary {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--accent);
+        border: 0.4px solid var(--stroke);
+        border-radius: 4px;
+        color: var(--white);
+        font-size: 11px;
+        font-weight: 600;
+        padding: 8px 12px;
+        transition: background 0.15s ease;
+      }
+      .btn-primary:hover {
+        background: var(--accent-hover);
+      }
+      .btn-primary svg {
+        width: 16px;
+        height: 16px;
+      }
 
-.table-wrap{overflow-x:auto;}
-.claims-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:900px;
-}
-.claims-table thead tr{
-  background:var(--thead-bg);
-  border:0.4px solid var(--stroke);
-  border-radius:12px 12px 0 0;
-  
-}
-.claims-table thead th{
-  text-align:left;
-  font-size:11px;
-  line-height:15px;
-  font-weight:600;
-  padding:14px 12px;
-  color:var(--text-dark);
-  white-space:nowrap;
-}
-.claims-table thead th.text-center{text-align:center;}
-.claims-table tbody td{
-  padding:10px 12px;
-  font-size:10px;
-  line-height:13px;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  border-bottom:0.4px solid var(--stroke-light);
-  white-space:nowrap;
-}
-.claims-table tbody tr:hover{background:#FAFAFD;}
-.claims-table tbody tr:last-child td{border-bottom:none;}
-.td-center{text-align:center;}
+      .table-wrap {
+        overflow-x: auto;
+      }
+      .claims-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 900px;
+      }
+      .claims-table thead tr {
+        background: var(--thead-bg);
+        border: 0.4px solid var(--stroke);
+        border-radius: 12px 12px 0 0;
+      }
+      .claims-table thead th {
+        text-align: left;
+        font-size: 11px;
+        line-height: 15px;
+        font-weight: 600;
+        padding: 14px 12px;
+        color: var(--text-dark);
+        white-space: nowrap;
+      }
+      .claims-table thead th.text-center {
+        text-align: center;
+      }
+      .claims-table tbody td {
+        padding: 10px 12px;
+        font-size: 10px;
+        line-height: 13px;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+        border-bottom: 0.4px solid var(--stroke-light);
+        white-space: nowrap;
+      }
+      .claims-table tbody tr:hover {
+        background: #fafafd;
+      }
+      .claims-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .td-center {
+        text-align: center;
+      }
 
-.status-pill{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:4px 10px;
-  border-radius:4px;
-  font-size:10px;
-  line-height:13px;
-  font-weight:500;
-  white-space:nowrap;
-}
-.status-pill.overdue{background:var(--overdue-bg);color:var(--overdue-text);}
-.status-pill.paid{background:var(--paid-bg);color:var(--paid-text);}
-.status-pill.pending{background:var(--pending-bg);color:var(--pending-text);}
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 10px;
+        line-height: 13px;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+      .status-pill.overdue {
+        background: var(--overdue-bg);
+        color: var(--overdue-text);
+      }
+      .status-pill.paid {
+        background: var(--paid-bg);
+        color: var(--paid-text);
+      }
+      .status-pill.pending {
+        background: var(--pending-bg);
+        color: var(--pending-text);
+      }
 
-.row-actions{
-  background:transparent;
-  border:none;
-  width:28px;
-  height:28px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--text-dark);
-  border-radius:6px;
-}
-.row-actions:hover{background:var(--page-bg);}
-.row-actions svg{width:18px;height:18px;}
+      .row-actions {
+        background: transparent;
+        border: none;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-dark);
+        border-radius: 6px;
+      }
+      .row-actions:hover {
+        background: var(--page-bg);
+      }
+      .row-actions svg {
+        width: 18px;
+        height: 18px;
+      }
 
-.empty-state{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
-  padding:60px 0;
-  color:var(--text-dark);
-  opacity:.75;
-}
+      .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 60px 0;
+        color: var(--text-dark);
+        opacity: 0.75;
+      }
 
-/* ================= Row menu ================= */
-.row-menu{
-  position:fixed;
-  background:var(--white);
-  border:1px solid var(--stroke-light);
-  border-radius:8px;
-  box-shadow:0 8px 24px rgba(15,23,42,.14);
-  padding:6px;
-  min-width:150px;
-  z-index:50;
-}
-.row-menu button{
-  display:block;
-  width:100%;
-  text-align:left;
-  padding:8px 10px;
-  background:transparent;
-  border:none;
-  border-radius:6px;
-  font-size:13px;
-  color:var(--text-dark);
-}
-.row-menu button:hover{background:var(--page-bg);}
+      /* ================= Row menu ================= */
+      .row-menu {
+        position: fixed;
+        background: var(--white);
+        border: 1px solid var(--stroke-light);
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.14);
+        padding: 6px;
+        min-width: 150px;
+        z-index: 50;
+      }
+      .row-menu button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 8px 10px;
+        background: transparent;
+        border: none;
+        border-radius: 6px;
+        font-size: 13px;
+        color: var(--text-dark);
+      }
+      .row-menu button:hover {
+        background: var(--page-bg);
+      }
 
-/* ================= Responsiveness ================= */
-@media (max-width: 1024px){
-  .sidebar{position:fixed; left:-260px; z-index:40; transition:left .2s ease;}
-  .sidebar.open{left:0;}
-  .topbar{padding:0 16px;}
-  .filterbar{padding:16px 16px 0;}
-  .table-card{margin:16px;}
-}
+      /* ================= Responsiveness ================= */
+      @media (max-width: 1024px) {
+        .sidebar {
+          position: fixed;
+          left: -260px;
+          z-index: 40;
+          transition: left 0.2s ease;
+        }
+        .sidebar.open {
+          left: 0;
+        }
+        .topbar {
+          padding: 0 16px;
+        }
+        .filterbar {
+          padding: 16px 16px 0;
+        }
+        .table-card {
+          margin: 16px;
+        }
+      }
 
+      /* ================= Reorts page ================= */
+      .reports-title h1 {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0;
+        color: var(--text-dark);
+        white-space: nowrap;
+      }
+      .reports-title p {
+        font-size: 10px;
+        margin: 2px 0 0;
+        color: var(--text-dark);
+        opacity: 0.65;
+        white-space: nowrap;
+      }
 
-/* ================= Reorts page ================= */
-.reports-title h1{font-size:16px;font-weight:700;margin:0;color:var(--text-dark);white-space:nowrap;}
-.reports-title p{font-size:10px;margin:2px 0 0;color:var(--text-dark);opacity:.65;white-space:nowrap;}
+      .topbar__search-icon {
+        width: 59px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--stroke);
+        border-radius: 4px;
+        background: transparent;
+        color: var(--stroke);
+        cursor: pointer;
+      }
+      .topbar__search-icon svg {
+        width: 22px;
+        height: 22px;
+      }
 
-.topbar__search-icon{
-  width:59px;
-  height:40px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:1px solid var(--stroke);
-  border-radius:4px;
-  background:transparent;
-  color:var(--stroke);
-  cursor:pointer;
-}
-.topbar__search-icon svg{width:22px;height:22px;}
+      .rpt-filterbar {
+        display: flex;
+        align-items: flex-end;
+        gap: 24px;
+        padding: 20px 24px 0;
+        flex-wrap: wrap;
+      }
+      .rpt-apply {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: var(--accent);
+        border: 0.4px solid var(--stroke);
+        border-radius: 4px;
+        color: var(--white);
+        font-size: 11px;
+        font-weight: 600;
+        padding: 9px 12px;
+        height: 32px;
+        transition: background 0.15s ease;
+      }
+      .rpt-apply:hover {
+        background: var(--accent-hover);
+      }
+      .rpt-apply svg {
+        width: 18px;
+        height: 18px;
+      }
 
-.rpt-filterbar{
-  display:flex;
-  align-items:flex-end;
-  gap:24px;
-  padding:20px 24px 0;
-  flex-wrap:wrap;
-}
-.rpt-apply{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  background:var(--accent);
-  border:0.4px solid var(--stroke);
-  border-radius:4px;
-  color:var(--white);
-  font-size:11px;
-  font-weight:600;
-  padding:9px 12px;
-  height:32px;
-  transition:background .15s ease;
-}
-.rpt-apply:hover{background:var(--accent-hover);}
-.rpt-apply svg{width:18px;height:18px;}
+      .rpt-field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .rpt-field label {
+        font-size: 10px;
+        color: var(--text-dark);
+        opacity: 0.75;
+      }
+      .rpt-field .field-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px;
+        border: 0.4px solid var(--stroke);
+        border-radius: 4px;
+        background: var(--white);
+        height: 32px;
+        min-width: 200px;
+      }
+      .rpt-field .field-box svg {
+        width: 18px;
+        height: 18px;
+        color: var(--text-dark);
+        flex: none;
+      }
+      .rpt-field .field-box span {
+        font-size: 11px;
+        color: var(--text-dark);
+        white-space: nowrap;
+        flex: 1;
+      }
+      .rpt-field .field-box .chev {
+        width: 10px;
+        height: 10px;
+        flex: none;
+        color: var(--text-dark);
+      }
 
-.rpt-field{display:flex; flex-direction:column; gap:4px;}
-.rpt-field label{font-size:10px; color:var(--text-dark); opacity:.75;}
-.rpt-field .field-box{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:8px 10px;
-  border:0.4px solid var(--stroke);
-  border-radius:4px;
-  background:var(--white);
-  height:32px;
-  min-width:200px;
-}
-.rpt-field .field-box svg{width:18px;height:18px; color:var(--text-dark); flex:none;}
-.rpt-field .field-box span{font-size:11px; color:var(--text-dark); white-space:nowrap; flex:1;}
-.rpt-field .field-box .chev{width:10px;height:10px;flex:none; color:var(--text-dark);}
+      .rpt-field select {
+        appearance: none;
+        -webkit-appearance: none;
+        background: var(--white)
+          url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%230F0E0E' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>")
+          no-repeat right 10px center;
+        background-size: 10px 6px;
+        border: 0.4px solid var(--stroke);
+        border-radius: 4px;
+        padding: 8px 28px 8px 10px;
+        font-size: 11px;
+        color: var(--text-dark);
+        min-width: 150px;
+        height: 32px;
+      }
 
-.rpt-field select{
-  appearance:none;
-  -webkit-appearance:none;
-  background:var(--white) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%230F0E0E' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right 10px center;
-  background-size:10px 6px;
-  border:0.4px solid var(--stroke);
-  border-radius:4px;
-  padding:8px 28px 8px 10px;
-  font-size:11px;
-  color:var(--text-dark);
-  min-width:150px;
-  height:32px;
-}
+      .rpt-reset {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: transparent;
+        border: none;
+        font-size: 11px;
+        color: var(--text-dark);
+        padding: 8px 4px;
+        height: 32px;
+      }
+      .rpt-reset svg {
+        width: 14px;
+        height: 14px;
+      }
+      .rpt-reset:hover {
+        color: var(--accent);
+      }
 
-.rpt-reset{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  background:transparent;
-  border:none;
-  font-size:11px;
-  color:var(--text-dark);
-  padding:8px 4px;
-  height:32px;
-}
-.rpt-reset svg{width:14px;height:14px;}
-.rpt-reset:hover{color:var(--accent);}
+      /* KPI cards */
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        padding: 20px 24px 0;
+      }
+      .kpi-card {
+        background: var(--white);
+        border: 0.4px solid var(--stroke);
+        border-radius: 4px;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .kpi-icon {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      .kpi-icon svg {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+      }
+      .kpi-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .kpi-label {
+        font-size: 10px;
+        color: var(--text-dark);
+        opacity: 0.75;
+        margin-bottom: 2px;
+      }
+      .kpi-value {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text-dark);
+        line-height: 25px;
+      }
+      .kpi-delta {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 10px;
+        margin-top: 4px;
+        font-weight: 500;
+      }
+      .kpi-delta svg {
+        width: 12px;
+        height: 12px;
+      }
 
-/* KPI cards */
-.kpi-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-  gap:16px;
-  padding:20px 24px 0;
-}
-.kpi-card{
-  background:var(--white);
-  border:0.4px solid var(--stroke);
-  border-radius:4px;
-  padding:16px;
-  display:flex;
-  align-items:center;
-  gap:16px;
-}
-.kpi-icon{
-  width:36px;
-  height:36px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex:none;
-}
-.kpi-icon svg{display:block; max-width:100%; max-height:100%;}
-.kpi-body{flex:1; min-width:0;}
-.kpi-label{font-size:10px; color:var(--text-dark); opacity:.75; margin-bottom:2px;}
-.kpi-value{font-size:20px; font-weight:600; color:var(--text-dark); line-height:25px;}
-.kpi-delta{display:flex; align-items:center; gap:4px; font-size:10px; margin-top:4px; font-weight:500;}
-.kpi-delta svg{width:12px;height:12px;}
+      /* Charts */
+      .charts-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 16px;
+        padding: 20px 24px 0;
+      }
+      @media (max-width: 1100px) {
+        .charts-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .chart-card {
+        background: var(--white);
+        border: 1px solid var(--stroke);
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .chart-card h3 {
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0 0 16px;
+        color: var(--text-dark);
+        text-align: center;
+      }
 
-/* Charts */
-.charts-grid{
-  display:grid;
-  grid-template-columns:1.4fr 1fr;
-  gap:16px;
-  padding:20px 24px 0;
-}
-@media (max-width:1100px){ .charts-grid{grid-template-columns:1fr;} }
-.chart-card{
-  background:var(--white);
-  border:1px solid var(--stroke);
-  border-radius:8px;
-  padding:16px;
-}
-.chart-card h3{font-size:14px; font-weight:600; margin:0 0 16px; color:var(--text-dark); text-align:center;}
+      .donut-wrap {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .donut-legend {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 10px;
+        color: var(--text-dark);
+      }
+      .legend-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        flex: none;
+      }
+      .donut-svg-wrap {
+        position: relative;
+        width: 172px;
+        height: 172px;
+        flex: none;
+      }
+      .donut-center {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .donut-center .num {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-dark);
+      }
+      .donut-center .lbl {
+        font-size: 10px;
+        color: var(--text-dark);
+        opacity: 0.75;
+      }
+      .view-full-report {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 10px;
+        color: var(--text-dark);
+        margin-top: 12px;
+        cursor: pointer;
+      }
+      .view-full-report svg {
+        width: 14px;
+        height: 14px;
+      }
+      .view-full-report:hover {
+        color: var(--accent);
+      }
 
-.donut-wrap{display:flex; align-items:center; gap:20px; flex-wrap:wrap; justify-content:center;}
-.donut-legend{display:flex; flex-direction:column; gap:10px;}
-.legend-item{display:flex; align-items:center; gap:8px; font-size:10px; color:var(--text-dark);}
-.legend-dot{width:12px;height:12px;border-radius:50%; flex:none;}
-.donut-svg-wrap{position:relative; width:172px; height:172px; flex:none;}
-.donut-center{
-  position:absolute; inset:0; display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-}
-.donut-center .num{font-size:16px; font-weight:700; color:var(--text-dark);}
-.donut-center .lbl{font-size:10px; color:var(--text-dark); opacity:.75;}
-.view-full-report{
-  display:flex; align-items:center; justify-content:center; gap:6px;
-  font-size:10px; color:var(--text-dark); margin-top:12px; cursor:pointer;
-}
-.view-full-report svg{width:14px;height:14px;}
-.view-full-report:hover{color:var(--accent);}
+      /* Department performance */
+      .dept-card {
+        margin: 20px 24px 0;
+        background: var(--white);
+        border: 1px solid var(--stroke);
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .dept-card__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 14px;
+      }
+      .dept-card__header h3 {
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0;
+        color: var(--text-dark);
+      }
+      .dept-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .dept-table thead th {
+        background: var(--thead-bg);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-dark);
+        padding: 12px;
+        text-align: left;
+        white-space: nowrap;
+      }
+      .dept-table thead th:first-child {
+        border-radius: 8px 0 0 8px;
+      }
+      .dept-table thead th:last-child {
+        border-radius: 0 8px 8px 0;
+      }
+      .dept-table tbody td {
+        padding: 10px 12px;
+        font-size: 11px;
+        color: var(--text-dark);
+        border-bottom: 0.4px solid var(--stroke-light);
+      }
+      .dept-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .rate-cell {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+      }
+      .rate-bar {
+        width: 60px;
+        height: 6px;
+        border-radius: 8px;
+        background: var(--page-bg);
+        overflow: hidden;
+        flex: none;
+      }
+      .rate-bar__fill {
+        height: 100%;
+        background: var(--overdue-text);
+        border-radius: 8px;
+      }
 
-/* Department performance */
-.dept-card{
-  margin:20px 24px 0;
-  background:var(--white);
-  border:1px solid var(--stroke);
-  border-radius:8px;
-  padding:16px;
-}
-.dept-card__header{
-  display:flex; align-items:center; justify-content:space-between;
-  margin-bottom:14px;
-}
-.dept-card__header h3{font-size:14px; font-weight:600; margin:0; color:var(--text-dark);}
-.dept-table{width:100%; border-collapse:collapse;}
-.dept-table thead th{
-  background:var(--thead-bg);
-  font-size:11px; font-weight:600; color:var(--text-dark);
-  padding:12px; text-align:left; white-space:nowrap;
-}
-.dept-table thead th:first-child{border-radius:8px 0 0 8px;}
-.dept-table thead th:last-child{border-radius:0 8px 8px 0;}
-.dept-table tbody td{
-  padding:10px 12px; font-size:11px; color:var(--text-dark);
-  border-bottom:0.4px solid var(--stroke-light);
-}
-.dept-table tbody tr:last-child td{border-bottom:none;}
-.rate-cell{display:flex; align-items:center; gap:8px; white-space:nowrap;}
-.rate-bar{width:60px; height:6px; border-radius:8px; background:var(--page-bg); overflow:hidden; flex:none;}
-.rate-bar__fill{height:100%; background:var(--overdue-text); border-radius:8px;}
- 
-.section-spacer{height:24px;}
-</style>
-</head>
-<body>
+      .section-spacer {
+        height: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <!-- ============ Sidebar ============ -->
+      <aside class="sidebar">
+        <div class="brand">
+          <svg
+            width="139"
+            height="40"
+            viewBox="0 0 139 40"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="brand-svg"
+          >
+            <rect
+              width="10.7194"
+              height="31.2252"
+              rx="5.3597"
+              transform="matrix(0.938967 -0.344008 0.503642 0.863912 0 11.2188)"
+              fill="#4240E3"
+            />
+            <rect
+              width="10.608"
+              height="31.6905"
+              rx="5.30402"
+              transform="matrix(0.905947 0.423391 -0.596738 0.802436 30.3896 8.57904)"
+              fill="#0B1727"
+            />
+            <ellipse
+              cx="20.3285"
+              cy="4.51558"
+              rx="3.51841"
+              ry="3.01558"
+              fill="#B8720A"
+            />
+            <path
+              d="M54.336 27L50.176 15.08H52.544L55.808 24.952H55.344L58.608 15.08H60.976L56.832 27H54.336ZM62.1323 27V18.296H64.2283V27H62.1323ZM62.1323 17.32V15.08H64.2283V17.32H62.1323ZM70.1315 27.096C69.1502 27.096 68.3875 26.8293 67.8435 26.296C67.3102 25.752 67.0435 24.9893 67.0435 24.008V20.168H65.5395V18.296H65.6995C66.1262 18.296 66.4568 18.184 66.6915 17.96C66.9262 17.736 67.0435 17.4107 67.0435 16.984V16.312H69.1395V18.296H71.1395V20.168H69.1395V23.896C69.1395 24.184 69.1875 24.4293 69.2835 24.632C69.3902 24.8347 69.5502 24.9893 69.7635 25.096C69.9875 25.2027 70.2702 25.256 70.6115 25.256C70.6862 25.256 70.7715 25.2507 70.8675 25.24C70.9742 25.2293 71.0755 25.2187 71.1715 25.208V27C71.0222 27.0213 70.8515 27.0427 70.6595 27.064C70.4675 27.0853 70.2915 27.096 70.1315 27.096ZM75.3816 27.192C74.7736 27.192 74.2456 27.0907 73.7976 26.888C73.3496 26.6853 73.003 26.3973 72.7576 26.024C72.5123 25.64 72.3896 25.1973 72.3896 24.696C72.3896 24.216 72.4963 23.7893 72.7096 23.416C72.923 23.032 73.2536 22.712 73.7016 22.456C74.1496 22.2 74.715 22.0187 75.3976 21.912L78.2456 21.448V23.048L75.7976 23.464C75.3816 23.5387 75.0723 23.672 74.8696 23.864C74.667 24.056 74.5656 24.3067 74.5656 24.616C74.5656 24.9147 74.6776 25.1547 74.9016 25.336C75.1363 25.5067 75.4243 25.592 75.7656 25.592C76.203 25.592 76.587 25.5013 76.9176 25.32C77.259 25.128 77.5203 24.8667 77.7016 24.536C77.8936 24.2053 77.9896 23.8427 77.9896 23.448V21.208C77.9896 20.8347 77.8403 20.5253 77.5416 20.28C77.2536 20.024 76.8696 19.896 76.3896 19.896C75.9416 19.896 75.5416 20.0187 75.1896 20.264C74.8483 20.4987 74.5976 20.8133 74.4376 21.208L72.7256 20.376C72.8963 19.9173 73.163 19.5227 73.5256 19.192C73.899 18.8507 74.3363 18.584 74.8376 18.392C75.339 18.2 75.883 18.104 76.4696 18.104C77.1843 18.104 77.8136 18.2373 78.3576 18.504C78.9016 18.76 79.323 19.1227 79.6216 19.592C79.931 20.0507 80.0856 20.5893 80.0856 21.208V27H78.1016V25.512L78.5496 25.48C78.3256 25.8533 78.059 26.168 77.7496 26.424C77.4403 26.6693 77.0883 26.8613 76.6936 27C76.299 27.128 75.8616 27.192 75.3816 27.192ZM84.3109 27V17H81.2229V15.08H89.5429V17H86.5029V27H84.3109ZM89.7416 27V18.296H91.7096V20.232L91.5496 19.944C91.7523 19.2933 92.067 18.84 92.4936 18.584C92.931 18.328 93.4536 18.2 94.0616 18.2H94.5736V20.056H93.8216C93.2243 20.056 92.7443 20.2427 92.3816 20.616C92.019 20.9787 91.8376 21.4907 91.8376 22.152V27H89.7416ZM98.366 27.192C97.758 27.192 97.23 27.0907 96.782 26.888C96.334 26.6853 95.9873 26.3973 95.742 26.024C95.4967 25.64 95.374 25.1973 95.374 24.696C95.374 24.216 95.4807 23.7893 95.694 23.416C95.9073 23.032 96.238 22.712 96.686 22.456C97.134 22.2 97.6993 22.0187 98.382 21.912L101.23 21.448V23.048L98.782 23.464C98.366 23.5387 98.0567 23.672 97.854 23.864C97.6513 24.056 97.55 24.3067 97.55 24.616C97.55 24.9147 97.662 25.1547 97.886 25.336C98.1207 25.5067 98.4087 25.592 98.75 25.592C99.1873 25.592 99.5713 25.5013 99.902 25.32C100.243 25.128 100.505 24.8667 100.686 24.536C100.878 24.2053 100.974 23.8427 100.974 23.448V21.208C100.974 20.8347 100.825 20.5253 100.526 20.28C100.238 20.024 99.854 19.896 99.374 19.896C98.926 19.896 98.526 20.0187 98.174 20.264C97.8327 20.4987 97.582 20.8133 97.422 21.208L95.71 20.376C95.8807 19.9173 96.1473 19.5227 96.51 19.192C96.8833 18.8507 97.3207 18.584 97.822 18.392C98.3233 18.2 98.8673 18.104 99.454 18.104C100.169 18.104 100.798 18.2373 101.342 18.504C101.886 18.76 102.307 19.1227 102.606 19.592C102.915 20.0507 103.07 20.5893 103.07 21.208V27H101.086V25.512L101.534 25.48C101.31 25.8533 101.043 26.168 100.734 26.424C100.425 26.6693 100.073 26.8613 99.678 27C99.2833 27.128 98.846 27.192 98.366 27.192ZM109.199 27.192C108.335 27.192 107.557 26.9947 106.863 26.6C106.181 26.1947 105.642 25.6507 105.247 24.968C104.853 24.2747 104.655 23.496 104.655 22.632C104.655 21.768 104.853 20.9947 105.247 20.312C105.642 19.6293 106.181 19.0907 106.863 18.696C107.557 18.3013 108.335 18.104 109.199 18.104C109.818 18.104 110.394 18.216 110.927 18.44C111.461 18.6533 111.919 18.952 112.303 19.336C112.698 19.7093 112.981 20.1573 113.151 20.68L111.311 21.48C111.151 21.0427 110.879 20.6907 110.495 20.424C110.122 20.1573 109.69 20.024 109.199 20.024C108.741 20.024 108.33 20.136 107.967 20.36C107.615 20.584 107.338 20.8933 107.135 21.288C106.933 21.6827 106.831 22.136 106.831 22.648C106.831 23.16 106.933 23.6133 107.135 24.008C107.338 24.4027 107.615 24.712 107.967 24.936C108.33 25.16 108.741 25.272 109.199 25.272C109.701 25.272 110.138 25.1387 110.511 24.872C110.885 24.6053 111.151 24.248 111.311 23.8L113.151 24.632C112.981 25.1227 112.703 25.5653 112.319 25.96C111.935 26.344 111.477 26.648 110.943 26.872C110.41 27.0853 109.829 27.192 109.199 27.192ZM114.742 27V14.888H116.838V22.824L116.038 22.584L120.134 18.296H122.742L119.526 21.8L122.806 27H120.406L117.558 22.488L118.806 22.232L116.182 25.048L116.838 23.768V27H114.742Z"
+              fill="#FBFBFD"
+            />
+          </svg>
+          <div class="brand-sub">Hospital Billings &amp; Collections</div>
+        </div>
 
-<div class="app">
+        <nav class="nav" id="mainNav">
+          <button class="nav-item" data-nav="dashboard">
+            <svg class="nav-icon" viewBox="19 112 22 19" fill="none">
+              <path
+                d="M30 115.69L35 120.19V128H33V122H27V128H25V120.19L30 115.69ZM30 113L20 122H23V130H29V124H31V130H37V122H40"
+                fill="#FBFBFD"
+              />
+            </svg>
+            <span>Dashboard</span>
+          </button>
 
+          <button class="nav-item" data-nav="departments">
+            <svg class="nav-icon" viewBox="19.3 172.75 17.4 20.5" fill="none">
+              <path
+                d="M20.2852 173.75H35.7152V192.25H20.2852V173.75Z"
+                stroke="#FBFBFD"
+                stroke-width="0.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M24.1427 183H20.2852L20.2857 186.854H24.1427M24.1427 183V186.854M24.1427 183H28.0002M24.1427 183V179.146M24.1427 183H20.2857L20.2852 179.146H24.1427M24.1427 186.854H28.0002M28.0002 183V186.854M28.0002 183H31.8577M28.0002 183V179.146M28.0002 186.854H31.8577M31.8577 183V186.854M31.8577 183H35.7147M31.8577 183V179.146M31.8577 186.854H35.7147V183M35.7147 183V179.146M24.1427 179.146H28.0002M24.1427 179.146V175.292M24.1427 179.146H20.2857L20.2852 175.292H24.1427M28.0002 179.146H31.8577M28.0002 179.146V175.292M31.8577 179.146H35.7147M31.8577 179.146V175.292M35.7147 179.146V175.292H31.8577M24.1427 175.292H28.0002M28.0002 175.292H31.8577M21.8287 188.396H24.9142V192.25H21.8287V188.396ZM31.0862 188.396H34.1717V192.25H31.0862V188.396ZM26.4572 188.396H29.5432V192.25H26.4572V188.396Z"
+                stroke="#FBFBFD"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span>Departments</span>
+          </button>
 
+          <a class="nav-item" href="workqueue.html" data-nav="workqueue">
+            <svg class="nav-icon" viewBox="20.5 231 18 26" fill="none">
+              <path
+                d="M30 232C28.6966 232 27.6929 233.087 27.6929 234.388C27.6929 235.64 27.6841 236.736 27.6841 236.736H25.3667C25.3231 236.736 25.2809 236.741 25.2393 236.748H24.5947V238.999H35.4053V236.748H34.7607C34.7191 236.741 34.6769 236.736 34.6333 236.736H32.3159C32.3159 236.736 32.3423 235.744 32.3423 234.395C32.3423 233.143 31.3034 232 30 232ZM21.5039 234.284V256H38.4961V234.284H33.1128V235.857H36.9404V254.424H23.061V235.857H26.8872V234.284H21.5039ZM30 234.313C30.427 234.313 30.772 234.657 30.772 235.082C30.772 235.508 30.427 235.853 30 235.853C29.573 235.853 29.228 235.508 29.228 235.082C29.228 234.657 29.573 234.313 30 234.313ZM24.5947 240.525V241.296H25.3667V240.525H24.5947ZM26.9121 240.54V241.311H35.4053V240.54H26.9121ZM24.5947 243.432V244.202H25.3667V243.432H24.5947ZM26.9121 243.446V244.218H35.4053V243.446H26.9121ZM24.5947 246.338V247.108H25.3667V246.338H24.5947ZM26.9121 246.354V247.124H35.4053V246.354H26.9121ZM24.5947 249.246V250.016H25.3667V249.246H24.5947ZM26.9121 249.262V250.032H35.4053V249.262H26.9121ZM24.5947 252.152V252.922H25.3667V252.152H24.5947ZM26.9121 252.168V252.938H35.4053V252.168H26.9121Z"
+                fill="#FBFBFD"
+              />
+            </svg>
+            <span>Work Queue</span>
+          </a>
 
-  <!-- ============ Sidebar ============ -->
-  <aside class="sidebar">
-    <div class="brand">
-      <svg width="139" height="40" viewBox="0 0 139 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="brand-svg">
-        <rect width="10.7194" height="31.2252" rx="5.3597" transform="matrix(0.938967 -0.344008 0.503642 0.863912 0 11.2188)" fill="#4240E3"/>
-        <rect width="10.608" height="31.6905" rx="5.30402" transform="matrix(0.905947 0.423391 -0.596738 0.802436 30.3896 8.57904)" fill="#0B1727"/>
-        <ellipse cx="20.3285" cy="4.51558" rx="3.51841" ry="3.01558" fill="#B8720A"/>
-        <path d="M54.336 27L50.176 15.08H52.544L55.808 24.952H55.344L58.608 15.08H60.976L56.832 27H54.336ZM62.1323 27V18.296H64.2283V27H62.1323ZM62.1323 17.32V15.08H64.2283V17.32H62.1323ZM70.1315 27.096C69.1502 27.096 68.3875 26.8293 67.8435 26.296C67.3102 25.752 67.0435 24.9893 67.0435 24.008V20.168H65.5395V18.296H65.6995C66.1262 18.296 66.4568 18.184 66.6915 17.96C66.9262 17.736 67.0435 17.4107 67.0435 16.984V16.312H69.1395V18.296H71.1395V20.168H69.1395V23.896C69.1395 24.184 69.1875 24.4293 69.2835 24.632C69.3902 24.8347 69.5502 24.9893 69.7635 25.096C69.9875 25.2027 70.2702 25.256 70.6115 25.256C70.6862 25.256 70.7715 25.2507 70.8675 25.24C70.9742 25.2293 71.0755 25.2187 71.1715 25.208V27C71.0222 27.0213 70.8515 27.0427 70.6595 27.064C70.4675 27.0853 70.2915 27.096 70.1315 27.096ZM75.3816 27.192C74.7736 27.192 74.2456 27.0907 73.7976 26.888C73.3496 26.6853 73.003 26.3973 72.7576 26.024C72.5123 25.64 72.3896 25.1973 72.3896 24.696C72.3896 24.216 72.4963 23.7893 72.7096 23.416C72.923 23.032 73.2536 22.712 73.7016 22.456C74.1496 22.2 74.715 22.0187 75.3976 21.912L78.2456 21.448V23.048L75.7976 23.464C75.3816 23.5387 75.0723 23.672 74.8696 23.864C74.667 24.056 74.5656 24.3067 74.5656 24.616C74.5656 24.9147 74.6776 25.1547 74.9016 25.336C75.1363 25.5067 75.4243 25.592 75.7656 25.592C76.203 25.592 76.587 25.5013 76.9176 25.32C77.259 25.128 77.5203 24.8667 77.7016 24.536C77.8936 24.2053 77.9896 23.8427 77.9896 23.448V21.208C77.9896 20.8347 77.8403 20.5253 77.5416 20.28C77.2536 20.024 76.8696 19.896 76.3896 19.896C75.9416 19.896 75.5416 20.0187 75.1896 20.264C74.8483 20.4987 74.5976 20.8133 74.4376 21.208L72.7256 20.376C72.8963 19.9173 73.163 19.5227 73.5256 19.192C73.899 18.8507 74.3363 18.584 74.8376 18.392C75.339 18.2 75.883 18.104 76.4696 18.104C77.1843 18.104 77.8136 18.2373 78.3576 18.504C78.9016 18.76 79.323 19.1227 79.6216 19.592C79.931 20.0507 80.0856 20.5893 80.0856 21.208V27H78.1016V25.512L78.5496 25.48C78.3256 25.8533 78.059 26.168 77.7496 26.424C77.4403 26.6693 77.0883 26.8613 76.6936 27C76.299 27.128 75.8616 27.192 75.3816 27.192ZM84.3109 27V17H81.2229V15.08H89.5429V17H86.5029V27H84.3109ZM89.7416 27V18.296H91.7096V20.232L91.5496 19.944C91.7523 19.2933 92.067 18.84 92.4936 18.584C92.931 18.328 93.4536 18.2 94.0616 18.2H94.5736V20.056H93.8216C93.2243 20.056 92.7443 20.2427 92.3816 20.616C92.019 20.9787 91.8376 21.4907 91.8376 22.152V27H89.7416ZM98.366 27.192C97.758 27.192 97.23 27.0907 96.782 26.888C96.334 26.6853 95.9873 26.3973 95.742 26.024C95.4967 25.64 95.374 25.1973 95.374 24.696C95.374 24.216 95.4807 23.7893 95.694 23.416C95.9073 23.032 96.238 22.712 96.686 22.456C97.134 22.2 97.6993 22.0187 98.382 21.912L101.23 21.448V23.048L98.782 23.464C98.366 23.5387 98.0567 23.672 97.854 23.864C97.6513 24.056 97.55 24.3067 97.55 24.616C97.55 24.9147 97.662 25.1547 97.886 25.336C98.1207 25.5067 98.4087 25.592 98.75 25.592C99.1873 25.592 99.5713 25.5013 99.902 25.32C100.243 25.128 100.505 24.8667 100.686 24.536C100.878 24.2053 100.974 23.8427 100.974 23.448V21.208C100.974 20.8347 100.825 20.5253 100.526 20.28C100.238 20.024 99.854 19.896 99.374 19.896C98.926 19.896 98.526 20.0187 98.174 20.264C97.8327 20.4987 97.582 20.8133 97.422 21.208L95.71 20.376C95.8807 19.9173 96.1473 19.5227 96.51 19.192C96.8833 18.8507 97.3207 18.584 97.822 18.392C98.3233 18.2 98.8673 18.104 99.454 18.104C100.169 18.104 100.798 18.2373 101.342 18.504C101.886 18.76 102.307 19.1227 102.606 19.592C102.915 20.0507 103.07 20.5893 103.07 21.208V27H101.086V25.512L101.534 25.48C101.31 25.8533 101.043 26.168 100.734 26.424C100.425 26.6693 100.073 26.8613 99.678 27C99.2833 27.128 98.846 27.192 98.366 27.192ZM109.199 27.192C108.335 27.192 107.557 26.9947 106.863 26.6C106.181 26.1947 105.642 25.6507 105.247 24.968C104.853 24.2747 104.655 23.496 104.655 22.632C104.655 21.768 104.853 20.9947 105.247 20.312C105.642 19.6293 106.181 19.0907 106.863 18.696C107.557 18.3013 108.335 18.104 109.199 18.104C109.818 18.104 110.394 18.216 110.927 18.44C111.461 18.6533 111.919 18.952 112.303 19.336C112.698 19.7093 112.981 20.1573 113.151 20.68L111.311 21.48C111.151 21.0427 110.879 20.6907 110.495 20.424C110.122 20.1573 109.69 20.024 109.199 20.024C108.741 20.024 108.33 20.136 107.967 20.36C107.615 20.584 107.338 20.8933 107.135 21.288C106.933 21.6827 106.831 22.136 106.831 22.648C106.831 23.16 106.933 23.6133 107.135 24.008C107.338 24.4027 107.615 24.712 107.967 24.936C108.33 25.16 108.741 25.272 109.199 25.272C109.701 25.272 110.138 25.1387 110.511 24.872C110.885 24.6053 111.151 24.248 111.311 23.8L113.151 24.632C112.981 25.1227 112.703 25.5653 112.319 25.96C111.935 26.344 111.477 26.648 110.943 26.872C110.41 27.0853 109.829 27.192 109.199 27.192ZM114.742 27V14.888H116.838V22.824L116.038 22.584L120.134 18.296H122.742L119.526 21.8L122.806 27H120.406L117.558 22.488L118.806 22.232L116.182 25.048L116.838 23.768V27H114.742Z" fill="#FBFBFD"/>
-      </svg>
-      <div class="brand-sub">Hospital Billings &amp; Collections</div>
-    </div>
+          <a class="nav-item active" href="reports.html" data-nav="reports">
+            <svg class="nav-icon" viewBox="20 295 20 20" fill="none">
+              <path
+                d="M37.75 300.5H33.5V297.25C33.5 296.56 32.94 296 32.25 296H27.75C27.06 296 26.5 296.56 26.5 297.25V305.5H22.25C21.56 305.5 21 306.06 21 306.75V314H39V301.75C39 301.06 38.44 300.5 37.75 300.5ZM26.5 312.5H22.5V307H26.5V312.5ZM32 312.5H28V297.5H32V312.5ZM37.5 312.5H33.5V302H37.5V312.5Z"
+                fill="#FBFBFD"
+              />
+            </svg>
+            <span>Reports</span>
+          </a>
 
-    <nav class="nav" id="mainNav">
-      <button class="nav-item" data-nav="dashboard">
-        <svg class="nav-icon" viewBox="19 112 22 19" fill="none"><path d="M30 115.69L35 120.19V128H33V122H27V128H25V120.19L30 115.69ZM30 113L20 122H23V130H29V124H31V130H37V122H40" fill="#FBFBFD"/></svg>
-        <span>Dashboard</span>
-      </button>
+          <button class="nav-item" data-nav="notifications">
+            <svg class="nav-icon" viewBox="22 361 18 22" fill="none">
+              <path
+                d="M31 364C29.4087 364 27.8826 364.632 26.7574 365.757C25.6321 366.883 25 368.409 25 370V378M31 364C32.5913 364 34.1174 364.632 35.2426 365.757C36.3679 366.883 37 368.409 37 370V378M31 364C31.2652 364 31.5196 363.895 31.7071 363.707C31.8946 363.52 32 363.265 32 363C32 362.735 31.8946 362.48 31.7071 362.293C31.5196 362.105 31.2652 362 31 362C30.7348 362 30.4804 362.105 30.2929 362.293C30.1054 362.48 30 362.735 30 363C30 363.265 30.1054 363.52 30.2929 363.707C30.4804 363.895 30.7348 364 31 364ZM39 378H23M33 380C33 380.53 32.7893 381.039 32.4142 381.414C32.0391 381.789 31.5304 382 31 382C30.4696 382 29.9609 381.789 29.5858 381.414C29.2107 381.039 29 380.53 29 380"
+                stroke="#FBFBFD"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span>Notifications</span>
+          </button>
 
-      <button class="nav-item" data-nav="departments">
-        <svg class="nav-icon" viewBox="19.3 172.75 17.4 20.5" fill="none">
-          <path d="M20.2852 173.75H35.7152V192.25H20.2852V173.75Z" stroke="#FBFBFD" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M24.1427 183H20.2852L20.2857 186.854H24.1427M24.1427 183V186.854M24.1427 183H28.0002M24.1427 183V179.146M24.1427 183H20.2857L20.2852 179.146H24.1427M24.1427 186.854H28.0002M28.0002 183V186.854M28.0002 183H31.8577M28.0002 183V179.146M28.0002 186.854H31.8577M31.8577 183V186.854M31.8577 183H35.7147M31.8577 183V179.146M31.8577 186.854H35.7147V183M35.7147 183V179.146M24.1427 179.146H28.0002M24.1427 179.146V175.292M24.1427 179.146H20.2857L20.2852 175.292H24.1427M28.0002 179.146H31.8577M28.0002 179.146V175.292M31.8577 179.146H35.7147M31.8577 179.146V175.292M35.7147 179.146V175.292H31.8577M24.1427 175.292H28.0002M28.0002 175.292H31.8577M21.8287 188.396H24.9142V192.25H21.8287V188.396ZM31.0862 188.396H34.1717V192.25H31.0862V188.396ZM26.4572 188.396H29.5432V192.25H26.4572V188.396Z" stroke="#FBFBFD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Departments</span>
-      </button>
+          <button class="nav-item" data-nav="settings">
+            <svg class="nav-icon" viewBox="19.95 422 22.1 22" fill="none">
+              <path
+                d="M28.2502 443L27.8502 439.8C27.6335 439.717 27.4295 439.617 27.2382 439.5C27.0469 439.383 26.8592 439.258 26.6752 439.125L23.7002 440.375L20.9502 435.625L23.5252 433.675C23.5085 433.558 23.5002 433.446 23.5002 433.338V432.663C23.5002 432.554 23.5085 432.442 23.5252 432.325L20.9502 430.375L23.7002 425.625L26.6752 426.875C26.8585 426.742 27.0502 426.617 27.2502 426.5C27.4502 426.383 27.6502 426.283 27.8502 426.2L28.2502 423H33.7502L34.1502 426.2C34.3669 426.283 34.5712 426.383 34.7632 426.5C34.9552 426.617 35.1425 426.742 35.3252 426.875L38.3002 425.625L41.0502 430.375L38.4752 432.325C38.4919 432.442 38.5002 432.554 38.5002 432.663V433.337C38.5002 433.446 38.4835 433.558 38.4502 433.675L41.0252 435.625L38.2752 440.375L35.3252 439.125C35.1419 439.258 34.9502 439.383 34.7502 439.5C34.5502 439.617 34.3502 439.717 34.1502 439.8L33.7502 443H28.2502ZM30.0002 441H31.9752L32.3252 438.35C32.8419 438.217 33.3212 438.021 33.7632 437.763C34.2052 437.505 34.6092 437.192 34.9752 436.825L37.4502 437.85L38.4252 436.15L36.2752 434.525C36.3585 434.292 36.4169 434.046 36.4502 433.788C36.4835 433.53 36.5002 433.267 36.5002 433C36.5002 432.733 36.4835 432.47 36.4502 432.213C36.4169 431.956 36.3585 431.71 36.2752 431.475L38.4252 429.85L37.4502 428.15L34.9752 429.2C34.6085 428.817 34.2045 428.496 33.7632 428.238C33.3219 427.98 32.8425 427.784 32.3252 427.65L32.0002 425H30.0252L29.6752 427.65C29.1585 427.783 28.6795 427.979 28.2382 428.238C27.7969 428.497 27.3925 428.809 27.0252 429.175L24.5502 428.15L23.5752 429.85L25.7252 431.45C25.6419 431.7 25.5835 431.95 25.5502 432.2C25.5169 432.45 25.5002 432.717 25.5002 433C25.5002 433.267 25.5169 433.525 25.5502 433.775C25.5835 434.025 25.6419 434.275 25.7252 434.525L23.5752 436.15L24.5502 437.85L27.0252 436.8C27.3919 437.183 27.7962 437.504 28.2382 437.763C28.6802 438.022 29.1592 438.217 29.6752 438.35L30.0002 441ZM31.0502 436.5C32.0169 436.5 32.8419 436.158 33.5252 435.475C34.2085 434.792 34.5502 433.967 34.5502 433C34.5502 432.033 34.2085 431.208 33.5252 430.525C32.8419 429.842 32.0169 429.5 31.0502 429.5C30.0669 429.5 29.2375 429.842 28.5622 430.525C27.8869 431.208 27.5495 432.033 27.5502 433C27.5509 433.967 27.8885 434.792 28.5632 435.475C29.2379 436.158 30.0669 436.5 31.0502 436.5Z"
+                fill="#FBFBFD"
+              />
+            </svg>
+            <span>Settings</span>
+          </button>
+        </nav>
 
-      <a class="nav-item" href="work queue.html" data-nav="workqueue">
-        <svg class="nav-icon" viewBox="20.5 231 18 26" fill="none"><path d="M30 232C28.6966 232 27.6929 233.087 27.6929 234.388C27.6929 235.64 27.6841 236.736 27.6841 236.736H25.3667C25.3231 236.736 25.2809 236.741 25.2393 236.748H24.5947V238.999H35.4053V236.748H34.7607C34.7191 236.741 34.6769 236.736 34.6333 236.736H32.3159C32.3159 236.736 32.3423 235.744 32.3423 234.395C32.3423 233.143 31.3034 232 30 232ZM21.5039 234.284V256H38.4961V234.284H33.1128V235.857H36.9404V254.424H23.061V235.857H26.8872V234.284H21.5039ZM30 234.313C30.427 234.313 30.772 234.657 30.772 235.082C30.772 235.508 30.427 235.853 30 235.853C29.573 235.853 29.228 235.508 29.228 235.082C29.228 234.657 29.573 234.313 30 234.313ZM24.5947 240.525V241.296H25.3667V240.525H24.5947ZM26.9121 240.54V241.311H35.4053V240.54H26.9121ZM24.5947 243.432V244.202H25.3667V243.432H24.5947ZM26.9121 243.446V244.218H35.4053V243.446H26.9121ZM24.5947 246.338V247.108H25.3667V246.338H24.5947ZM26.9121 246.354V247.124H35.4053V246.354H26.9121ZM24.5947 249.246V250.016H25.3667V249.246H24.5947ZM26.9121 249.262V250.032H35.4053V249.262H26.9121ZM24.5947 252.152V252.922H25.3667V252.152H24.5947ZM26.9121 252.168V252.938H35.4053V252.168H26.9121Z" fill="#FBFBFD"/></svg>
-        <span>Work Queue</span>
-      </a>
-
-      <a class="nav-item active" href="reports.html" data-nav="reports">
-        <svg class="nav-icon" viewBox="20 295 20 20" fill="none"><path d="M37.75 300.5H33.5V297.25C33.5 296.56 32.94 296 32.25 296H27.75C27.06 296 26.5 296.56 26.5 297.25V305.5H22.25C21.56 305.5 21 306.06 21 306.75V314H39V301.75C39 301.06 38.44 300.5 37.75 300.5ZM26.5 312.5H22.5V307H26.5V312.5ZM32 312.5H28V297.5H32V312.5ZM37.5 312.5H33.5V302H37.5V312.5Z" fill="#FBFBFD"/></svg>
-        <span>Reports</span>
-      </a>
-
-      <button class="nav-item" data-nav="notifications">
-        <svg class="nav-icon" viewBox="22 361 18 22" fill="none"><path d="M31 364C29.4087 364 27.8826 364.632 26.7574 365.757C25.6321 366.883 25 368.409 25 370V378M31 364C32.5913 364 34.1174 364.632 35.2426 365.757C36.3679 366.883 37 368.409 37 370V378M31 364C31.2652 364 31.5196 363.895 31.7071 363.707C31.8946 363.52 32 363.265 32 363C32 362.735 31.8946 362.48 31.7071 362.293C31.5196 362.105 31.2652 362 31 362C30.7348 362 30.4804 362.105 30.2929 362.293C30.1054 362.48 30 362.735 30 363C30 363.265 30.1054 363.52 30.2929 363.707C30.4804 363.895 30.7348 364 31 364ZM39 378H23M33 380C33 380.53 32.7893 381.039 32.4142 381.414C32.0391 381.789 31.5304 382 31 382C30.4696 382 29.9609 381.789 29.5858 381.414C29.2107 381.039 29 380.53 29 380" stroke="#FBFBFD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>Notifications</span>
-      </button>
-
-      <button class="nav-item" data-nav="settings">
-        <svg class="nav-icon" viewBox="19.95 422 22.1 22" fill="none"><path d="M28.2502 443L27.8502 439.8C27.6335 439.717 27.4295 439.617 27.2382 439.5C27.0469 439.383 26.8592 439.258 26.6752 439.125L23.7002 440.375L20.9502 435.625L23.5252 433.675C23.5085 433.558 23.5002 433.446 23.5002 433.338V432.663C23.5002 432.554 23.5085 432.442 23.5252 432.325L20.9502 430.375L23.7002 425.625L26.6752 426.875C26.8585 426.742 27.0502 426.617 27.2502 426.5C27.4502 426.383 27.6502 426.283 27.8502 426.2L28.2502 423H33.7502L34.1502 426.2C34.3669 426.283 34.5712 426.383 34.7632 426.5C34.9552 426.617 35.1425 426.742 35.3252 426.875L38.3002 425.625L41.0502 430.375L38.4752 432.325C38.4919 432.442 38.5002 432.554 38.5002 432.663V433.337C38.5002 433.446 38.4835 433.558 38.4502 433.675L41.0252 435.625L38.2752 440.375L35.3252 439.125C35.1419 439.258 34.9502 439.383 34.7502 439.5C34.5502 439.617 34.3502 439.717 34.1502 439.8L33.7502 443H28.2502ZM30.0002 441H31.9752L32.3252 438.35C32.8419 438.217 33.3212 438.021 33.7632 437.763C34.2052 437.505 34.6092 437.192 34.9752 436.825L37.4502 437.85L38.4252 436.15L36.2752 434.525C36.3585 434.292 36.4169 434.046 36.4502 433.788C36.4835 433.53 36.5002 433.267 36.5002 433C36.5002 432.733 36.4835 432.47 36.4502 432.213C36.4169 431.956 36.3585 431.71 36.2752 431.475L38.4252 429.85L37.4502 428.15L34.9752 429.2C34.6085 428.817 34.2045 428.496 33.7632 428.238C33.3219 427.98 32.8425 427.784 32.3252 427.65L32.0002 425H30.0252L29.6752 427.65C29.1585 427.783 28.6795 427.979 28.2382 428.238C27.7969 428.497 27.3925 428.809 27.0252 429.175L24.5502 428.15L23.5752 429.85L25.7252 431.45C25.6419 431.7 25.5835 431.95 25.5502 432.2C25.5169 432.45 25.5002 432.717 25.5002 433C25.5002 433.267 25.5169 433.525 25.5502 433.775C25.5835 434.025 25.6419 434.275 25.7252 434.525L23.5752 436.15L24.5502 437.85L27.0252 436.8C27.3919 437.183 27.7962 437.504 28.2382 437.763C28.6802 438.022 29.1592 438.217 29.6752 438.35L30.0002 441ZM31.0502 436.5C32.0169 436.5 32.8419 436.158 33.5252 435.475C34.2085 434.792 34.5502 433.967 34.5502 433C34.5502 432.033 34.2085 431.208 33.5252 430.525C32.8419 429.842 32.0169 429.5 31.0502 429.5C30.0669 429.5 29.2375 429.842 28.5622 430.525C27.8869 431.208 27.5495 432.033 27.5502 433C27.5509 433.967 27.8885 434.792 28.5632 435.475C29.2379 436.158 30.0669 436.5 31.0502 436.5Z" fill="#FBFBFD"/></svg>
-        <span>Settings</span>
-      </button>
-    </nav>
-
-    <div class="user-card">
-      <div class="user-avatar">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path opacity="0.16" d="M15.4999 15.4975H8.24994C7.2091 15.4972 6.19597 15.8329 5.36126 16.4547C4.52656 17.0765 3.91487 17.9511 3.61719 18.9485C4.63704 20.1412 5.90345 21.0985 7.32909 21.7543C8.75473 22.4102 10.3057 22.749 11.8749 22.7475C13.4442 22.749 14.9951 22.4102 16.4208 21.7543C17.8464 21.0985 19.1128 20.1412 20.1327 18.9485C19.835 17.9511 19.2233 17.0765 18.3886 16.4547C17.5539 15.8329 16.5408 15.4972 15.4999 15.4975Z" fill="black"/>
-<path d="M22.75 11.8725C22.7534 14.0315 22.1113 16.1422 20.9061 17.9335C19.9121 19.4161 18.5681 20.631 16.993 21.4706C15.4178 22.3103 13.66 22.7488 11.875 22.7475C10.09 22.7488 8.33221 22.3103 6.75704 21.4706C5.18186 20.631 3.83787 19.4161 2.84392 17.9335C1.89747 16.5226 1.29472 14.9097 1.08399 13.2239C0.873257 11.5382 1.06041 9.82647 1.63045 8.22607C2.20048 6.62567 3.13754 5.18108 4.3665 4.00811C5.59546 2.83513 7.08214 1.9664 8.70736 1.47155C10.3326 0.976708 12.0511 0.86951 13.7253 1.15856C15.3994 1.4476 16.9825 2.12485 18.3477 3.13601C19.7129 4.14717 20.8222 5.46411 21.5867 6.98127C22.3512 8.49843 22.7496 10.1736 22.75 11.8725Z" fill="#FBFBFD" stroke="#FBFBFD" stroke-width="2"/>
-<path d="M13.0837 8.24748C13.0837 8.56795 12.9563 8.8753 12.7297 9.1019C12.5031 9.32851 12.1958 9.45582 11.8753 9.45582V11.8725C12.8367 11.8725 13.7588 11.4906 14.4386 10.8107C15.1184 10.1309 15.5003 9.20889 15.5003 8.24748H13.0837ZM11.8753 9.45582C11.5548 9.45582 11.2475 9.32851 11.0209 9.1019C10.7943 8.8753 10.667 8.56795 10.667 8.24748H8.25032C8.25032 9.20889 8.63224 10.1309 9.31206 10.8107C9.99187 11.4906 10.9139 11.8725 11.8753 11.8725V9.45582ZM10.667 8.24748C10.667 7.92701 10.7943 7.61967 11.0209 7.39306C11.2475 7.16646 11.5548 7.03915 11.8753 7.03915V4.62248C10.9139 4.62248 9.99187 5.0044 9.31206 5.68422C8.63224 6.36404 8.25032 7.28607 8.25032 8.24748H10.667ZM11.8753 7.03915C12.1958 7.03915 12.5031 7.16646 12.7297 7.39306C12.9563 7.61967 13.0837 7.92701 13.0837 8.24748H15.5003C15.5003 7.28607 15.1184 6.36404 14.4386 5.68422C13.7588 5.0044 12.8367 4.62248 11.8753 4.62248V7.03915ZM3.61757 18.9485L2.45878 18.6041L2.27148 19.2361L2.70044 19.7351L3.61757 18.9485ZM20.1331 18.9485L21.0514 19.7351L21.4792 19.2361L21.2919 18.6041L20.1331 18.9485ZM8.25032 16.7058H15.5003V14.2891H8.25032V16.7058ZM8.25032 14.2891C6.94901 14.2887 5.68235 14.7085 4.63882 15.486C3.5953 16.2635 2.83069 17.3571 2.45878 18.6041L4.77515 19.2929C4.99866 18.545 5.45761 17.8892 6.08374 17.4231C6.70987 16.957 7.46974 16.7054 8.25032 16.7058V14.2891ZM11.8753 21.5391C10.4803 21.5407 9.10152 21.2396 7.83418 20.6565C6.56684 20.0734 5.44112 19.2223 4.53469 18.1619L2.70044 19.7351C3.83372 21.0601 5.24082 22.1235 6.82476 22.8522C8.40871 23.5808 10.1318 23.9574 11.8753 23.9558V21.5391ZM15.5003 16.7058C17.14 16.7058 18.5284 17.7957 18.9755 19.2941L21.2919 18.6041C20.92 17.3573 20.1544 16.2638 19.1111 15.4863C18.0678 14.7089 16.8014 14.289 15.5003 14.2891V16.7058ZM19.2159 18.1619C18.3095 19.2223 17.1838 20.0734 15.9165 20.6565C14.6491 21.2396 13.2704 21.5407 11.8753 21.5391V23.9558C13.6188 23.9574 15.3419 23.5808 16.9259 22.8522C18.5098 22.1235 19.9181 21.0601 21.0514 19.7351L19.2159 18.1619Z" fill="#748071"/>
-</svg>
-        <span class="status-dot"></span>
-      </div>
-      <div class="user-meta">
-        <div class="user-name">Sec Tessa</div>
-        <div class="user-role">Billing Manager</div>
-      </div>
-      <svg class="user-caret" viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-
-    <div class="quick-actions">
-      <div class="quick-actions__label">Quick Actions</div>
-
-      <button class="quick-btn" id="btnAddClaim">
-        <svg viewBox="19.8 625.4 18.4 18.8" fill="none">
-          <path d="M24.0068 635C24.0068 634.801 24.0859 634.61 24.2265 634.47C24.3672 634.329 24.5579 634.25 24.7568 634.25H28.2498V630.757C28.2498 630.558 28.3289 630.367 28.4695 630.227C28.6102 630.086 28.8009 630.007 28.9998 630.007C29.1987 630.007 29.3895 630.086 29.5302 630.227C29.6708 630.367 29.7498 630.558 29.7498 630.757V634.25H33.2428C33.4417 634.25 33.6325 634.329 33.7732 634.47C33.9138 634.61 33.9928 634.801 33.9928 635C33.9928 635.199 33.9138 635.39 33.7732 635.53C33.6325 635.671 33.4417 635.75 33.2428 635.75H29.7498V639.243C29.7498 639.442 29.6708 639.633 29.5302 639.773C29.3895 639.914 29.1987 639.993 28.9998 639.993C28.8009 639.993 28.6102 639.914 28.4695 639.773C28.3289 639.633 28.2498 639.442 28.2498 639.243V635.75H24.7568C24.5579 635.75 24.3672 635.671 24.2265 635.53C24.0859 635.39 24.0068 635.199 24.0068 635Z" fill="#FBFBFD"/>
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M24.3172 626.769C27.4296 626.424 30.5707 626.424 33.6832 626.769C35.5102 626.973 36.9852 628.412 37.1992 630.249C37.5692 633.406 37.5692 636.595 37.1992 639.752C36.9842 641.589 35.5092 643.027 33.6832 643.232C30.5707 643.577 27.4296 643.577 24.3172 643.232C22.4902 643.027 21.0152 641.589 20.8012 639.752C20.4328 636.595 20.4328 633.406 20.8012 630.249C21.0152 628.412 22.4912 626.973 24.3172 626.769ZM33.5172 628.259C30.515 627.926 27.4853 627.926 24.4832 628.259C23.9274 628.321 23.4087 628.568 23.0107 628.961C22.6128 629.354 22.359 629.869 22.2902 630.424C21.9345 633.465 21.9345 636.537 22.2902 639.578C22.3592 640.133 22.6131 640.648 23.011 641.041C23.4089 641.433 23.9276 641.68 24.4832 641.742C27.4602 642.074 30.5402 642.074 33.5172 641.742C34.0726 641.68 34.591 641.433 34.9887 641.04C35.3864 640.648 35.6402 640.133 35.7092 639.578C36.0648 636.537 36.0648 633.465 35.7092 630.424C35.64 629.87 35.3861 629.355 34.9884 628.962C34.5907 628.57 34.0724 628.323 33.5172 628.261" fill="#FBFBFD"/>
-        </svg>
-        <span>Add New Claims</span>
-      </button>
-
-      <button class="quick-btn" id="btnUpload">
-        <svg viewBox="16.5 687.5 23 17" fill="none"><path d="M22.5 704C20.9833 704 19.6877 703.475 18.613 702.425C17.5383 701.375 17.0007 700.092 17 698.575C17 697.275 17.3917 696.117 18.175 695.1C18.9583 694.083 19.9833 693.433 21.25 693.15C21.6667 691.617 22.5 690.375 23.75 689.425C25 688.475 26.4167 688 28 688C29.95 688 31.6043 688.679 32.963 690.038C34.3217 691.397 35.0007 693.051 35 695C36.15 695.133 37.1043 695.629 37.863 696.488C38.6217 697.347 39.0007 698.351 39 699.5C39 700.75 38.5627 701.813 37.688 702.688C36.8133 703.563 35.7507 704.001 34.5 704H29C28.45 704 27.9793 703.804 27.588 703.413C27.1967 703.022 27.0007 702.551 27 702V696.85L25.4 698.4L24 697L28 693L32 697L30.6 698.4L29 696.85V702H34.5C35.2 702 35.7917 701.758 36.275 701.275C36.7583 700.792 37 700.2 37 699.5C37 698.8 36.7583 698.208 36.275 697.725C35.7917 697.242 35.2 697 34.5 697H33V695C33 693.617 32.5123 692.437 31.537 691.462C30.5617 690.487 29.3827 689.999 28 690C26.6173 690.001 25.4383 690.488 24.463 691.463C23.4877 692.438 23 693.617 23 695H22.5C21.5333 695 20.7083 695.342 20.025 696.025C19.3417 696.708 19 697.533 19 698.5C19 699.467 19.3417 700.292 20.025 700.975C20.7083 701.658 21.5333 702 22.5 702H25V704H22.5Z" fill="#FBFBFD"/></svg>
-        <span>Upload Document</span>
-      </button>
-
-      <button class="quick-btn" id="btnGenerate">
-        <svg viewBox="15.5 747.5 19 19" fill="none"><path d="M32.75 752.5H28.5V749.25C28.5 748.56 27.94 748 27.25 748H22.75C22.06 748 21.5 748.56 21.5 749.25V757.5H17.25C16.56 757.5 16 758.06 16 758.75V766H34V753.75C34 753.06 33.44 752.5 32.75 752.5ZM21.5 764.5H17.5V759H21.5V764.5ZM27 764.5H23V749.5H27V764.5ZM32.5 764.5H28.5V754H32.5V764.5Z" fill="#FBFBFD"/></svg>
-        <span>Generate Report</span>
-      </button>
-    </div>
-
-    <button class="logout-btn" id="btnLogout">
-      <svg viewBox="34.5 815.5 19 19" fill="none"><path d="M37 818H44V816H37C35.9 816 35 816.9 35 818V832C35 833.1 35.9 834 37 834H44V832H37V818ZM53 825L49 821V824H41V826H49V829L53 825Z" fill="#FBFBFD"/></svg>
-      <span>LOGOUT</span>
-    </button>
-  </aside>
-  <div class="main">
-
-    <!-- Top bar -->
-    <header class="topbar">
-      <div class="reports-title">
-        <h1>Reports</h1>
-        <p>View and analyze billing collection performance</p>
-      </div>
-
-      <div style="margin-left:auto; display:flex; align-items:center; gap:20px;">
-        <button class="topbar__search-icon" aria-label="Search">
-          <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </button>
-        <button class="icon-btn" id="btnBell" aria-label="Notifications">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M13.7 21a2 2 0 0 1-3.4 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <span class="badge">3</span>
-        </button>
-        <div class="user-card user-card--light">
-          <div class="user-avatar user-avatar--dark">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path opacity="0.16" d="M15.4999 15.4975H8.24994C7.2091 15.4972 6.19597 15.8329 5.36126 16.4547C4.52656 17.0765 3.91487 17.9511 3.61719 18.9485C4.63704 20.1412 5.90345 21.0985 7.32909 21.7543C8.75473 22.4102 10.3057 22.749 11.8749 22.7475C13.4442 22.749 14.9951 22.4102 16.4208 21.7543C17.8464 21.0985 19.1128 20.1412 20.1327 18.9485C19.835 17.9511 19.2233 17.0765 18.3886 16.4547C17.5539 15.8329 16.5408 15.4972 15.4999 15.4975Z" fill="black"/>
-<path d="M22.75 11.8725C22.7534 14.0315 22.1113 16.1422 20.9061 17.9335C19.9121 19.4161 18.5681 20.631 16.993 21.4706C15.4178 22.3103 13.66 22.7488 11.875 22.7475C10.09 22.7488 8.33221 22.3103 6.75704 21.4706C5.18186 20.631 3.83787 19.4161 2.84392 17.9335C1.89747 16.5226 1.29472 14.9097 1.08399 13.2239C0.873257 11.5382 1.06041 9.82647 1.63045 8.22607C2.20048 6.62567 3.13754 5.18108 4.3665 4.00811C5.59546 2.83513 7.08214 1.9664 8.70736 1.47155C10.3326 0.976708 12.0511 0.86951 13.7253 1.15856C15.3994 1.4476 16.9825 2.12485 18.3477 3.13601C19.7129 4.14717 20.8222 5.46411 21.5867 6.98127C22.3512 8.49843 22.7496 10.1736 22.75 11.8725Z" fill="#1E293B" stroke="#1E293B" stroke-width="2"/>
-<path d="M13.0837 8.24748C13.0837 8.56795 12.9563 8.8753 12.7297 9.1019C12.5031 9.32851 12.1958 9.45582 11.8753 9.45582V11.8725C12.8367 11.8725 13.7588 11.4906 14.4386 10.8107C15.1184 10.1309 15.5003 9.20889 15.5003 8.24748H13.0837ZM11.8753 9.45582C11.5548 9.45582 11.2475 9.32851 11.0209 9.1019C10.7943 8.8753 10.667 8.56795 10.667 8.24748H8.25032C8.25032 9.20889 8.63224 10.1309 9.31206 10.8107C9.99187 11.4906 10.9139 11.8725 11.8753 11.8725V9.45582ZM10.667 8.24748C10.667 7.92701 10.7943 7.61967 11.0209 7.39306C11.2475 7.16646 11.5548 7.03915 11.8753 7.03915V4.62248C10.9139 4.62248 9.99187 5.0044 9.31206 5.68422C8.63224 6.36404 8.25032 7.28607 8.25032 8.24748H10.667ZM11.8753 7.03915C12.1958 7.03915 12.5031 7.16646 12.7297 7.39306C12.9563 7.61967 13.0837 7.92701 13.0837 8.24748H15.5003C15.5003 7.28607 15.1184 6.36404 14.4386 5.68422C13.7588 5.0044 12.8367 4.62248 11.8753 4.62248V7.03915ZM3.61757 18.9485L2.45878 18.6041L2.27148 19.2361L2.70044 19.7351L3.61757 18.9485ZM20.1331 18.9485L21.0514 19.7351L21.4792 19.2361L21.2919 18.6041L20.1331 18.9485ZM8.25032 16.7058H15.5003V14.2891H8.25032V16.7058ZM8.25032 14.2891C6.94901 14.2887 5.68235 14.7085 4.63882 15.486C3.5953 16.2635 2.83069 17.3571 2.45878 18.6041L4.77515 19.2929C4.99866 18.545 5.45761 17.8892 6.08374 17.4231C6.70987 16.957 7.46974 16.7054 8.25032 16.7058V14.2891ZM11.8753 21.5391C10.4803 21.5407 9.10152 21.2396 7.83418 20.6565C6.56684 20.0734 5.44112 19.2223 4.53469 18.1619L2.70044 19.7351C3.83372 21.0601 5.24082 22.1235 6.82476 22.8522C8.40871 23.5808 10.1318 23.9574 11.8753 23.9558V21.5391ZM15.5003 16.7058C17.14 16.7058 18.5284 17.7957 18.9755 19.2941L21.2919 18.6041C20.92 17.3573 20.1544 16.2638 19.1111 15.4863C18.0678 14.7089 16.8014 14.289 15.5003 14.2891V16.7058ZM19.2159 18.1619C18.3095 19.2223 17.1838 20.0734 15.9165 20.6565C14.6491 21.2396 13.2704 21.5407 11.8753 21.5391V23.9558C13.6188 23.9574 15.3419 23.5808 16.9259 22.8522C18.5098 22.1235 19.9181 21.0601 21.0514 19.7351L19.2159 18.1619Z" fill="#FBFBFD"/>
-</svg>
+        <div class="user-card">
+          <div class="user-avatar">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                opacity="0.16"
+                d="M15.4999 15.4975H8.24994C7.2091 15.4972 6.19597 15.8329 5.36126 16.4547C4.52656 17.0765 3.91487 17.9511 3.61719 18.9485C4.63704 20.1412 5.90345 21.0985 7.32909 21.7543C8.75473 22.4102 10.3057 22.749 11.8749 22.7475C13.4442 22.749 14.9951 22.4102 16.4208 21.7543C17.8464 21.0985 19.1128 20.1412 20.1327 18.9485C19.835 17.9511 19.2233 17.0765 18.3886 16.4547C17.5539 15.8329 16.5408 15.4972 15.4999 15.4975Z"
+                fill="black"
+              />
+              <path
+                d="M22.75 11.8725C22.7534 14.0315 22.1113 16.1422 20.9061 17.9335C19.9121 19.4161 18.5681 20.631 16.993 21.4706C15.4178 22.3103 13.66 22.7488 11.875 22.7475C10.09 22.7488 8.33221 22.3103 6.75704 21.4706C5.18186 20.631 3.83787 19.4161 2.84392 17.9335C1.89747 16.5226 1.29472 14.9097 1.08399 13.2239C0.873257 11.5382 1.06041 9.82647 1.63045 8.22607C2.20048 6.62567 3.13754 5.18108 4.3665 4.00811C5.59546 2.83513 7.08214 1.9664 8.70736 1.47155C10.3326 0.976708 12.0511 0.86951 13.7253 1.15856C15.3994 1.4476 16.9825 2.12485 18.3477 3.13601C19.7129 4.14717 20.8222 5.46411 21.5867 6.98127C22.3512 8.49843 22.7496 10.1736 22.75 11.8725Z"
+                fill="#FBFBFD"
+                stroke="#FBFBFD"
+                stroke-width="2"
+              />
+              <path
+                d="M13.0837 8.24748C13.0837 8.56795 12.9563 8.8753 12.7297 9.1019C12.5031 9.32851 12.1958 9.45582 11.8753 9.45582V11.8725C12.8367 11.8725 13.7588 11.4906 14.4386 10.8107C15.1184 10.1309 15.5003 9.20889 15.5003 8.24748H13.0837ZM11.8753 9.45582C11.5548 9.45582 11.2475 9.32851 11.0209 9.1019C10.7943 8.8753 10.667 8.56795 10.667 8.24748H8.25032C8.25032 9.20889 8.63224 10.1309 9.31206 10.8107C9.99187 11.4906 10.9139 11.8725 11.8753 11.8725V9.45582ZM10.667 8.24748C10.667 7.92701 10.7943 7.61967 11.0209 7.39306C11.2475 7.16646 11.5548 7.03915 11.8753 7.03915V4.62248C10.9139 4.62248 9.99187 5.0044 9.31206 5.68422C8.63224 6.36404 8.25032 7.28607 8.25032 8.24748H10.667ZM11.8753 7.03915C12.1958 7.03915 12.5031 7.16646 12.7297 7.39306C12.9563 7.61967 13.0837 7.92701 13.0837 8.24748H15.5003C15.5003 7.28607 15.1184 6.36404 14.4386 5.68422C13.7588 5.0044 12.8367 4.62248 11.8753 4.62248V7.03915ZM3.61757 18.9485L2.45878 18.6041L2.27148 19.2361L2.70044 19.7351L3.61757 18.9485ZM20.1331 18.9485L21.0514 19.7351L21.4792 19.2361L21.2919 18.6041L20.1331 18.9485ZM8.25032 16.7058H15.5003V14.2891H8.25032V16.7058ZM8.25032 14.2891C6.94901 14.2887 5.68235 14.7085 4.63882 15.486C3.5953 16.2635 2.83069 17.3571 2.45878 18.6041L4.77515 19.2929C4.99866 18.545 5.45761 17.8892 6.08374 17.4231C6.70987 16.957 7.46974 16.7054 8.25032 16.7058V14.2891ZM11.8753 21.5391C10.4803 21.5407 9.10152 21.2396 7.83418 20.6565C6.56684 20.0734 5.44112 19.2223 4.53469 18.1619L2.70044 19.7351C3.83372 21.0601 5.24082 22.1235 6.82476 22.8522C8.40871 23.5808 10.1318 23.9574 11.8753 23.9558V21.5391ZM15.5003 16.7058C17.14 16.7058 18.5284 17.7957 18.9755 19.2941L21.2919 18.6041C20.92 17.3573 20.1544 16.2638 19.1111 15.4863C18.0678 14.7089 16.8014 14.289 15.5003 14.2891V16.7058ZM19.2159 18.1619C18.3095 19.2223 17.1838 20.0734 15.9165 20.6565C14.6491 21.2396 13.2704 21.5407 11.8753 21.5391V23.9558C13.6188 23.9574 15.3419 23.5808 16.9259 22.8522C18.5098 22.1235 19.9181 21.0601 21.0514 19.7351L19.2159 18.1619Z"
+                fill="#748071"
+              />
+            </svg>
             <span class="status-dot"></span>
           </div>
           <div class="user-meta">
             <div class="user-name">Sec Tessa</div>
             <div class="user-role">Billing Manager</div>
           </div>
-          <svg class="user-caret user-caret--dark" viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-    </header>
-
-    <!-- Filter bar -->
-    <section class="rpt-filterbar">
-      <button class="rpt-apply" id="btnApplyFilters">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <span>Apply filters</span>
-      </button>
-
-      <div class="rpt-field">
-        <label>Date Range</label>
-        <div class="field-box">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <span id="dateRangeLabel">May 12 - Jun 21, 2024</span>
-          <svg class="chev" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-
-      <div class="rpt-field">
-        <label>Departments</label>
-        <select id="rptDept">
-          <option>All Departments</option>
-          <option>Oncology</option>
-          <option>Cardiology</option>
-          <option>Neurology</option>
-          <option>Orthopedics</option>
-          <option>General Surgery</option>
-        </select>
-      </div>
-
-      <div class="rpt-field">
-        <label>Report type</label>
-        <select id="rptType">
-          <option>All Project</option>
-          <option>Billing Summary</option>
-          <option>Department Performance</option>
-        </select>
-      </div>
-
-      <button class="rpt-reset" id="btnResetFilters">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M4 4v6h6M20 20v-6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 15a8 8 0 0 0 14.3 3M19 9A8 8 0 0 0 4.7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <span>Reset</span>
-      </button>
-    </section>
-
-    <!-- KPI cards -->
-    <section class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-icon">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="32" height="32" rx="16" fill="#92E492"/>
-            <path d="M5.5 17.5L12.5 24.5L26.5 9.5" stroke="#008000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg class="user-caret" viewBox="0 0 24 24" fill="none">
+            <path
+              d="m9 6 6 6-6 6"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </div>
-        <div class="kpi-body">
-          <div class="kpi-label">Resolved</div>
-          <div class="kpi-value">$1.82M</div>
-          <div class="kpi-delta" style="color:#008000">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M6 11l6-6 6 6" stroke="#008000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            15.3% vs last month
-          </div>
-        </div>
-      </div>
 
-      <div class="kpi-card">
-        <div class="kpi-icon" style="width:32px;height:36px;">
-          <svg width="32" height="36" viewBox="0 0 32 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="32" height="36" rx="16" fill="#8FBEDF"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.944 7.25H17.056C18.894 7.25 20.35 7.25 21.489 7.403C22.661 7.561 23.61 7.893 24.359 8.641C25.107 9.39 25.439 10.339 25.597 11.511C25.75 12.651 25.75 14.106 25.75 15.944V20.056C25.75 21.894 25.75 23.35 25.597 24.489C25.439 25.661 25.107 26.61 24.359 27.359C23.61 28.107 22.661 28.439 21.489 28.597C20.349 28.75 18.894 28.75 17.056 28.75H14.944C13.106 28.75 11.65 28.75 10.511 28.597C9.339 28.439 8.39 28.107 7.641 27.359C6.893 26.61 6.561 25.661 6.403 24.489C6.25 23.349 6.25 21.894 6.25 20.056V15.944C6.25 14.106 6.25 12.65 6.403 11.511C6.561 10.339 6.893 9.39 7.641 8.641C8.39 7.893 9.339 7.561 10.511 7.403C11.651 7.25 13.106 7.25 14.944 7.25ZM10.71 8.89C9.704 9.025 9.124 9.279 8.7 9.702C8.278 10.125 8.024 10.705 7.889 11.711C7.751 12.739 7.749 14.093 7.749 16V20C7.749 21.907 7.751 23.262 7.889 24.29C8.024 25.295 8.278 25.875 8.701 26.298C9.124 26.721 9.704 26.975 10.71 27.11C11.738 27.248 13.092 27.25 14.999 27.25H16.999C18.906 27.25 20.261 27.248 21.289 27.11C22.294 26.975 22.874 26.721 23.297 26.298C23.72 25.875 23.974 25.295 24.109 24.289C24.247 23.262 24.249 21.907 24.249 20V16C24.249 14.093 24.247 12.739 24.109 11.71C23.974 10.705 23.72 10.125 23.297 9.702C22.874 9.279 22.294 9.025 21.288 8.89C20.261 8.752 18.906 8.75 16.999 8.75H14.999C13.092 8.75 11.739 8.752 10.71 8.89ZM11.25 16C11.25 15.8011 11.329 15.6103 11.4697 15.4697C11.6103 15.329 11.8011 15.25 12 15.25H20C20.1989 15.25 20.3897 15.329 20.5303 15.4697C20.671 15.6103 20.75 15.8011 20.75 16C20.75 16.1989 20.671 16.3897 20.5303 16.5303C20.3897 16.671 20.1989 16.75 20 16.75H12C11.8011 16.75 11.6103 16.671 11.4697 16.5303C11.329 16.3897 11.25 16.1989 11.25 16ZM11.25 20C11.25 19.8011 11.329 19.6103 11.4697 19.4697C11.6103 19.329 11.8011 19.25 12 19.25H17C17.1989 19.25 17.3897 19.329 17.5303 19.4697C17.671 19.6103 17.75 19.8011 17.75 20C17.75 20.1989 17.671 20.3897 17.5303 20.5303C17.3897 20.671 17.1989 20.75 17 20.75H12C11.8011 20.75 11.6103 20.671 11.4697 20.5303C11.329 20.3897 11.25 20.1989 11.25 20Z" fill="#249BEF"/>
-          </svg>
-        </div>
-        <div class="kpi-body">
-          <div class="kpi-label">Total Billed</div>
-          <div class="kpi-value">$3.57M</div>
-          <div class="kpi-delta" style="color:#249BEF">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M6 11l6-6 6 6" stroke="#249BEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            8.6% vs last month
-          </div>
-        </div>
-      </div>
+        <div class="quick-actions">
+          <div class="quick-actions__label">Quick Actions</div>
 
-      <div class="kpi-card">
-        <div class="kpi-icon">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="32" height="32" rx="16" fill="#F6BA5A"/>
-            <path d="M7.68508 19.4442C7.23279 18.3522 7 17.1819 7 16C7 13.6131 7.94821 11.3239 9.63604 9.63604C11.3239 7.94821 13.6131 7 16 7C18.3869 7 20.6761 7.94821 22.364 9.63604C24.0518 11.3239 25 13.6131 25 16C25 17.1819 24.7672 18.3522 24.3149 19.4442C23.8626 20.5361 23.1997 21.5282 22.364 22.364C21.5282 23.1997 20.5361 23.8626 19.4442 24.3149C18.3522 24.7672 17.1819 25 16 25C14.8181 25 13.6478 24.7672 12.5558 24.3149C11.4639 23.8626 10.4718 23.1997 9.63604 22.364C8.80031 21.5282 8.13738 20.5361 7.68508 19.4442Z" stroke="#B8720A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M16 11V16L19 19" stroke="#B8720A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="kpi-body">
-          <div class="kpi-label">Pending/ Unresolved</div>
-          <div class="kpi-value">$1.75M</div>
-          <div class="kpi-delta" style="color:#B8720A">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M6 11l6-6 6 6" stroke="#B8720A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            12.5% vs last month
-          </div>
-        </div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-icon" style="width:34px;height:34px;">
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="34" height="34" rx="16" fill="#EAC1C1"/>
-            <rect x="7" y="7" width="20" height="20" rx="10" fill="#EAC1C1"/>
-            <rect x="7" y="7" width="20" height="20" rx="10" stroke="#DA5757" stroke-width="4"/>
-            <path d="M16.288 18.713C16.096 18.521 16 18.2833 16 18V11C16 10.7167 16.096 10.4793 16.288 10.288C16.48 10.0967 16.7173 10.0007 17 10C17.2827 9.99934 17.5203 10.0953 17.713 10.288C17.9057 10.4807 18.0013 10.718 18 11V18C18 18.2833 17.904 18.521 17.712 18.713C17.52 18.905 17.2827 19.0007 17 19C16.7173 18.9993 16.48 18.9033 16.288 18.712M16.288 23.712C16.096 23.5213 16 23.284 16 23C16 22.716 16.096 22.4787 16.288 22.288C16.48 22.0973 16.7173 22.0013 17 22C17.2827 21.9987 17.5203 22.0947 17.713 22.288C17.9057 22.4813 18.0013 22.7187 18 23C17.9987 23.2813 17.9027 23.519 17.712 23.713C17.5213 23.907 17.284 24.0027 17 24C16.716 23.9973 16.4787 23.9013 16.288 23.712Z" fill="#DA5757"/>
-          </svg>
-        </div>
-        <div class="kpi-body">
-          <div class="kpi-label">Overdue (90+ Days)</div>
-          <div class="kpi-value">$620k</div>
-          <div class="kpi-delta" style="color:#DA5757">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M6 11l6-6 6 6" stroke="#DA5757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            18.7% vs last month
-          </div>
-        </div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-icon" style="width:36px;height:36px;">
-          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="36" height="36" rx="18" fill="#DD99AA" fill-opacity="0.85098"/>
-            <path d="M16.35 13.1906L15.4453 12.7641C15.4269 12.7554 15.4068 12.7509 15.3864 12.7507C15.366 12.7504 15.3459 12.7546 15.3272 12.7628C15.3086 12.771 15.2919 12.7831 15.2783 12.7983C15.2647 12.8134 15.2545 12.8313 15.2484 12.8508C14.8383 14.2219 14.1891 15.4312 13.3219 16.4508C13.3067 16.4686 13.2962 16.49 13.2913 16.5129C13.2864 16.5358 13.2872 16.5595 13.2938 16.582L13.6031 17.6016C13.6336 17.7047 13.7672 17.7352 13.8422 17.6578C14.0227 17.468 14.2031 17.2617 14.3836 17.0484V21.375C14.3836 21.4781 14.468 21.5625 14.5711 21.5625H15.4453C15.5484 21.5625 15.6328 21.4781 15.6328 21.375V15.2133C15.9565 14.624 16.2204 14.0037 16.4203 13.3617C16.4438 13.2937 16.4133 13.2211 16.35 13.1906ZM16.9781 13.4062V16.3875C16.9781 16.4906 17.0625 16.575 17.1656 16.575H18.7102V17.0109H16.4859C16.3828 17.0109 16.2984 17.0953 16.2984 17.1984V18.0328C16.2984 18.1359 16.3828 18.2203 16.4859 18.2203H17.7773C17.3297 18.9422 16.7836 19.5258 16.1133 20.0016C16.0839 20.0224 16.0637 20.0537 16.0567 20.089C16.0497 20.1243 16.0565 20.161 16.0758 20.1914L16.6102 21.0469C16.6547 21.1195 16.7555 21.1359 16.8188 21.0797C17.5594 20.4516 18.1945 19.6055 18.7078 18.5578V21.3703C18.7078 21.4734 18.7922 21.5578 18.8953 21.5578H19.7438C19.8469 21.5578 19.9313 21.4734 19.9313 21.3703V18.5625C20.4305 19.5398 21.0445 20.3789 21.7617 21.068C21.8227 21.1266 21.9211 21.1172 21.9703 21.0516L22.5867 20.2242C22.6336 20.1609 22.6195 20.0719 22.5586 20.0273C21.8438 19.4977 21.2883 18.907 20.8641 18.225H22.2469C22.35 18.225 22.4344 18.1406 22.4344 18.0375V17.2031C22.4344 17.1 22.35 17.0156 22.2469 17.0156H19.9313V16.5797H21.4945C21.5977 16.5797 21.682 16.4953 21.682 16.3922V13.4062C21.682 13.3031 21.5977 13.2187 21.4945 13.2187H17.1656C17.0625 13.2187 16.9781 13.3031 16.9781 13.4062ZM18.1852 14.4094H20.4797V15.3844H18.1852V14.4094ZM26.318 9.98203L18.3539 7.26797C18.2578 7.23516 18.1289 7.21875 18 7.21875C17.8711 7.21875 17.7422 7.23516 17.6461 7.26797L9.68203 9.98203C9.4875 10.0477 9.32812 10.2727 9.32812 10.4789V21.7852C9.32812 21.9914 9.46172 22.2633 9.62344 22.3922L17.7023 28.6875C17.7844 28.7508 17.8898 28.7836 17.9977 28.7836C18.1055 28.7836 18.2133 28.7508 18.293 28.6875L26.3719 22.3922C26.5336 22.2656 26.6672 21.9937 26.6672 21.7852V10.4789C26.6719 10.2727 26.5125 10.05 26.318 9.98203ZM24.9844 21.3352L18 26.7773L11.0156 21.3352V11.3133L18 8.93203L24.9844 11.3133V21.3352Z" fill="#800080"/>
-          </svg>
-        </div>
-        <div class="kpi-body">
-          <div class="kpi-label">Insurance Processing</div>
-          <div class="kpi-value">$865k</div>
-          <div class="kpi-delta" style="color:#800080">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M6 11l6-6 6 6" stroke="#800080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            5.2% vs last month
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Charts -->
-    <section class="charts-grid">
-      <div class="chart-card">
-        <h3>Unresolved Amount over Time</h3>
-        <svg viewBox="0 0 480 220" width="100%" height="220" fill="none">
-          <line x1="40" y1="10" x2="40" y2="180" stroke="#E1E1E1" stroke-width="1"/>
-          <line x1="40" y1="180" x2="470" y2="180" stroke="#E1E1E1" stroke-width="1"/>
-          <line x1="40" y1="138" x2="470" y2="138" stroke="#E1E1E1" stroke-width="1"/>
-          <line x1="40" y1="96" x2="470" y2="96" stroke="#E1E1E1" stroke-width="1"/>
-          <line x1="40" y1="54" x2="470" y2="54" stroke="#E1E1E1" stroke-width="1"/>
-          <line x1="40" y1="12" x2="470" y2="12" stroke="#E1E1E1" stroke-width="1"/>
-
-          <text x="34" y="184" text-anchor="end" font-size="10" fill="#1E293B" font-family="Plus Jakarta Sans">$0</text>
-          <text x="34" y="142" text-anchor="end" font-size="10" fill="#1E293B" font-family="Plus Jakarta Sans">$500K</text>
-          <text x="34" y="100" text-anchor="end" font-size="10" fill="#1E293B" font-family="Plus Jakarta Sans">$1.0M</text>
-          <text x="34" y="58" text-anchor="end" font-size="10" fill="#1E293B" font-family="Plus Jakarta Sans">$1.5M</text>
-          <text x="34" y="16" text-anchor="end" font-size="10" fill="#1E293B" font-family="Plus Jakarta Sans">$2.0M</text>
-
-          <path d="M60 160 L130 120 L200 145 L270 90 L340 120 L410 100 L450 130 L450 180 L60 180 Z" fill="url(#areaGrad)"/>
-          <path d="M60 160 L130 120 L200 145 L270 90 L340 120 L410 100 L450 130" stroke="#4240E3" stroke-width="1.5" fill="none"/>
-          <defs>
-            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#9F9EFA" stop-opacity="0.9"/>
-              <stop offset="100%" stop-color="#9F9EFA" stop-opacity="0.05"/>
-            </linearGradient>
-          </defs>
-
-          <circle cx="60" cy="160" r="3" fill="#7473E5"/>
-          <circle cx="130" cy="120" r="3" fill="#7473E5"/>
-          <circle cx="200" cy="145" r="3" fill="#7473E5"/>
-          <circle cx="270" cy="90" r="3" fill="#7473E5"/>
-          <circle cx="340" cy="120" r="3" fill="#7473E5"/>
-          <circle cx="410" cy="100" r="3" fill="#7473E5"/>
-          <circle cx="450" cy="130" r="3" fill="#7473E5"/>
-
-          <text x="60" y="200" text-anchor="middle" font-size="10" fill="#1E293B" font-family="Plus Jakarta Sans">Jan 2024</text>
-          <text x="130" y="200" text-anchor="middle" font-size="10" fill="#1E293B" font-family="Plus Jakarta Sans">Feb 2024</text>
-          <text x="200" y="200" text-anchor="middle" font-size="10" fill="#1E293B" font-family="Plus Jakarta Sans">Mar 2024</text>
-          <text x="270" y="200" text-anchor="middle" font-size="10" fill="#1E293B" font-family="Plus Jakarta Sans">Apr 2024</text>
-          <text x="340" y="200" text-anchor="middle" font-size="10" fill="#1E293B" font-family="Plus Jakarta Sans">May 2024</text>
-          <text x="410" y="200" text-anchor="middle" font-size="10" fill="#1E293B" font-family="Plus Jakarta Sans">Jun 2024</text>
-        </svg>
-      </div>
-
-      <div class="chart-card">
-        <h3>Claim Status Overview</h3>
-        <div class="donut-wrap">
-          <div class="donut-svg-wrap">
-            <svg width="172" height="146" viewBox="0 0 172 146" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M146.2 73C146.2 79.8457 144.579 86.6216 141.435 92.9254C138.29 99.2292 133.685 104.932 127.894 109.696C122.102 114.46 115.242 118.188 107.721 120.658C100.199 123.128 92.1697 124.29 84.1089 124.075C76.0481 123.86 68.1204 122.272 60.7964 119.406C53.4725 116.54 46.9016 112.454 41.4739 107.391C36.0462 102.328 31.8724 96.3904 29.2003 89.9314C26.5282 83.4724 25.4122 76.6236 25.9186 69.7914L51.6677 71.1665C51.3783 75.0706 52.016 78.9843 53.5429 82.6751C55.0699 86.366 57.4549 89.7588 60.5564 92.6521C63.6579 95.5454 67.4127 97.8803 71.5979 99.518C75.783 101.156 80.3131 102.063 84.9193 102.186C89.5255 102.309 94.1138 101.645 98.4118 100.233C102.71 98.8218 106.63 96.6917 109.939 93.9694C113.249 91.2471 115.88 87.9882 117.677 84.386C119.474 80.7838 120.4 76.9118 120.4 73H146.2Z" fill="#008000"/>
-              <path d="M25.9189 69.7914C26.5858 60.7939 30.0451 52.1063 35.9457 44.6104C41.8463 37.1144 49.9781 31.077 59.5158 27.1108C69.0535 23.1446 79.6577 21.3909 90.2519 22.0276C100.846 22.6643 111.053 25.6688 119.838 30.7362L105.336 48.8493C100.316 45.9536 94.4836 44.2368 88.4297 43.8729C82.3759 43.5091 76.3164 44.5112 70.8662 46.7776C65.4161 49.044 60.7694 52.494 57.3976 56.7774C54.0258 61.0608 52.0491 66.0251 51.668 71.1665L25.9189 69.7914Z" fill="#B8720A"/>
-              <path d="M119.838 30.7362C126.64 34.66 132.422 39.7252 136.829 45.6192C141.235 51.5133 144.173 58.1113 145.459 65.0062L119.977 68.4321C119.242 64.4922 117.563 60.7219 115.045 57.3539C112.527 53.9858 109.223 51.0914 105.336 48.8493L119.838 30.7362Z" fill="#800080"/>
-              <path d="M145.459 65.0062C145.952 67.6502 146.2 70.323 146.2 73H120.4C120.4 71.4703 120.258 69.943 119.977 68.4321L145.459 65.0062Z" fill="#E43E52"/>
-              <path d="M74.4693 74.2342C73.8186 74.2342 73.1999 74.1169 72.6133 73.8822C72.0373 73.6369 71.5413 73.2955 71.1253 72.8582C70.7199 72.4102 70.4426 71.8822 70.2933 71.2742L72.1973 70.6022C72.3893 71.1462 72.6826 71.5622 73.0773 71.8502C73.4719 72.1275 73.9359 72.2662 74.4693 72.2662C74.8959 72.2662 75.2639 72.1862 75.5733 72.0262C75.8933 71.8662 76.1439 71.6369 76.3253 71.3382C76.5066 71.0289 76.5973 70.6662 76.5973 70.2502C76.5973 69.8342 76.5066 69.4822 76.3253 69.1942C76.1546 68.8955 75.9093 68.6662 75.5893 68.5062C75.2693 68.3462 74.8906 68.2662 74.4533 68.2662C74.2506 68.2662 74.0373 68.2875 73.8133 68.3302C73.5999 68.3729 73.4079 68.4369 73.2373 68.5222L72.7413 67.4822L75.8293 63.9622H70.9653V62.1222H78.2773V63.8342L75.1733 67.4662L75.2053 66.6502C75.9199 66.6609 76.5439 66.8155 77.0773 67.1142C77.6106 67.4129 78.0266 67.8235 78.3253 68.3462C78.6239 68.8689 78.7733 69.4822 78.7733 70.1862C78.7733 70.9542 78.5866 71.6475 78.2133 72.2662C77.8399 72.8742 77.3279 73.3542 76.6773 73.7062C76.0266 74.0582 75.2906 74.2342 74.4693 74.2342ZM85.2265 74.2342C84.2772 74.2342 83.4452 73.9782 82.7305 73.4662C82.0158 72.9542 81.4558 72.2342 81.0505 71.3062C80.6558 70.3782 80.4585 69.3009 80.4585 68.0742C80.4585 66.8369 80.6558 65.7595 81.0505 64.8422C81.4452 63.9249 81.9998 63.2102 82.7145 62.6982C83.4292 62.1862 84.2612 61.9302 85.2105 61.9302C86.1812 61.9302 87.0185 62.1862 87.7225 62.6982C88.4372 63.2102 88.9972 63.9302 89.4025 64.8582C89.8078 65.7755 90.0105 66.8475 90.0105 68.0742C90.0105 69.3009 89.8078 70.3782 89.4025 71.3062C89.0078 72.2235 88.4532 72.9435 87.7385 73.4662C87.0238 73.9782 86.1865 74.2342 85.2265 74.2342ZM85.2425 72.2502C85.7865 72.2502 86.2505 72.0849 86.6345 71.7542C87.0185 71.4129 87.3118 70.9329 87.5145 70.3142C87.7278 69.6849 87.8345 68.9382 87.8345 68.0742C87.8345 67.2102 87.7278 66.4689 87.5145 65.8502C87.3118 65.2209 87.0132 64.7409 86.6185 64.4102C86.2345 64.0795 85.7652 63.9142 85.2105 63.9142C84.6772 63.9142 84.2185 64.0795 83.8345 64.4102C83.4505 64.7409 83.1518 65.2209 82.9385 65.8502C82.7358 66.4689 82.6345 67.2102 82.6345 68.0742C82.6345 68.9275 82.7358 69.6689 82.9385 70.2982C83.1518 70.9169 83.4505 71.3969 83.8345 71.7382C84.2292 72.0795 84.6985 72.2502 85.2425 72.2502ZM96.5546 74.2342C95.6053 74.2342 94.7733 73.9782 94.0586 73.4662C93.344 72.9542 92.784 72.2342 92.3786 71.3062C91.984 70.3782 91.7866 69.3009 91.7866 68.0742C91.7866 66.8369 91.984 65.7595 92.3786 64.8422C92.7733 63.9249 93.328 63.2102 94.0426 62.6982C94.7573 62.1862 95.5893 61.9302 96.5386 61.9302C97.5093 61.9302 98.3466 62.1862 99.0506 62.6982C99.7653 63.2102 100.325 63.9302 100.731 64.8582C101.136 65.7755 101.339 66.8475 101.339 68.0742C101.339 69.3009 101.136 70.3782 100.731 71.3062C100.336 72.2235 99.7813 72.9435 99.0666 73.4662C98.352 73.9782 97.5146 74.2342 96.5546 74.2342ZM96.5706 72.2502C97.1146 72.2502 97.5786 72.0849 97.9626 71.7542C98.3466 71.4129 98.64 70.9329 98.8426 70.3142C99.056 69.6849 99.1626 68.9382 99.1626 68.0742C99.1626 67.2102 99.056 66.4689 98.8426 65.8502C98.64 65.2209 98.3413 64.7409 97.9466 64.4102C97.5626 64.0795 97.0933 63.9142 96.5386 63.9142C96.0053 63.9142 95.5466 64.0795 95.1626 64.4102C94.7786 64.7409 94.48 65.2209 94.2666 65.8502C94.064 66.4689 93.9626 67.2102 93.9626 68.0742C93.9626 68.9275 94.064 69.6689 94.2666 70.2982C94.48 70.9169 94.7786 71.3969 95.1626 71.7382C95.5573 72.0795 96.0266 72.2502 96.5706 72.2502Z" fill="#1E293B"/>
-              <path d="M59.8546 88.0422V81.3422H57.7946V80.5922H62.6946V81.3422H60.6546V88.0422H59.8546ZM65.3786 88.1622C64.872 88.1622 64.412 88.0422 63.9986 87.8022C63.5853 87.5555 63.2553 87.2222 63.0086 86.8022C62.7686 86.3755 62.6486 85.8922 62.6486 85.3522C62.6486 84.8189 62.7686 84.3422 63.0086 83.9222C63.2486 83.5022 63.572 83.1722 63.9786 82.9322C64.392 82.6855 64.8586 82.5622 65.3786 82.5622C65.8986 82.5622 66.362 82.6822 66.7686 82.9222C67.182 83.1622 67.5053 83.4922 67.7386 83.9122C67.9786 84.3322 68.0986 84.8122 68.0986 85.3522C68.0986 85.8989 67.9753 86.3855 67.7286 86.8122C67.482 87.2322 67.152 87.5622 66.7386 87.8022C66.332 88.0422 65.8786 88.1622 65.3786 88.1622ZM65.3786 87.4122C65.7386 87.4122 66.062 87.3222 66.3486 87.1422C66.642 86.9622 66.872 86.7155 67.0386 86.4022C67.212 86.0889 67.2986 85.7389 67.2986 85.3522C67.2986 84.9655 67.212 84.6189 67.0386 84.3122C66.872 84.0055 66.642 83.7622 66.3486 83.5822C66.062 83.4022 65.7386 83.3122 65.3786 83.3122C65.0186 83.3122 64.692 83.4022 64.3986 83.5822C64.112 83.7622 63.882 84.0055 63.7086 84.3122C63.5353 84.6189 63.4486 84.9655 63.4486 85.3522C63.4486 85.7389 63.5353 86.0889 63.7086 86.4022C63.882 86.7155 64.112 86.9622 64.3986 87.1422C64.692 87.3222 65.0186 87.4122 65.3786 87.4122ZM71.3737 88.1022C70.8937 88.1022 70.5237 87.9622 70.2637 87.6822C70.0037 87.4022 69.8737 87.0022 69.8737 86.4822V83.4322H68.8837V82.6822H69.1337C69.3604 82.6822 69.5404 82.6089 69.6737 82.4622C69.807 82.3089 69.8737 82.1189 69.8737 81.8922V81.4422H70.6237V82.6822H71.8037V83.4322H70.6237V86.4822C70.6237 86.6622 70.6504 86.8222 70.7037 86.9622C70.757 87.0955 70.847 87.2022 70.9737 87.2822C71.107 87.3622 71.2837 87.4022 71.5037 87.4022C71.557 87.4022 71.6204 87.3989 71.6937 87.3922C71.767 87.3855 71.8304 87.3789 71.8837 87.3722V88.0422C71.8037 88.0622 71.7137 88.0755 71.6137 88.0822C71.5137 88.0955 71.4337 88.1022 71.3737 88.1022ZM74.653 88.1622C74.313 88.1622 74.0097 88.0989 73.743 87.9722C73.4763 87.8389 73.2663 87.6589 73.113 87.4322C72.9597 87.2055 72.883 86.9455 72.883 86.6522C72.883 86.3722 72.943 86.1189 73.063 85.8922C73.183 85.6589 73.3697 85.4622 73.623 85.3022C73.8763 85.1422 74.1997 85.0289 74.593 84.9622L76.693 84.6122V85.2922L74.773 85.6122C74.3863 85.6789 74.1063 85.8022 73.933 85.9822C73.7663 86.1622 73.683 86.3755 73.683 86.6222C73.683 86.8622 73.7763 87.0655 73.963 87.2322C74.1563 87.3989 74.403 87.4822 74.703 87.4822C75.0697 87.4822 75.3897 87.4055 75.663 87.2522C75.9363 87.0922 76.1497 86.8789 76.303 86.6122C76.4563 86.3455 76.533 86.0489 76.533 85.7222V84.3622C76.533 84.0422 76.4163 83.7822 76.183 83.5822C75.9497 83.3822 75.6463 83.2822 75.273 83.2822C74.9463 83.2822 74.6597 83.3655 74.413 83.5322C74.1663 83.6922 73.983 83.9022 73.863 84.1622L73.183 83.7922C73.283 83.5655 73.4397 83.3589 73.653 83.1722C73.873 82.9855 74.123 82.8389 74.403 82.7322C74.683 82.6189 74.973 82.5622 75.273 82.5622C75.6663 82.5622 76.013 82.6389 76.313 82.7922C76.6197 82.9455 76.8563 83.1589 77.023 83.4322C77.1963 83.6989 77.283 84.0089 77.283 84.3622V88.0422H76.533V86.9722L76.643 87.0822C76.5497 87.2822 76.403 87.4655 76.203 87.6322C76.0097 87.7922 75.7797 87.9222 75.513 88.0222C75.253 88.1155 74.9663 88.1622 74.653 88.1622ZM78.8257 88.0422V80.4722H79.5757V88.0422H78.8257ZM86.32 88.1622C85.7934 88.1622 85.31 88.0689 84.87 87.8822C84.43 87.6889 84.0467 87.4222 83.72 87.0822C83.4 86.7355 83.15 86.3289 82.97 85.8622C82.79 85.3955 82.7 84.8822 82.7 84.3222C82.7 83.7622 82.79 83.2489 82.97 82.7822C83.15 82.3155 83.4 81.9089 83.72 81.5622C84.0467 81.2155 84.43 80.9489 84.87 80.7622C85.31 80.5689 85.7934 80.4722 86.32 80.4722C86.8267 80.4722 87.28 80.5622 87.68 80.7422C88.0867 80.9222 88.4267 81.1555 88.7 81.4422C88.98 81.7222 89.18 82.0189 89.3 82.3322L88.55 82.6622C88.3634 82.2289 88.0767 81.8822 87.69 81.6222C87.31 81.3555 86.8534 81.2222 86.32 81.2222C85.7734 81.2222 85.2867 81.3522 84.86 81.6122C84.4334 81.8722 84.1 82.2355 83.86 82.7022C83.62 83.1622 83.5 83.7022 83.5 84.3222C83.5 84.9355 83.62 85.4755 83.86 85.9422C84.1 86.4089 84.4334 86.7722 84.86 87.0322C85.2867 87.2855 85.7734 87.4122 86.32 87.4122C86.8534 87.4122 87.31 87.2822 87.69 87.0222C88.0767 86.7622 88.3634 86.4155 88.55 85.9822L89.3 86.3122C89.18 86.6189 88.98 86.9155 88.7 87.2022C88.4267 87.4822 88.0867 87.7122 87.68 87.8922C87.28 88.0722 86.8267 88.1622 86.32 88.1622ZM90.6225 88.0422V80.4722H91.3725V88.0422H90.6225ZM94.4577 88.1622C94.1177 88.1622 93.8144 88.0989 93.5477 87.9722C93.281 87.8389 93.071 87.6589 92.9177 87.4322C92.7644 87.2055 92.6877 86.9455 92.6877 86.6522C92.6877 86.3722 92.7477 86.1189 92.8677 85.8922C92.9877 85.6589 93.1744 85.4622 93.4277 85.3022C93.681 85.1422 94.0044 85.0289 94.3977 84.9622L96.4977 84.6122V85.2922L94.5777 85.6122C94.191 85.6789 93.911 85.8022 93.7377 85.9822C93.571 86.1622 93.4877 86.3755 93.4877 86.6222C93.4877 86.8622 93.581 87.0655 93.7677 87.2322C93.961 87.3989 94.2077 87.4822 94.5077 87.4822C94.8744 87.4822 95.1944 87.4055 95.4677 87.2522C95.741 87.0922 95.9544 86.8789 96.1077 86.6122C96.261 86.3455 96.3377 86.0489 96.3377 85.7222V84.3622C96.3377 84.0422 96.221 83.7822 95.9877 83.5822C95.7544 83.3822 95.451 83.2822 95.0777 83.2822C94.751 83.2822 94.4644 83.3655 94.2177 83.5322C93.971 83.6922 93.7877 83.9022 93.6677 84.1622L92.9877 83.7922C93.0877 83.5655 93.2444 83.3589 93.4577 83.1722C93.6777 82.9855 93.9277 82.8389 94.2077 82.7322C94.4877 82.6189 94.7777 82.5622 95.0777 82.5622C95.471 82.5622 95.8177 82.6389 96.1177 82.7922C96.4244 82.9455 96.661 83.1589 96.8277 83.4322C97.001 83.6989 97.0877 84.0089 97.0877 84.3622V88.0422H96.3377V86.9722L96.4477 87.0822C96.3544 87.2822 96.2077 87.4655 96.0077 87.6322C95.8144 87.7922 95.5844 87.9222 95.3177 88.0222C95.0577 88.1155 94.771 88.1622 94.4577 88.1622ZM98.6304 88.0422V82.6822H99.3804V88.0422H98.6304ZM98.6304 81.6922V80.5922H99.3804V81.6922H98.6304ZM100.916 88.0422V82.6822H101.666V83.7022L101.546 83.5522C101.692 83.2389 101.909 82.9955 102.196 82.8222C102.489 82.6489 102.809 82.5622 103.156 82.5622C103.569 82.5622 103.942 82.6789 104.276 82.9122C104.609 83.1455 104.846 83.4489 104.986 83.8222L104.776 83.8322C104.909 83.4189 105.139 83.1055 105.466 82.8922C105.799 82.6722 106.166 82.5622 106.566 82.5622C106.926 82.5622 107.256 82.6489 107.556 82.8222C107.862 82.9955 108.106 83.2355 108.286 83.5422C108.472 83.8422 108.566 84.1822 108.566 84.5622V88.0422H107.816V84.8522C107.816 84.5255 107.756 84.2489 107.636 84.0222C107.522 83.7955 107.366 83.6222 107.166 83.5022C106.966 83.3755 106.736 83.3122 106.476 83.3122C106.222 83.3122 105.992 83.3755 105.786 83.5022C105.579 83.6222 105.416 83.7989 105.296 84.0322C105.176 84.2589 105.116 84.5322 105.116 84.8522V88.0422H104.366V84.8522C104.366 84.5255 104.306 84.2489 104.186 84.0222C104.072 83.7955 103.916 83.6222 103.716 83.5022C103.516 83.3755 103.286 83.3122 103.026 83.3122C102.766 83.3122 102.532 83.3755 102.326 83.5022C102.126 83.6222 101.966 83.7989 101.846 84.0322C101.726 84.2589 101.666 84.5322 101.666 84.8522V88.0422H100.916ZM111.858 88.1622C111.344 88.1622 110.894 88.0322 110.508 87.7722C110.121 87.5122 109.841 87.1589 109.668 86.7122L110.298 86.4122C110.451 86.7389 110.664 86.9989 110.938 87.1922C111.218 87.3855 111.524 87.4822 111.858 87.4822C112.178 87.4822 112.448 87.4055 112.668 87.2522C112.888 87.0922 112.998 86.8855 112.998 86.6322C112.998 86.4455 112.944 86.2989 112.838 86.1922C112.731 86.0789 112.608 85.9922 112.468 85.9322C112.328 85.8722 112.204 85.8289 112.098 85.8022L111.328 85.5822C110.834 85.4422 110.478 85.2455 110.258 84.9922C110.038 84.7389 109.928 84.4455 109.928 84.1122C109.928 83.7989 110.008 83.5255 110.168 83.2922C110.328 83.0589 110.544 82.8789 110.818 82.7522C111.091 82.6255 111.394 82.5622 111.728 82.5622C112.181 82.5622 112.591 82.6822 112.958 82.9222C113.331 83.1555 113.594 83.4822 113.748 83.9022L113.108 84.2022C112.974 83.9022 112.781 83.6689 112.528 83.5022C112.281 83.3289 112.004 83.2422 111.698 83.2422C111.398 83.2422 111.158 83.3189 110.978 83.4722C110.798 83.6255 110.708 83.8189 110.708 84.0522C110.708 84.2322 110.754 84.3755 110.848 84.4822C110.941 84.5889 111.048 84.6689 111.168 84.7222C111.294 84.7755 111.404 84.8155 111.498 84.8422L112.388 85.1022C112.821 85.2289 113.158 85.4255 113.398 85.6922C113.644 85.9589 113.768 86.2722 113.768 86.6322C113.768 86.9255 113.684 87.1889 113.518 87.4222C113.358 87.6555 113.134 87.8389 112.848 87.9722C112.561 88.0989 112.231 88.1622 111.858 88.1622Z" fill="#1E293B"/>
+          <button class="quick-btn" id="btnAddClaim">
+            <svg viewBox="19.8 625.4 18.4 18.8" fill="none">
+              <path
+                d="M24.0068 635C24.0068 634.801 24.0859 634.61 24.2265 634.47C24.3672 634.329 24.5579 634.25 24.7568 634.25H28.2498V630.757C28.2498 630.558 28.3289 630.367 28.4695 630.227C28.6102 630.086 28.8009 630.007 28.9998 630.007C29.1987 630.007 29.3895 630.086 29.5302 630.227C29.6708 630.367 29.7498 630.558 29.7498 630.757V634.25H33.2428C33.4417 634.25 33.6325 634.329 33.7732 634.47C33.9138 634.61 33.9928 634.801 33.9928 635C33.9928 635.199 33.9138 635.39 33.7732 635.53C33.6325 635.671 33.4417 635.75 33.2428 635.75H29.7498V639.243C29.7498 639.442 29.6708 639.633 29.5302 639.773C29.3895 639.914 29.1987 639.993 28.9998 639.993C28.8009 639.993 28.6102 639.914 28.4695 639.773C28.3289 639.633 28.2498 639.442 28.2498 639.243V635.75H24.7568C24.5579 635.75 24.3672 635.671 24.2265 635.53C24.0859 635.39 24.0068 635.199 24.0068 635Z"
+                fill="#FBFBFD"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M24.3172 626.769C27.4296 626.424 30.5707 626.424 33.6832 626.769C35.5102 626.973 36.9852 628.412 37.1992 630.249C37.5692 633.406 37.5692 636.595 37.1992 639.752C36.9842 641.589 35.5092 643.027 33.6832 643.232C30.5707 643.577 27.4296 643.577 24.3172 643.232C22.4902 643.027 21.0152 641.589 20.8012 639.752C20.4328 636.595 20.4328 633.406 20.8012 630.249C21.0152 628.412 22.4912 626.973 24.3172 626.769ZM33.5172 628.259C30.515 627.926 27.4853 627.926 24.4832 628.259C23.9274 628.321 23.4087 628.568 23.0107 628.961C22.6128 629.354 22.359 629.869 22.2902 630.424C21.9345 633.465 21.9345 636.537 22.2902 639.578C22.3592 640.133 22.6131 640.648 23.011 641.041C23.4089 641.433 23.9276 641.68 24.4832 641.742C27.4602 642.074 30.5402 642.074 33.5172 641.742C34.0726 641.68 34.591 641.433 34.9887 641.04C35.3864 640.648 35.6402 640.133 35.7092 639.578C36.0648 636.537 36.0648 633.465 35.7092 630.424C35.64 629.87 35.3861 629.355 34.9884 628.962C34.5907 628.57 34.0724 628.323 33.5172 628.261"
+                fill="#FBFBFD"
+              />
             </svg>
-          </div>
-          <div class="donut-legend">
-            <div class="legend-item"><span class="legend-dot" style="background:#008000"></span>Resolved 51.0%</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#B8720A"></span>Pending 33.5%</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#800080"></span>Insurance Processing 13.0%</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#E43E52"></span>Overdue 2.5%</div>
-          </div>
-        </div>
-        <div class="view-full-report" id="btnViewFullReport">
-          <span>View full report</span>
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-    </section>
- 
+            <span>Add New Claims</span>
+          </button>
 
-    <!-- Department Performance -->
-    <section class="dept-card">
-      <div class="dept-card__header">
-        <h3>Department Performance</h3>
-        <button class="btn-ghost" id="btnExportDept">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0-4-4m4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <span>Export Report</span>
+          <button class="quick-btn" id="btnUpload">
+            <svg viewBox="16.5 687.5 23 17" fill="none">
+              <path
+                d="M22.5 704C20.9833 704 19.6877 703.475 18.613 702.425C17.5383 701.375 17.0007 700.092 17 698.575C17 697.275 17.3917 696.117 18.175 695.1C18.9583 694.083 19.9833 693.433 21.25 693.15C21.6667 691.617 22.5 690.375 23.75 689.425C25 688.475 26.4167 688 28 688C29.95 688 31.6043 688.679 32.963 690.038C34.3217 691.397 35.0007 693.051 35 695C36.15 695.133 37.1043 695.629 37.863 696.488C38.6217 697.347 39.0007 698.351 39 699.5C39 700.75 38.5627 701.813 37.688 702.688C36.8133 703.563 35.7507 704.001 34.5 704H29C28.45 704 27.9793 703.804 27.588 703.413C27.1967 703.022 27.0007 702.551 27 702V696.85L25.4 698.4L24 697L28 693L32 697L30.6 698.4L29 696.85V702H34.5C35.2 702 35.7917 701.758 36.275 701.275C36.7583 700.792 37 700.2 37 699.5C37 698.8 36.7583 698.208 36.275 697.725C35.7917 697.242 35.2 697 34.5 697H33V695C33 693.617 32.5123 692.437 31.537 691.462C30.5617 690.487 29.3827 689.999 28 690C26.6173 690.001 25.4383 690.488 24.463 691.463C23.4877 692.438 23 693.617 23 695H22.5C21.5333 695 20.7083 695.342 20.025 696.025C19.3417 696.708 19 697.533 19 698.5C19 699.467 19.3417 700.292 20.025 700.975C20.7083 701.658 21.5333 702 22.5 702H25V704H22.5Z"
+                fill="#FBFBFD"
+              />
+            </svg>
+            <span>Upload Document</span>
+          </button>
+
+          <button class="quick-btn" id="btnGenerate">
+            <svg viewBox="15.5 747.5 19 19" fill="none">
+              <path
+                d="M32.75 752.5H28.5V749.25C28.5 748.56 27.94 748 27.25 748H22.75C22.06 748 21.5 748.56 21.5 749.25V757.5H17.25C16.56 757.5 16 758.06 16 758.75V766H34V753.75C34 753.06 33.44 752.5 32.75 752.5ZM21.5 764.5H17.5V759H21.5V764.5ZM27 764.5H23V749.5H27V764.5ZM32.5 764.5H28.5V754H32.5V764.5Z"
+                fill="#FBFBFD"
+              />
+            </svg>
+            <span>Generate Report</span>
+          </button>
+        </div>
+
+        <button class="logout-btn" id="btnLogout">
+          <svg viewBox="34.5 815.5 19 19" fill="none">
+            <path
+              d="M37 818H44V816H37C35.9 816 35 816.9 35 818V832C35 833.1 35.9 834 37 834H44V832H37V818ZM53 825L49 821V824H41V826H49V829L53 825Z"
+              fill="#FBFBFD"
+            />
+          </svg>
+          <span>LOGOUT</span>
         </button>
-      </div>
-      <div style="overflow-x:auto;">
-        <table class="dept-table" id="deptTable">
-          <thead>
-            <tr>
-              <th>Department</th>
-              <th>Total Billed</th>
-              <th>Resolved</th>
-              <th>Pending/ Unresolved</th>
-              <th>Resolution Rate</th>
-              <th>Average Days To Resolve</th>
-            </tr>
-          </thead>
-          <tbody id="deptTableBody"></tbody>
-        </table>
-      </div>
-    </section>
+      </aside>
+      <div class="main">
+        <!-- Top bar -->
+        <header class="topbar">
+          <div class="reports-title">
+            <h1>Reports</h1>
+            <p>View and analyze billing collection performance</p>
+          </div>
 
-    <div class="section-spacer"></div>
+          <div
+            style="
+              margin-left: auto;
+              display: flex;
+              align-items: center;
+              gap: 20px;
+            "
+          >
+            <button class="topbar__search-icon" aria-label="Search">
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="7"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <path
+                  d="m20 20-3.5-3.5"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+            <button class="icon-btn" id="btnBell" aria-label="Notifications">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9Z"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M13.7 21a2 2 0 0 1-3.4 0"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <span class="badge">3</span>
+            </button>
+            <div class="user-card user-card--light">
+              <div class="user-avatar user-avatar--dark">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    opacity="0.16"
+                    d="M15.4999 15.4975H8.24994C7.2091 15.4972 6.19597 15.8329 5.36126 16.4547C4.52656 17.0765 3.91487 17.9511 3.61719 18.9485C4.63704 20.1412 5.90345 21.0985 7.32909 21.7543C8.75473 22.4102 10.3057 22.749 11.8749 22.7475C13.4442 22.749 14.9951 22.4102 16.4208 21.7543C17.8464 21.0985 19.1128 20.1412 20.1327 18.9485C19.835 17.9511 19.2233 17.0765 18.3886 16.4547C17.5539 15.8329 16.5408 15.4972 15.4999 15.4975Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M22.75 11.8725C22.7534 14.0315 22.1113 16.1422 20.9061 17.9335C19.9121 19.4161 18.5681 20.631 16.993 21.4706C15.4178 22.3103 13.66 22.7488 11.875 22.7475C10.09 22.7488 8.33221 22.3103 6.75704 21.4706C5.18186 20.631 3.83787 19.4161 2.84392 17.9335C1.89747 16.5226 1.29472 14.9097 1.08399 13.2239C0.873257 11.5382 1.06041 9.82647 1.63045 8.22607C2.20048 6.62567 3.13754 5.18108 4.3665 4.00811C5.59546 2.83513 7.08214 1.9664 8.70736 1.47155C10.3326 0.976708 12.0511 0.86951 13.7253 1.15856C15.3994 1.4476 16.9825 2.12485 18.3477 3.13601C19.7129 4.14717 20.8222 5.46411 21.5867 6.98127C22.3512 8.49843 22.7496 10.1736 22.75 11.8725Z"
+                    fill="#1E293B"
+                    stroke="#1E293B"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M13.0837 8.24748C13.0837 8.56795 12.9563 8.8753 12.7297 9.1019C12.5031 9.32851 12.1958 9.45582 11.8753 9.45582V11.8725C12.8367 11.8725 13.7588 11.4906 14.4386 10.8107C15.1184 10.1309 15.5003 9.20889 15.5003 8.24748H13.0837ZM11.8753 9.45582C11.5548 9.45582 11.2475 9.32851 11.0209 9.1019C10.7943 8.8753 10.667 8.56795 10.667 8.24748H8.25032C8.25032 9.20889 8.63224 10.1309 9.31206 10.8107C9.99187 11.4906 10.9139 11.8725 11.8753 11.8725V9.45582ZM10.667 8.24748C10.667 7.92701 10.7943 7.61967 11.0209 7.39306C11.2475 7.16646 11.5548 7.03915 11.8753 7.03915V4.62248C10.9139 4.62248 9.99187 5.0044 9.31206 5.68422C8.63224 6.36404 8.25032 7.28607 8.25032 8.24748H10.667ZM11.8753 7.03915C12.1958 7.03915 12.5031 7.16646 12.7297 7.39306C12.9563 7.61967 13.0837 7.92701 13.0837 8.24748H15.5003C15.5003 7.28607 15.1184 6.36404 14.4386 5.68422C13.7588 5.0044 12.8367 4.62248 11.8753 4.62248V7.03915ZM3.61757 18.9485L2.45878 18.6041L2.27148 19.2361L2.70044 19.7351L3.61757 18.9485ZM20.1331 18.9485L21.0514 19.7351L21.4792 19.2361L21.2919 18.6041L20.1331 18.9485ZM8.25032 16.7058H15.5003V14.2891H8.25032V16.7058ZM8.25032 14.2891C6.94901 14.2887 5.68235 14.7085 4.63882 15.486C3.5953 16.2635 2.83069 17.3571 2.45878 18.6041L4.77515 19.2929C4.99866 18.545 5.45761 17.8892 6.08374 17.4231C6.70987 16.957 7.46974 16.7054 8.25032 16.7058V14.2891ZM11.8753 21.5391C10.4803 21.5407 9.10152 21.2396 7.83418 20.6565C6.56684 20.0734 5.44112 19.2223 4.53469 18.1619L2.70044 19.7351C3.83372 21.0601 5.24082 22.1235 6.82476 22.8522C8.40871 23.5808 10.1318 23.9574 11.8753 23.9558V21.5391ZM15.5003 16.7058C17.14 16.7058 18.5284 17.7957 18.9755 19.2941L21.2919 18.6041C20.92 17.3573 20.1544 16.2638 19.1111 15.4863C18.0678 14.7089 16.8014 14.289 15.5003 14.2891V16.7058ZM19.2159 18.1619C18.3095 19.2223 17.1838 20.0734 15.9165 20.6565C14.6491 21.2396 13.2704 21.5407 11.8753 21.5391V23.9558C13.6188 23.9574 15.3419 23.5808 16.9259 22.8522C18.5098 22.1235 19.9181 21.0601 21.0514 19.7351L19.2159 18.1619Z"
+                    fill="#FBFBFD"
+                  />
+                </svg>
+                <span class="status-dot"></span>
+              </div>
+              <div class="user-meta">
+                <div class="user-name">Sec Tessa</div>
+                <div class="user-role">Billing Manager</div>
+              </div>
+              <svg
+                class="user-caret user-caret--dark"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="m9 6 6 6-6 6"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+        </header>
 
-   
-    <section class="table-card" style="margin:0 24px 24px;">
-      <div class="table-card__header">
-        <div class="results-count"><span id="resultsCount">145</span> Claims Found</div>
+        <!-- Filter bar -->
+        <section class="rpt-filterbar">
+          <button class="rpt-apply" id="btnApplyFilters">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 5v14M5 12h14"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+            <span>Apply filters</span>
+          </button>
 
-        <div class="table-card__toolbar">
-          <div class="sortby">
-            <label for="sortBy" class="sr-only">Sort by</label>
-            <select id="sortBy">
-              <option value="aging-desc">Sort By: Days Outstanding (High to Low)</option>
-              <option value="aging-asc">Sort By: Days Outstanding (Low to High)</option>
-              <option value="amount-desc">Sort By: Amount (High to Low)</option>
-              <option value="amount-asc">Sort By: Amount (Low to High)</option>
-              <option value="patient-asc">Sort By: Patient (A–Z)</option>
+          <div class="rpt-field">
+            <label>Date Range</label>
+            <div class="field-box">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect
+                  x="3"
+                  y="5"
+                  width="18"
+                  height="16"
+                  rx="2"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                />
+                <path
+                  d="M3 9h18M8 3v4M16 3v4"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <span id="dateRangeLabel">May 12 - Jun 21, 2024</span>
+              <svg class="chev" viewBox="0 0 12 8" fill="none">
+                <path
+                  d="M1 1l5 5 5-5"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div class="rpt-field">
+            <label>Departments</label>
+            <select id="rptDept">
+              <option>All Departments</option>
+              <option>Oncology</option>
+              <option>Cardiology</option>
+              <option>Neurology</option>
+              <option>Orthopedics</option>
+              <option>General Surgery</option>
             </select>
           </div>
 
-          <button class="btn-ghost" id="btnExport">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0-4-4m4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            <span>Export Report</span>
+          <div class="rpt-field">
+            <label>Report type</label>
+            <select id="rptType">
+              <option>All Project</option>
+              <option>Billing Summary</option>
+              <option>Department Performance</option>
+            </select>
+          </div>
+
+          <button class="rpt-reset" id="btnResetFilters">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M4 4v6h6M20 20v-6h-6"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M5 15a8 8 0 0 0 14.3 3M19 9A8 8 0 0 0 4.7 6"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+            <span>Reset</span>
           </button>
+        </section>
 
-          <button class="btn-primary" id="btnAddClaimTop">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            <span>Add New Claim</span>
-          </button>
-        </div>
+        <!-- KPI cards -->
+        <section class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="32" height="32" rx="16" fill="#92E492" />
+                <path
+                  d="M5.5 17.5L12.5 24.5L26.5 9.5"
+                  stroke="#008000"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-label">Resolved</div>
+              <div class="kpi-value">$1.82M</div>
+              <div class="kpi-delta" style="color: #008000">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 19V5M6 11l6-6 6 6"
+                    stroke="#008000"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                15.3% vs last month
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon" style="width: 32px; height: 36px">
+              <svg
+                width="32"
+                height="36"
+                viewBox="0 0 32 36"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="32" height="36" rx="16" fill="#8FBEDF" />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M14.944 7.25H17.056C18.894 7.25 20.35 7.25 21.489 7.403C22.661 7.561 23.61 7.893 24.359 8.641C25.107 9.39 25.439 10.339 25.597 11.511C25.75 12.651 25.75 14.106 25.75 15.944V20.056C25.75 21.894 25.75 23.35 25.597 24.489C25.439 25.661 25.107 26.61 24.359 27.359C23.61 28.107 22.661 28.439 21.489 28.597C20.349 28.75 18.894 28.75 17.056 28.75H14.944C13.106 28.75 11.65 28.75 10.511 28.597C9.339 28.439 8.39 28.107 7.641 27.359C6.893 26.61 6.561 25.661 6.403 24.489C6.25 23.349 6.25 21.894 6.25 20.056V15.944C6.25 14.106 6.25 12.65 6.403 11.511C6.561 10.339 6.893 9.39 7.641 8.641C8.39 7.893 9.339 7.561 10.511 7.403C11.651 7.25 13.106 7.25 14.944 7.25ZM10.71 8.89C9.704 9.025 9.124 9.279 8.7 9.702C8.278 10.125 8.024 10.705 7.889 11.711C7.751 12.739 7.749 14.093 7.749 16V20C7.749 21.907 7.751 23.262 7.889 24.29C8.024 25.295 8.278 25.875 8.701 26.298C9.124 26.721 9.704 26.975 10.71 27.11C11.738 27.248 13.092 27.25 14.999 27.25H16.999C18.906 27.25 20.261 27.248 21.289 27.11C22.294 26.975 22.874 26.721 23.297 26.298C23.72 25.875 23.974 25.295 24.109 24.289C24.247 23.262 24.249 21.907 24.249 20V16C24.249 14.093 24.247 12.739 24.109 11.71C23.974 10.705 23.72 10.125 23.297 9.702C22.874 9.279 22.294 9.025 21.288 8.89C20.261 8.752 18.906 8.75 16.999 8.75H14.999C13.092 8.75 11.739 8.752 10.71 8.89ZM11.25 16C11.25 15.8011 11.329 15.6103 11.4697 15.4697C11.6103 15.329 11.8011 15.25 12 15.25H20C20.1989 15.25 20.3897 15.329 20.5303 15.4697C20.671 15.6103 20.75 15.8011 20.75 16C20.75 16.1989 20.671 16.3897 20.5303 16.5303C20.3897 16.671 20.1989 16.75 20 16.75H12C11.8011 16.75 11.6103 16.671 11.4697 16.5303C11.329 16.3897 11.25 16.1989 11.25 16ZM11.25 20C11.25 19.8011 11.329 19.6103 11.4697 19.4697C11.6103 19.329 11.8011 19.25 12 19.25H17C17.1989 19.25 17.3897 19.329 17.5303 19.4697C17.671 19.6103 17.75 19.8011 17.75 20C17.75 20.1989 17.671 20.3897 17.5303 20.5303C17.3897 20.671 17.1989 20.75 17 20.75H12C11.8011 20.75 11.6103 20.671 11.4697 20.5303C11.329 20.3897 11.25 20.1989 11.25 20Z"
+                  fill="#249BEF"
+                />
+              </svg>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-label">Total Billed</div>
+              <div class="kpi-value">$3.57M</div>
+              <div class="kpi-delta" style="color: #249bef">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 19V5M6 11l6-6 6 6"
+                    stroke="#249BEF"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                8.6% vs last month
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="32" height="32" rx="16" fill="#F6BA5A" />
+                <path
+                  d="M7.68508 19.4442C7.23279 18.3522 7 17.1819 7 16C7 13.6131 7.94821 11.3239 9.63604 9.63604C11.3239 7.94821 13.6131 7 16 7C18.3869 7 20.6761 7.94821 22.364 9.63604C24.0518 11.3239 25 13.6131 25 16C25 17.1819 24.7672 18.3522 24.3149 19.4442C23.8626 20.5361 23.1997 21.5282 22.364 22.364C21.5282 23.1997 20.5361 23.8626 19.4442 24.3149C18.3522 24.7672 17.1819 25 16 25C14.8181 25 13.6478 24.7672 12.5558 24.3149C11.4639 23.8626 10.4718 23.1997 9.63604 22.364C8.80031 21.5282 8.13738 20.5361 7.68508 19.4442Z"
+                  stroke="#B8720A"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M16 11V16L19 19"
+                  stroke="#B8720A"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-label">Pending/ Unresolved</div>
+              <div class="kpi-value">$1.75M</div>
+              <div class="kpi-delta" style="color: #b8720a">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 19V5M6 11l6-6 6 6"
+                    stroke="#B8720A"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                12.5% vs last month
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon" style="width: 34px; height: 34px">
+              <svg
+                width="34"
+                height="34"
+                viewBox="0 0 34 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="34" height="34" rx="16" fill="#EAC1C1" />
+                <rect
+                  x="7"
+                  y="7"
+                  width="20"
+                  height="20"
+                  rx="10"
+                  fill="#EAC1C1"
+                />
+                <rect
+                  x="7"
+                  y="7"
+                  width="20"
+                  height="20"
+                  rx="10"
+                  stroke="#DA5757"
+                  stroke-width="4"
+                />
+                <path
+                  d="M16.288 18.713C16.096 18.521 16 18.2833 16 18V11C16 10.7167 16.096 10.4793 16.288 10.288C16.48 10.0967 16.7173 10.0007 17 10C17.2827 9.99934 17.5203 10.0953 17.713 10.288C17.9057 10.4807 18.0013 10.718 18 11V18C18 18.2833 17.904 18.521 17.712 18.713C17.52 18.905 17.2827 19.0007 17 19C16.7173 18.9993 16.48 18.9033 16.288 18.712M16.288 23.712C16.096 23.5213 16 23.284 16 23C16 22.716 16.096 22.4787 16.288 22.288C16.48 22.0973 16.7173 22.0013 17 22C17.2827 21.9987 17.5203 22.0947 17.713 22.288C17.9057 22.4813 18.0013 22.7187 18 23C17.9987 23.2813 17.9027 23.519 17.712 23.713C17.5213 23.907 17.284 24.0027 17 24C16.716 23.9973 16.4787 23.9013 16.288 23.712Z"
+                  fill="#DA5757"
+                />
+              </svg>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-label">Overdue (90+ Days)</div>
+              <div class="kpi-value">$620k</div>
+              <div class="kpi-delta" style="color: #da5757">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 19V5M6 11l6-6 6 6"
+                    stroke="#DA5757"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                18.7% vs last month
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon" style="width: 36px; height: 36px">
+              <svg
+                width="36"
+                height="36"
+                viewBox="0 0 36 36"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  width="36"
+                  height="36"
+                  rx="18"
+                  fill="#DD99AA"
+                  fill-opacity="0.85098"
+                />
+                <path
+                  d="M16.35 13.1906L15.4453 12.7641C15.4269 12.7554 15.4068 12.7509 15.3864 12.7507C15.366 12.7504 15.3459 12.7546 15.3272 12.7628C15.3086 12.771 15.2919 12.7831 15.2783 12.7983C15.2647 12.8134 15.2545 12.8313 15.2484 12.8508C14.8383 14.2219 14.1891 15.4312 13.3219 16.4508C13.3067 16.4686 13.2962 16.49 13.2913 16.5129C13.2864 16.5358 13.2872 16.5595 13.2938 16.582L13.6031 17.6016C13.6336 17.7047 13.7672 17.7352 13.8422 17.6578C14.0227 17.468 14.2031 17.2617 14.3836 17.0484V21.375C14.3836 21.4781 14.468 21.5625 14.5711 21.5625H15.4453C15.5484 21.5625 15.6328 21.4781 15.6328 21.375V15.2133C15.9565 14.624 16.2204 14.0037 16.4203 13.3617C16.4438 13.2937 16.4133 13.2211 16.35 13.1906ZM16.9781 13.4062V16.3875C16.9781 16.4906 17.0625 16.575 17.1656 16.575H18.7102V17.0109H16.4859C16.3828 17.0109 16.2984 17.0953 16.2984 17.1984V18.0328C16.2984 18.1359 16.3828 18.2203 16.4859 18.2203H17.7773C17.3297 18.9422 16.7836 19.5258 16.1133 20.0016C16.0839 20.0224 16.0637 20.0537 16.0567 20.089C16.0497 20.1243 16.0565 20.161 16.0758 20.1914L16.6102 21.0469C16.6547 21.1195 16.7555 21.1359 16.8188 21.0797C17.5594 20.4516 18.1945 19.6055 18.7078 18.5578V21.3703C18.7078 21.4734 18.7922 21.5578 18.8953 21.5578H19.7438C19.8469 21.5578 19.9313 21.4734 19.9313 21.3703V18.5625C20.4305 19.5398 21.0445 20.3789 21.7617 21.068C21.8227 21.1266 21.9211 21.1172 21.9703 21.0516L22.5867 20.2242C22.6336 20.1609 22.6195 20.0719 22.5586 20.0273C21.8438 19.4977 21.2883 18.907 20.8641 18.225H22.2469C22.35 18.225 22.4344 18.1406 22.4344 18.0375V17.2031C22.4344 17.1 22.35 17.0156 22.2469 17.0156H19.9313V16.5797H21.4945C21.5977 16.5797 21.682 16.4953 21.682 16.3922V13.4062C21.682 13.3031 21.5977 13.2187 21.4945 13.2187H17.1656C17.0625 13.2187 16.9781 13.3031 16.9781 13.4062ZM18.1852 14.4094H20.4797V15.3844H18.1852V14.4094ZM26.318 9.98203L18.3539 7.26797C18.2578 7.23516 18.1289 7.21875 18 7.21875C17.8711 7.21875 17.7422 7.23516 17.6461 7.26797L9.68203 9.98203C9.4875 10.0477 9.32812 10.2727 9.32812 10.4789V21.7852C9.32812 21.9914 9.46172 22.2633 9.62344 22.3922L17.7023 28.6875C17.7844 28.7508 17.8898 28.7836 17.9977 28.7836C18.1055 28.7836 18.2133 28.7508 18.293 28.6875L26.3719 22.3922C26.5336 22.2656 26.6672 21.9937 26.6672 21.7852V10.4789C26.6719 10.2727 26.5125 10.05 26.318 9.98203ZM24.9844 21.3352L18 26.7773L11.0156 21.3352V11.3133L18 8.93203L24.9844 11.3133V21.3352Z"
+                  fill="#800080"
+                />
+              </svg>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-label">Insurance Processing</div>
+              <div class="kpi-value">$865k</div>
+              <div class="kpi-delta" style="color: #800080">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 19V5M6 11l6-6 6 6"
+                    stroke="#800080"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                5.2% vs last month
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Charts -->
+        <section class="charts-grid">
+          <div class="chart-card">
+            <h3>Unresolved Amount over Time</h3>
+            <svg viewBox="0 0 480 220" width="100%" height="220" fill="none">
+              <line
+                x1="40"
+                y1="10"
+                x2="40"
+                y2="180"
+                stroke="#E1E1E1"
+                stroke-width="1"
+              />
+              <line
+                x1="40"
+                y1="180"
+                x2="470"
+                y2="180"
+                stroke="#E1E1E1"
+                stroke-width="1"
+              />
+              <line
+                x1="40"
+                y1="138"
+                x2="470"
+                y2="138"
+                stroke="#E1E1E1"
+                stroke-width="1"
+              />
+              <line
+                x1="40"
+                y1="96"
+                x2="470"
+                y2="96"
+                stroke="#E1E1E1"
+                stroke-width="1"
+              />
+              <line
+                x1="40"
+                y1="54"
+                x2="470"
+                y2="54"
+                stroke="#E1E1E1"
+                stroke-width="1"
+              />
+              <line
+                x1="40"
+                y1="12"
+                x2="470"
+                y2="12"
+                stroke="#E1E1E1"
+                stroke-width="1"
+              />
+
+              <text
+                x="34"
+                y="184"
+                text-anchor="end"
+                font-size="10"
+                fill="#1E293B"
+                font-family="Plus Jakarta Sans"
+              >
+                $0
+              </text>
+              <text
+                x="34"
+                y="142"
+                text-anchor="end"
+                font-size="10"
+                fill="#1E293B"
+                font-family="Plus Jakarta Sans"
+              >
+                $500K
+              </text>
+              <text
+                x="34"
+                y="100"
+                text-anchor="end"
+                font-size="10"
+                fill="#1E293B"
+                font-family="Plus Jakarta Sans"
+              >
+                $1.0M
+              </text>
+              <text
+                x="34"
+                y="58"
+                text-anchor="end"
+                font-size="10"
+                fill="#1E293B"
+                font-family="Plus Jakarta Sans"
+              >
+                $1.5M
+              </text>
+              <text
+                x="34"
+                y="16"
+                text-anchor="end"
+                font-size="10"
+                fill="#1E293B"
+                font-family="Plus Jakarta Sans"
+              >
+                $2.0M
+              </text>
+
+              <path
+                d="M60 160 L130 120 L200 145 L270 90 L340 120 L410 100 L450 130 L450 180 L60 180 Z"
+                fill="url(#areaGrad)"
+              />
+              <path
+                d="M60 160 L130 120 L200 145 L270 90 L340 120 L410 100 L450 130"
+                stroke="#4240E3"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <defs>
+                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#9F9EFA" stop-opacity="0.9" />
+                  <stop
+                    offset="100%"
+                    stop-color="#9F9EFA"
+                    stop-opacity="0.05"
+                  />
+                </linearGradient>
+              </defs>
+
+              <circle cx="60" cy="160" r="3" fill="#7473E5" />
+              <circle cx="130" cy="120" r="3" fill="#7473E5" />
+              <circle cx="200" cy="145" r="3" fill="#7473E5" />
+              <circle cx="270" cy="90" r="3" fill="#7473E5" />
+              <circle cx="340" cy="120" r="3" fill="#7473E5" />
+              <circle cx="410" cy="100" r="3" fill="#7473E5" />
+              <circle cx="450" cy="130" r="3" fill="#7473E5" />
+
+              <text
+                x="60"
+                y="200"
+                text-anchor="middle"
+                font-size="10"
+                fill="#1E293B"
+                font-family="Plus Jakarta Sans"
+              >
+                Jan 2024
+              </text>
+              <text
+                x="130"
+                y="200"
+                text-anchor="middle"
+                font-size="10"
+                fill="#1E293B"
+                font-family="Plus Jakarta Sans"
+              >
+                Feb 2024
+              </text>
+              <text
+                x="200"
+                y="200"
+                text-anchor="middle"
+                font-size="10"
+                fill="#1E293B"
+                font-family="Plus Jakarta Sans"
+              >
+                Mar 2024
+              </text>
+              <text
+                x="270"
+                y="200"
+                text-anchor="middle"
+                font-size="10"
+                fill="#1E293B"
+                font-family="Plus Jakarta Sans"
+              >
+                Apr 2024
+              </text>
+              <text
+                x="340"
+                y="200"
+                text-anchor="middle"
+                font-size="10"
+                fill="#1E293B"
+                font-family="Plus Jakarta Sans"
+              >
+                May 2024
+              </text>
+              <text
+                x="410"
+                y="200"
+                text-anchor="middle"
+                font-size="10"
+                fill="#1E293B"
+                font-family="Plus Jakarta Sans"
+              >
+                Jun 2024
+              </text>
+            </svg>
+          </div>
+
+          <div class="chart-card">
+            <h3>Claim Status Overview</h3>
+            <div class="donut-wrap">
+              <div class="donut-svg-wrap">
+                <svg
+                  width="172"
+                  height="146"
+                  viewBox="0 0 172 146"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M146.2 73C146.2 79.8457 144.579 86.6216 141.435 92.9254C138.29 99.2292 133.685 104.932 127.894 109.696C122.102 114.46 115.242 118.188 107.721 120.658C100.199 123.128 92.1697 124.29 84.1089 124.075C76.0481 123.86 68.1204 122.272 60.7964 119.406C53.4725 116.54 46.9016 112.454 41.4739 107.391C36.0462 102.328 31.8724 96.3904 29.2003 89.9314C26.5282 83.4724 25.4122 76.6236 25.9186 69.7914L51.6677 71.1665C51.3783 75.0706 52.016 78.9843 53.5429 82.6751C55.0699 86.366 57.4549 89.7588 60.5564 92.6521C63.6579 95.5454 67.4127 97.8803 71.5979 99.518C75.783 101.156 80.3131 102.063 84.9193 102.186C89.5255 102.309 94.1138 101.645 98.4118 100.233C102.71 98.8218 106.63 96.6917 109.939 93.9694C113.249 91.2471 115.88 87.9882 117.677 84.386C119.474 80.7838 120.4 76.9118 120.4 73H146.2Z"
+                    fill="#008000"
+                  />
+                  <path
+                    d="M25.9189 69.7914C26.5858 60.7939 30.0451 52.1063 35.9457 44.6104C41.8463 37.1144 49.9781 31.077 59.5158 27.1108C69.0535 23.1446 79.6577 21.3909 90.2519 22.0276C100.846 22.6643 111.053 25.6688 119.838 30.7362L105.336 48.8493C100.316 45.9536 94.4836 44.2368 88.4297 43.8729C82.3759 43.5091 76.3164 44.5112 70.8662 46.7776C65.4161 49.044 60.7694 52.494 57.3976 56.7774C54.0258 61.0608 52.0491 66.0251 51.668 71.1665L25.9189 69.7914Z"
+                    fill="#B8720A"
+                  />
+                  <path
+                    d="M119.838 30.7362C126.64 34.66 132.422 39.7252 136.829 45.6192C141.235 51.5133 144.173 58.1113 145.459 65.0062L119.977 68.4321C119.242 64.4922 117.563 60.7219 115.045 57.3539C112.527 53.9858 109.223 51.0914 105.336 48.8493L119.838 30.7362Z"
+                    fill="#800080"
+                  />
+                  <path
+                    d="M145.459 65.0062C145.952 67.6502 146.2 70.323 146.2 73H120.4C120.4 71.4703 120.258 69.943 119.977 68.4321L145.459 65.0062Z"
+                    fill="#E43E52"
+                  />
+                  <path
+                    d="M74.4693 74.2342C73.8186 74.2342 73.1999 74.1169 72.6133 73.8822C72.0373 73.6369 71.5413 73.2955 71.1253 72.8582C70.7199 72.4102 70.4426 71.8822 70.2933 71.2742L72.1973 70.6022C72.3893 71.1462 72.6826 71.5622 73.0773 71.8502C73.4719 72.1275 73.9359 72.2662 74.4693 72.2662C74.8959 72.2662 75.2639 72.1862 75.5733 72.0262C75.8933 71.8662 76.1439 71.6369 76.3253 71.3382C76.5066 71.0289 76.5973 70.6662 76.5973 70.2502C76.5973 69.8342 76.5066 69.4822 76.3253 69.1942C76.1546 68.8955 75.9093 68.6662 75.5893 68.5062C75.2693 68.3462 74.8906 68.2662 74.4533 68.2662C74.2506 68.2662 74.0373 68.2875 73.8133 68.3302C73.5999 68.3729 73.4079 68.4369 73.2373 68.5222L72.7413 67.4822L75.8293 63.9622H70.9653V62.1222H78.2773V63.8342L75.1733 67.4662L75.2053 66.6502C75.9199 66.6609 76.5439 66.8155 77.0773 67.1142C77.6106 67.4129 78.0266 67.8235 78.3253 68.3462C78.6239 68.8689 78.7733 69.4822 78.7733 70.1862C78.7733 70.9542 78.5866 71.6475 78.2133 72.2662C77.8399 72.8742 77.3279 73.3542 76.6773 73.7062C76.0266 74.0582 75.2906 74.2342 74.4693 74.2342ZM85.2265 74.2342C84.2772 74.2342 83.4452 73.9782 82.7305 73.4662C82.0158 72.9542 81.4558 72.2342 81.0505 71.3062C80.6558 70.3782 80.4585 69.3009 80.4585 68.0742C80.4585 66.8369 80.6558 65.7595 81.0505 64.8422C81.4452 63.9249 81.9998 63.2102 82.7145 62.6982C83.4292 62.1862 84.2612 61.9302 85.2105 61.9302C86.1812 61.9302 87.0185 62.1862 87.7225 62.6982C88.4372 63.2102 88.9972 63.9302 89.4025 64.8582C89.8078 65.7755 90.0105 66.8475 90.0105 68.0742C90.0105 69.3009 89.8078 70.3782 89.4025 71.3062C89.0078 72.2235 88.4532 72.9435 87.7385 73.4662C87.0238 73.9782 86.1865 74.2342 85.2265 74.2342ZM85.2425 72.2502C85.7865 72.2502 86.2505 72.0849 86.6345 71.7542C87.0185 71.4129 87.3118 70.9329 87.5145 70.3142C87.7278 69.6849 87.8345 68.9382 87.8345 68.0742C87.8345 67.2102 87.7278 66.4689 87.5145 65.8502C87.3118 65.2209 87.0132 64.7409 86.6185 64.4102C86.2345 64.0795 85.7652 63.9142 85.2105 63.9142C84.6772 63.9142 84.2185 64.0795 83.8345 64.4102C83.4505 64.7409 83.1518 65.2209 82.9385 65.8502C82.7358 66.4689 82.6345 67.2102 82.6345 68.0742C82.6345 68.9275 82.7358 69.6689 82.9385 70.2982C83.1518 70.9169 83.4505 71.3969 83.8345 71.7382C84.2292 72.0795 84.6985 72.2502 85.2425 72.2502ZM96.5546 74.2342C95.6053 74.2342 94.7733 73.9782 94.0586 73.4662C93.344 72.9542 92.784 72.2342 92.3786 71.3062C91.984 70.3782 91.7866 69.3009 91.7866 68.0742C91.7866 66.8369 91.984 65.7595 92.3786 64.8422C92.7733 63.9249 93.328 63.2102 94.0426 62.6982C94.7573 62.1862 95.5893 61.9302 96.5386 61.9302C97.5093 61.9302 98.3466 62.1862 99.0506 62.6982C99.7653 63.2102 100.325 63.9302 100.731 64.8582C101.136 65.7755 101.339 66.8475 101.339 68.0742C101.339 69.3009 101.136 70.3782 100.731 71.3062C100.336 72.2235 99.7813 72.9435 99.0666 73.4662C98.352 73.9782 97.5146 74.2342 96.5546 74.2342ZM96.5706 72.2502C97.1146 72.2502 97.5786 72.0849 97.9626 71.7542C98.3466 71.4129 98.64 70.9329 98.8426 70.3142C99.056 69.6849 99.1626 68.9382 99.1626 68.0742C99.1626 67.2102 99.056 66.4689 98.8426 65.8502C98.64 65.2209 98.3413 64.7409 97.9466 64.4102C97.5626 64.0795 97.0933 63.9142 96.5386 63.9142C96.0053 63.9142 95.5466 64.0795 95.1626 64.4102C94.7786 64.7409 94.48 65.2209 94.2666 65.8502C94.064 66.4689 93.9626 67.2102 93.9626 68.0742C93.9626 68.9275 94.064 69.6689 94.2666 70.2982C94.48 70.9169 94.7786 71.3969 95.1626 71.7382C95.5573 72.0795 96.0266 72.2502 96.5706 72.2502Z"
+                    fill="#1E293B"
+                  />
+                  <path
+                    d="M59.8546 88.0422V81.3422H57.7946V80.5922H62.6946V81.3422H60.6546V88.0422H59.8546ZM65.3786 88.1622C64.872 88.1622 64.412 88.0422 63.9986 87.8022C63.5853 87.5555 63.2553 87.2222 63.0086 86.8022C62.7686 86.3755 62.6486 85.8922 62.6486 85.3522C62.6486 84.8189 62.7686 84.3422 63.0086 83.9222C63.2486 83.5022 63.572 83.1722 63.9786 82.9322C64.392 82.6855 64.8586 82.5622 65.3786 82.5622C65.8986 82.5622 66.362 82.6822 66.7686 82.9222C67.182 83.1622 67.5053 83.4922 67.7386 83.9122C67.9786 84.3322 68.0986 84.8122 68.0986 85.3522C68.0986 85.8989 67.9753 86.3855 67.7286 86.8122C67.482 87.2322 67.152 87.5622 66.7386 87.8022C66.332 88.0422 65.8786 88.1622 65.3786 88.1622ZM65.3786 87.4122C65.7386 87.4122 66.062 87.3222 66.3486 87.1422C66.642 86.9622 66.872 86.7155 67.0386 86.4022C67.212 86.0889 67.2986 85.7389 67.2986 85.3522C67.2986 84.9655 67.212 84.6189 67.0386 84.3122C66.872 84.0055 66.642 83.7622 66.3486 83.5822C66.062 83.4022 65.7386 83.3122 65.3786 83.3122C65.0186 83.3122 64.692 83.4022 64.3986 83.5822C64.112 83.7622 63.882 84.0055 63.7086 84.3122C63.5353 84.6189 63.4486 84.9655 63.4486 85.3522C63.4486 85.7389 63.5353 86.0889 63.7086 86.4022C63.882 86.7155 64.112 86.9622 64.3986 87.1422C64.692 87.3222 65.0186 87.4122 65.3786 87.4122ZM71.3737 88.1022C70.8937 88.1022 70.5237 87.9622 70.2637 87.6822C70.0037 87.4022 69.8737 87.0022 69.8737 86.4822V83.4322H68.8837V82.6822H69.1337C69.3604 82.6822 69.5404 82.6089 69.6737 82.4622C69.807 82.3089 69.8737 82.1189 69.8737 81.8922V81.4422H70.6237V82.6822H71.8037V83.4322H70.6237V86.4822C70.6237 86.6622 70.6504 86.8222 70.7037 86.9622C70.757 87.0955 70.847 87.2022 70.9737 87.2822C71.107 87.3622 71.2837 87.4022 71.5037 87.4022C71.557 87.4022 71.6204 87.3989 71.6937 87.3922C71.767 87.3855 71.8304 87.3789 71.8837 87.3722V88.0422C71.8037 88.0622 71.7137 88.0755 71.6137 88.0822C71.5137 88.0955 71.4337 88.1022 71.3737 88.1022ZM74.653 88.1622C74.313 88.1622 74.0097 88.0989 73.743 87.9722C73.4763 87.8389 73.2663 87.6589 73.113 87.4322C72.9597 87.2055 72.883 86.9455 72.883 86.6522C72.883 86.3722 72.943 86.1189 73.063 85.8922C73.183 85.6589 73.3697 85.4622 73.623 85.3022C73.8763 85.1422 74.1997 85.0289 74.593 84.9622L76.693 84.6122V85.2922L74.773 85.6122C74.3863 85.6789 74.1063 85.8022 73.933 85.9822C73.7663 86.1622 73.683 86.3755 73.683 86.6222C73.683 86.8622 73.7763 87.0655 73.963 87.2322C74.1563 87.3989 74.403 87.4822 74.703 87.4822C75.0697 87.4822 75.3897 87.4055 75.663 87.2522C75.9363 87.0922 76.1497 86.8789 76.303 86.6122C76.4563 86.3455 76.533 86.0489 76.533 85.7222V84.3622C76.533 84.0422 76.4163 83.7822 76.183 83.5822C75.9497 83.3822 75.6463 83.2822 75.273 83.2822C74.9463 83.2822 74.6597 83.3655 74.413 83.5322C74.1663 83.6922 73.983 83.9022 73.863 84.1622L73.183 83.7922C73.283 83.5655 73.4397 83.3589 73.653 83.1722C73.873 82.9855 74.123 82.8389 74.403 82.7322C74.683 82.6189 74.973 82.5622 75.273 82.5622C75.6663 82.5622 76.013 82.6389 76.313 82.7922C76.6197 82.9455 76.8563 83.1589 77.023 83.4322C77.1963 83.6989 77.283 84.0089 77.283 84.3622V88.0422H76.533V86.9722L76.643 87.0822C76.5497 87.2822 76.403 87.4655 76.203 87.6322C76.0097 87.7922 75.7797 87.9222 75.513 88.0222C75.253 88.1155 74.9663 88.1622 74.653 88.1622ZM78.8257 88.0422V80.4722H79.5757V88.0422H78.8257ZM86.32 88.1622C85.7934 88.1622 85.31 88.0689 84.87 87.8822C84.43 87.6889 84.0467 87.4222 83.72 87.0822C83.4 86.7355 83.15 86.3289 82.97 85.8622C82.79 85.3955 82.7 84.8822 82.7 84.3222C82.7 83.7622 82.79 83.2489 82.97 82.7822C83.15 82.3155 83.4 81.9089 83.72 81.5622C84.0467 81.2155 84.43 80.9489 84.87 80.7622C85.31 80.5689 85.7934 80.4722 86.32 80.4722C86.8267 80.4722 87.28 80.5622 87.68 80.7422C88.0867 80.9222 88.4267 81.1555 88.7 81.4422C88.98 81.7222 89.18 82.0189 89.3 82.3322L88.55 82.6622C88.3634 82.2289 88.0767 81.8822 87.69 81.6222C87.31 81.3555 86.8534 81.2222 86.32 81.2222C85.7734 81.2222 85.2867 81.3522 84.86 81.6122C84.4334 81.8722 84.1 82.2355 83.86 82.7022C83.62 83.1622 83.5 83.7022 83.5 84.3222C83.5 84.9355 83.62 85.4755 83.86 85.9422C84.1 86.4089 84.4334 86.7722 84.86 87.0322C85.2867 87.2855 85.7734 87.4122 86.32 87.4122C86.8534 87.4122 87.31 87.2822 87.69 87.0222C88.0767 86.7622 88.3634 86.4155 88.55 85.9822L89.3 86.3122C89.18 86.6189 88.98 86.9155 88.7 87.2022C88.4267 87.4822 88.0867 87.7122 87.68 87.8922C87.28 88.0722 86.8267 88.1622 86.32 88.1622ZM90.6225 88.0422V80.4722H91.3725V88.0422H90.6225ZM94.4577 88.1622C94.1177 88.1622 93.8144 88.0989 93.5477 87.9722C93.281 87.8389 93.071 87.6589 92.9177 87.4322C92.7644 87.2055 92.6877 86.9455 92.6877 86.6522C92.6877 86.3722 92.7477 86.1189 92.8677 85.8922C92.9877 85.6589 93.1744 85.4622 93.4277 85.3022C93.681 85.1422 94.0044 85.0289 94.3977 84.9622L96.4977 84.6122V85.2922L94.5777 85.6122C94.191 85.6789 93.911 85.8022 93.7377 85.9822C93.571 86.1622 93.4877 86.3755 93.4877 86.6222C93.4877 86.8622 93.581 87.0655 93.7677 87.2322C93.961 87.3989 94.2077 87.4822 94.5077 87.4822C94.8744 87.4822 95.1944 87.4055 95.4677 87.2522C95.741 87.0922 95.9544 86.8789 96.1077 86.6122C96.261 86.3455 96.3377 86.0489 96.3377 85.7222V84.3622C96.3377 84.0422 96.221 83.7822 95.9877 83.5822C95.7544 83.3822 95.451 83.2822 95.0777 83.2822C94.751 83.2822 94.4644 83.3655 94.2177 83.5322C93.971 83.6922 93.7877 83.9022 93.6677 84.1622L92.9877 83.7922C93.0877 83.5655 93.2444 83.3589 93.4577 83.1722C93.6777 82.9855 93.9277 82.8389 94.2077 82.7322C94.4877 82.6189 94.7777 82.5622 95.0777 82.5622C95.471 82.5622 95.8177 82.6389 96.1177 82.7922C96.4244 82.9455 96.661 83.1589 96.8277 83.4322C97.001 83.6989 97.0877 84.0089 97.0877 84.3622V88.0422H96.3377V86.9722L96.4477 87.0822C96.3544 87.2822 96.2077 87.4655 96.0077 87.6322C95.8144 87.7922 95.5844 87.9222 95.3177 88.0222C95.0577 88.1155 94.771 88.1622 94.4577 88.1622ZM98.6304 88.0422V82.6822H99.3804V88.0422H98.6304ZM98.6304 81.6922V80.5922H99.3804V81.6922H98.6304ZM100.916 88.0422V82.6822H101.666V83.7022L101.546 83.5522C101.692 83.2389 101.909 82.9955 102.196 82.8222C102.489 82.6489 102.809 82.5622 103.156 82.5622C103.569 82.5622 103.942 82.6789 104.276 82.9122C104.609 83.1455 104.846 83.4489 104.986 83.8222L104.776 83.8322C104.909 83.4189 105.139 83.1055 105.466 82.8922C105.799 82.6722 106.166 82.5622 106.566 82.5622C106.926 82.5622 107.256 82.6489 107.556 82.8222C107.862 82.9955 108.106 83.2355 108.286 83.5422C108.472 83.8422 108.566 84.1822 108.566 84.5622V88.0422H107.816V84.8522C107.816 84.5255 107.756 84.2489 107.636 84.0222C107.522 83.7955 107.366 83.6222 107.166 83.5022C106.966 83.3755 106.736 83.3122 106.476 83.3122C106.222 83.3122 105.992 83.3755 105.786 83.5022C105.579 83.6222 105.416 83.7989 105.296 84.0322C105.176 84.2589 105.116 84.5322 105.116 84.8522V88.0422H104.366V84.8522C104.366 84.5255 104.306 84.2489 104.186 84.0222C104.072 83.7955 103.916 83.6222 103.716 83.5022C103.516 83.3755 103.286 83.3122 103.026 83.3122C102.766 83.3122 102.532 83.3755 102.326 83.5022C102.126 83.6222 101.966 83.7989 101.846 84.0322C101.726 84.2589 101.666 84.5322 101.666 84.8522V88.0422H100.916ZM111.858 88.1622C111.344 88.1622 110.894 88.0322 110.508 87.7722C110.121 87.5122 109.841 87.1589 109.668 86.7122L110.298 86.4122C110.451 86.7389 110.664 86.9989 110.938 87.1922C111.218 87.3855 111.524 87.4822 111.858 87.4822C112.178 87.4822 112.448 87.4055 112.668 87.2522C112.888 87.0922 112.998 86.8855 112.998 86.6322C112.998 86.4455 112.944 86.2989 112.838 86.1922C112.731 86.0789 112.608 85.9922 112.468 85.9322C112.328 85.8722 112.204 85.8289 112.098 85.8022L111.328 85.5822C110.834 85.4422 110.478 85.2455 110.258 84.9922C110.038 84.7389 109.928 84.4455 109.928 84.1122C109.928 83.7989 110.008 83.5255 110.168 83.2922C110.328 83.0589 110.544 82.8789 110.818 82.7522C111.091 82.6255 111.394 82.5622 111.728 82.5622C112.181 82.5622 112.591 82.6822 112.958 82.9222C113.331 83.1555 113.594 83.4822 113.748 83.9022L113.108 84.2022C112.974 83.9022 112.781 83.6689 112.528 83.5022C112.281 83.3289 112.004 83.2422 111.698 83.2422C111.398 83.2422 111.158 83.3189 110.978 83.4722C110.798 83.6255 110.708 83.8189 110.708 84.0522C110.708 84.2322 110.754 84.3755 110.848 84.4822C110.941 84.5889 111.048 84.6689 111.168 84.7222C111.294 84.7755 111.404 84.8155 111.498 84.8422L112.388 85.1022C112.821 85.2289 113.158 85.4255 113.398 85.6922C113.644 85.9589 113.768 86.2722 113.768 86.6322C113.768 86.9255 113.684 87.1889 113.518 87.4222C113.358 87.6555 113.134 87.8389 112.848 87.9722C112.561 88.0989 112.231 88.1622 111.858 88.1622Z"
+                    fill="#1E293B"
+                  />
+                </svg>
+              </div>
+              <div class="donut-legend">
+                <div class="legend-item">
+                  <span class="legend-dot" style="background: #008000"></span
+                  >Resolved 51.0%
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot" style="background: #b8720a"></span
+                  >Pending 33.5%
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot" style="background: #800080"></span
+                  >Insurance Processing 13.0%
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot" style="background: #e43e52"></span
+                  >Overdue 2.5%
+                </div>
+              </div>
+            </div>
+            <div class="view-full-report" id="btnViewFullReport">
+              <span>View full report</span>
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M9 6l6 6-6 6"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- Department Performance -->
+        <section class="dept-card">
+          <div class="dept-card__header">
+            <h3>Department Performance</h3>
+            <button class="btn-ghost" id="btnExportDept">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 3v12m0 0-4-4m4 4 4-4"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <span>Export Report</span>
+            </button>
+          </div>
+          <div style="overflow-x: auto">
+            <table class="dept-table" id="deptTable">
+              <thead>
+                <tr>
+                  <th>Department</th>
+                  <th>Total Billed</th>
+                  <th>Resolved</th>
+                  <th>Pending/ Unresolved</th>
+                  <th>Resolution Rate</th>
+                  <th>Average Days To Resolve</th>
+                </tr>
+              </thead>
+              <tbody id="deptTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="section-spacer"></div>
+
+        <section class="table-card" style="margin: 0 24px 24px">
+          <div class="table-card__header">
+            <div class="results-count">
+              <span id="resultsCount">145</span> Claims Found
+            </div>
+
+            <div class="table-card__toolbar">
+              <div class="sortby">
+                <label for="sortBy" class="sr-only">Sort by</label>
+                <select id="sortBy">
+                  <option value="aging-desc">
+                    Sort By: Days Outstanding (High to Low)
+                  </option>
+                  <option value="aging-asc">
+                    Sort By: Days Outstanding (Low to High)
+                  </option>
+                  <option value="amount-desc">
+                    Sort By: Amount (High to Low)
+                  </option>
+                  <option value="amount-asc">
+                    Sort By: Amount (Low to High)
+                  </option>
+                  <option value="patient-asc">Sort By: Patient (A–Z)</option>
+                </select>
+              </div>
+
+              <button class="btn-ghost" id="btnExport">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 3v12m0 0-4-4m4 4 4-4"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <span>Export Report</span>
+              </button>
+
+              <button class="btn-primary" id="btnAddClaimTop">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 5v14M5 12h14"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <span>Add New Claim</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="claims-table">
+              <thead>
+                <tr>
+                  <th>Patient</th>
+                  <th>Claim ID</th>
+                  <th>Department</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th class="text-center">Days Outstanding</th>
+                  <th class="text-center">Assigned to</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="claimsBody"></tbody>
+            </table>
+            <div class="empty-state" id="emptyState" hidden>
+              <p>No claims match your filters.</p>
+            </div>
+          </div>
+        </section>
       </div>
+    </div>
 
-      <div class="table-wrap">
-        <table class="claims-table">
-          <thead>
-            <tr>
-              <th>Patient</th>
-              <th>Claim ID</th>
-              <th>Department</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th class="text-center">Days Outstanding</th>
-              <th class="text-center">Assigned to</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="claimsBody"></tbody>
-        </table>
-        <div class="empty-state" id="emptyState" hidden>
-          <p>No claims match your filters.</p>
-        </div>
-      </div>
-    </section>
-  </div>
-</div>
+    <div class="row-menu" id="rowMenu" hidden>
+      <button data-action="view">View Claim</button>
+      <button data-action="edit">Edit Claim</button>
+      <button data-action="reassign">Reassign</button>
+      <button data-action="markpaid">Mark as Paid</button>
+    </div>
 
-<div class="row-menu" id="rowMenu" hidden>
-  <button data-action="view">View Claim</button>
-  <button data-action="edit">Edit Claim</button>
-  <button data-action="reassign">Reassign</button>
-  <button data-action="markpaid">Mark as Paid</button>
-</div>
+    <script>
+      (function () {
+        "use strict";
 
-<script>
-(function () {
-  "use strict";
+        /* ---------------- Sidebar nav ---------------- */
+        document.getElementById("mainNav").addEventListener("click", (e) => {
+          const item = e.target.closest(".nav-item");
+          if (!item) return;
+          document
+            .querySelectorAll(".nav-item")
+            .forEach((n) => n.classList.remove("active"));
+          item.classList.add("active");
+        });
 
-  /* ---------------- Sidebar nav ---------------- */
-  document.getElementById("mainNav").addEventListener("click", (e) => {
-    const item = e.target.closest(".nav-item");
-    if (!item) return;
-    document.querySelectorAll(".nav-item").forEach((n) => n.classList.remove("active"));
-    item.classList.add("active");
-  });
+        document
+          .getElementById("btnAddClaim")
+          ?.addEventListener("click", () => console.log("Add claim flow"));
+        document
+          .getElementById("btnUpload")
+          ?.addEventListener("click", () => console.log("Upload flow"));
+        document
+          .getElementById("btnGenerate")
+          ?.addEventListener("click", () =>
+            console.log("Generate report flow"),
+          );
+        document.getElementById("btnLogout")?.addEventListener("click", () => {
+          if (confirm("Log out of VitaTrack?")) console.log("Logged out.");
+        });
 
-  document.getElementById("btnAddClaim")?.addEventListener("click", () => console.log("Add claim flow"));
-  document.getElementById("btnUpload")?.addEventListener("click", () => console.log("Upload flow"));
-  document.getElementById("btnGenerate")?.addEventListener("click", () => console.log("Generate report flow"));
-  document.getElementById("btnLogout")?.addEventListener("click", () => {
-    if (confirm("Log out of VitaTrack?")) console.log("Logged out.");
-  });
+        /* ---------------- Filter bar ---------------- */
+        document
+          .getElementById("btnApplyFilters")
+          .addEventListener("click", () => {
+            console.log("Applying filters:", {
+              dept: document.getElementById("rptDept").value,
+              type: document.getElementById("rptType").value,
+              range: document.getElementById("dateRangeLabel").textContent,
+            });
+          });
 
-  /* ---------------- Filter bar ---------------- */
-  document.getElementById("btnApplyFilters").addEventListener("click", () => {
-    console.log("Applying filters:", {
-      dept: document.getElementById("rptDept").value,
-      type: document.getElementById("rptType").value,
-      range: document.getElementById("dateRangeLabel").textContent
-    });
-  });
+        document
+          .getElementById("btnResetFilters")
+          .addEventListener("click", () => {
+            document.getElementById("rptDept").value = "All Departments";
+            document.getElementById("rptType").value = "All Report Types";
+          });
 
-  document.getElementById("btnResetFilters").addEventListener("click", () => {
-    document.getElementById("rptDept").value = "All Departments";
-    document.getElementById("rptType").value = "All Report Types";
-  });
+        document
+          .getElementById("btnViewFullReport")
+          .addEventListener("click", () => {
+            console.log("Navigate to full claim status report.");
+          });
 
-  document.getElementById("btnViewFullReport").addEventListener("click", () => {
-    console.log("Navigate to full claim status report.");
-  });
+        /* ---------------- Department Performance table ---------------- */
+        const DEPT_DATA = [
+          {
+            dept: "Oncology",
+            billed: "$1.00M",
+            resolved: "47%",
+            pending: "$530K",
+            rate: 47,
+            days: "62 Days",
+          },
+          {
+            dept: "Cardiology",
+            billed: "$800K",
+            resolved: "80%",
+            pending: "$160K",
+            rate: 80,
+            days: "28 Days",
+          },
+          {
+            dept: "Neurology",
+            billed: "$600K",
+            resolved: "68%",
+            pending: "$192K",
+            rate: 68,
+            days: "45 Days",
+          },
+          {
+            dept: "Orthopedics",
+            billed: "$450K",
+            resolved: "75%",
+            pending: "$112K",
+            rate: 75,
+            days: "31 Days",
+          },
+          {
+            dept: "General Surgery",
+            billed: "$400K",
+            resolved: "82%",
+            pending: "$72K",
+            rate: 82,
+            days: "26 Days",
+          },
+        ];
 
-  /* ---------------- Department Performance table ---------------- */
-  const DEPT_DATA = [
-    { dept: "Oncology",        billed: "$1.00M", resolved: "47%", pending: "$530K", rate: 47, days: "62 Days" },
-    { dept: "Cardiology",      billed: "$800K",  resolved: "80%", pending: "$160K", rate: 80, days: "28 Days" },
-    { dept: "Neurology",       billed: "$600K",  resolved: "68%", pending: "$192K", rate: 68, days: "45 Days" },
-    { dept: "Orthopedics",     billed: "$450K",  resolved: "75%", pending: "$112K", rate: 75, days: "31 Days" },
-    { dept: "General Surgery", billed: "$400K",  resolved: "82%", pending: "$72K",  rate: 82, days: "26 Days" },
-  ];
-
-  const deptBody = document.getElementById("deptTableBody");
-  DEPT_DATA.forEach((d) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
+        const deptBody = document.getElementById("deptTableBody");
+        DEPT_DATA.forEach((d) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
       <td>${d.dept}</td>
       <td>${d.billed}</td>
       <td>${d.resolved}</td>
@@ -1271,64 +2265,135 @@ svg{display:block;}
         </div>
       </td>
       <td>${d.days}</td>`;
-    deptBody.appendChild(tr);
-  });
+          deptBody.appendChild(tr);
+        });
 
-  document.getElementById("btnExportDept").addEventListener("click", () => {
-    const header = ["Department", "Total Billed", "Resolved", "Pending/Unresolved", "Resolution Rate", "Average Days To Resolve"];
-    const csv = [header.join(",")]
-      .concat(DEPT_DATA.map((d) => [d.dept, d.billed, d.resolved, d.pending, d.rate + "%", d.days].join(",")))
-      .join("\n");
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "department-performance.csv";
-    a.click();
-    URL.revokeObjectURL(url);
-  });
+        document
+          .getElementById("btnExportDept")
+          .addEventListener("click", () => {
+            const header = [
+              "Department",
+              "Total Billed",
+              "Resolved",
+              "Pending/Unresolved",
+              "Resolution Rate",
+              "Average Days To Resolve",
+            ];
+            const csv = [header.join(",")]
+              .concat(
+                DEPT_DATA.map((d) =>
+                  [
+                    d.dept,
+                    d.billed,
+                    d.resolved,
+                    d.pending,
+                    d.rate + "%",
+                    d.days,
+                  ].join(","),
+                ),
+              )
+              .join("\n");
+            const blob = new Blob([csv], { type: "text/csv" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "department-performance.csv";
+            a.click();
+            URL.revokeObjectURL(url);
+          });
 
-  /* ---------------- Claims table (same pattern as Work Queue) ---------------- */
-  const CLAIMS = [
-    { patient: "Sarah Johnson", claimId: "CLM-2024/1022", dept: "Oncology",        amount: 18450, status: "Overdue", days: 126, assigned: "Michelle A." },
-    { patient: "Linda Wilson",  claimId: "CLM-2024/1045", dept: "Cardiology",      amount: 12300, status: "Overdue", days: 105, assigned: "David K." },
-    { patient: "Robert Brown",  claimId: "CLM-2024/1023", dept: "Neurology",       amount: 9850,  status: "Overdue", days: 97,  assigned: "Michelle A." },
-    { patient: "James Willer",  claimId: "CLM-2024/1022", dept: "Orthopedics",     amount: 9200,  status: "Overdue", days: 95,  assigned: "Robert J." },
-    { patient: "Daniel White",  claimId: "CLM-2024/1087", dept: "General Surgery", amount: 8750,  status: "Overdue", days: 92,  assigned: "Sophie L." },
-  ];
-  const STATUS_CLASS = { Overdue: "overdue", Paid: "paid", Pending: "pending" };
+        /* ---------------- Claims table (same pattern as Work Queue) ---------------- */
+        const CLAIMS = [
+          {
+            patient: "Sarah Johnson",
+            claimId: "CLM-2024/1022",
+            dept: "Oncology",
+            amount: 18450,
+            status: "Overdue",
+            days: 126,
+            assigned: "Michelle A.",
+          },
+          {
+            patient: "Linda Wilson",
+            claimId: "CLM-2024/1045",
+            dept: "Cardiology",
+            amount: 12300,
+            status: "Overdue",
+            days: 105,
+            assigned: "David K.",
+          },
+          {
+            patient: "Robert Brown",
+            claimId: "CLM-2024/1023",
+            dept: "Neurology",
+            amount: 9850,
+            status: "Overdue",
+            days: 97,
+            assigned: "Michelle A.",
+          },
+          {
+            patient: "James Willer",
+            claimId: "CLM-2024/1022",
+            dept: "Orthopedics",
+            amount: 9200,
+            status: "Overdue",
+            days: 95,
+            assigned: "Robert J.",
+          },
+          {
+            patient: "Daniel White",
+            claimId: "CLM-2024/1087",
+            dept: "General Surgery",
+            amount: 8750,
+            status: "Overdue",
+            days: 92,
+            assigned: "Sophie L.",
+          },
+        ];
+        const STATUS_CLASS = {
+          Overdue: "overdue",
+          Paid: "paid",
+          Pending: "pending",
+        };
 
-  const tbody = document.getElementById("claimsBody");
-  const resultsCountEl = document.getElementById("resultsCount");
-  const emptyState = document.getElementById("emptyState");
-  const sortBy = document.getElementById("sortBy");
+        const tbody = document.getElementById("claimsBody");
+        const resultsCountEl = document.getElementById("resultsCount");
+        const emptyState = document.getElementById("emptyState");
+        const sortBy = document.getElementById("sortBy");
 
-  const currency = (n) => "$" + n.toLocaleString("en-US");
+        const currency = (n) => "$" + n.toLocaleString("en-US");
 
-  function getSorted(list) {
-    const [key, dir] = sortBy.value.split("-");
-    const mult = dir === "asc" ? 1 : -1;
-    return [...list].sort((a, b) => {
-      if (key === "aging") return (a.days - b.days) * mult;
-      if (key === "amount") return (a.amount - b.amount) * mult;
-      if (key === "patient") return a.patient.localeCompare(b.patient) * mult;
-      return 0;
-    });
-  }
+        function getSorted(list) {
+          const [key, dir] = sortBy.value.split("-");
+          const mult = dir === "asc" ? 1 : -1;
+          return [...list].sort((a, b) => {
+            if (key === "aging") return (a.days - b.days) * mult;
+            if (key === "amount") return (a.amount - b.amount) * mult;
+            if (key === "patient")
+              return a.patient.localeCompare(b.patient) * mult;
+            return 0;
+          });
+        }
 
-  function escapeHtml(str) {
-    return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  }
+        function escapeHtml(str) {
+          return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+        }
 
-  function render() {
-    const list = getSorted(CLAIMS);
-    resultsCountEl.textContent = 145;
-    tbody.innerHTML = "";
-    if (list.length === 0) { emptyState.hidden = false; return; }
-    emptyState.hidden = true;
-    list.forEach((c) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
+        function render() {
+          const list = getSorted(CLAIMS);
+          resultsCountEl.textContent = 145;
+          tbody.innerHTML = "";
+          if (list.length === 0) {
+            emptyState.hidden = false;
+            return;
+          }
+          emptyState.hidden = true;
+          list.forEach((c) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
         <td>${escapeHtml(c.patient)}</td>
         <td>${escapeHtml(c.claimId)}</td>
         <td>${escapeHtml(c.dept)}</td>
@@ -1341,49 +2406,73 @@ svg{display:block;}
             <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg>
           </button>
         </td>`;
-      tbody.appendChild(tr);
-    });
-  }
-  sortBy.addEventListener("change", render);
-  render();
+            tbody.appendChild(tr);
+          });
+        }
+        sortBy.addEventListener("change", render);
+        render();
 
-  const rowMenu = document.getElementById("rowMenu");
-  document.addEventListener("click", (e) => {
-    const trigger = e.target.closest("[data-menu-trigger]");
-    if (trigger) {
-      const rect = trigger.getBoundingClientRect();
-      rowMenu.style.top = `${rect.bottom + 6}px`;
-      rowMenu.style.left = `${rect.right - 150}px`;
-      rowMenu.hidden = false;
-      rowMenu.dataset.rowPatient = trigger.closest("tr").children[0].textContent;
-      e.stopPropagation();
-      return;
-    }
-    if (!e.target.closest(".row-menu")) rowMenu.hidden = true;
-  });
-  rowMenu.addEventListener("click", (e) => {
-    const btn = e.target.closest("button[data-action]");
-    if (!btn) return;
-    console.log(btn.dataset.action, "on", rowMenu.dataset.rowPatient);
-    rowMenu.hidden = true;
-  });
+        const rowMenu = document.getElementById("rowMenu");
+        document.addEventListener("click", (e) => {
+          const trigger = e.target.closest("[data-menu-trigger]");
+          if (trigger) {
+            const rect = trigger.getBoundingClientRect();
+            rowMenu.style.top = `${rect.bottom + 6}px`;
+            rowMenu.style.left = `${rect.right - 150}px`;
+            rowMenu.hidden = false;
+            rowMenu.dataset.rowPatient =
+              trigger.closest("tr").children[0].textContent;
+            e.stopPropagation();
+            return;
+          }
+          if (!e.target.closest(".row-menu")) rowMenu.hidden = true;
+        });
+        rowMenu.addEventListener("click", (e) => {
+          const btn = e.target.closest("button[data-action]");
+          if (!btn) return;
+          console.log(btn.dataset.action, "on", rowMenu.dataset.rowPatient);
+          rowMenu.hidden = true;
+        });
 
-  document.getElementById("btnAddClaimTop").addEventListener("click", () => console.log("Add new claim flow"));
-  document.getElementById("btnExport").addEventListener("click", () => {
-    const header = ["Patient", "Claim ID", "Department", "Amount", "Status", "Days Outstanding", "Assigned To"];
-    const csv = [header.join(",")]
-      .concat(getSorted(CLAIMS).map((c) => [c.patient, c.claimId, c.dept, c.amount, c.status, c.days, c.assigned].map(v => `"${String(v).replace(/"/g,'""')}"`).join(",")))
-      .join("\n");
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "work-queue-export.csv";
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-})();
-</script>
-
-</body>
+        document
+          .getElementById("btnAddClaimTop")
+          .addEventListener("click", () => console.log("Add new claim flow"));
+        document.getElementById("btnExport").addEventListener("click", () => {
+          const header = [
+            "Patient",
+            "Claim ID",
+            "Department",
+            "Amount",
+            "Status",
+            "Days Outstanding",
+            "Assigned To",
+          ];
+          const csv = [header.join(",")]
+            .concat(
+              getSorted(CLAIMS).map((c) =>
+                [
+                  c.patient,
+                  c.claimId,
+                  c.dept,
+                  c.amount,
+                  c.status,
+                  c.days,
+                  c.assigned,
+                ]
+                  .map((v) => `"${String(v).replace(/"/g, '""')}"`)
+                  .join(","),
+              ),
+            )
+            .join("\n");
+          const blob = new Blob([csv], { type: "text/csv" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "work-queue-export.csv";
+          a.click();
+          URL.revokeObjectURL(url);
+        });
+      })();
+    </script>
+  </body>
 </html>
